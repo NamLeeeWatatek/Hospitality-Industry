@@ -1,0 +1,15 @@
+<odoo>
+    <record id="view_sale_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_template_id']" position="attributes">
+                <attribute name="domain">["&amp;", "&amp;", ("sale_ok", "=", True), ("product_type", "=", "home_product"), ("tracking", "=", "serial"), ("uom_id", "in", [12])]</attribute>
+                <attribute name="context">
+                    {'search_default_sale_ok': 1, 'search_default_tracking': 'lot', 'search_default_uom_id': 12, 'default_sale_ok': 1, 'default_is_storable': True, 'default_tracking': 'serial', 'default_uom_id': 12, 'default_product_type': 'home_product'}
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

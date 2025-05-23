@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Báo cáo -->
+    <record id="deliveried_transfer_report" model="ir.actions.report">
+        <field name="name">Báo cáo hàng hóa đã giao</field>
+        <field name="model">deliveried.transfer</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">custom_vehicle_transfer.deliveried_transfer_report_template</field>
+        <field name="report_file">custom_vehicle_transfer.deliveried_transfer_report_template</field>
+        <field name="paperformat_id" ref="custom_vehicle_transfer.paperformat_nolayout" />
+        <field name="print_report_name">'Deliveried Transfer Report - %s' % (object.customer or 'Unknown')</field>
+        <field name="binding_model_id" ref="model_deliveried_transfer"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Template QWeb -->
+    <template id="deliveried_transfer_report_template">
+        <t t-call="web.basic_layout">
+                <style>
+                    /* Định nghĩa font chữ hỗ trợ tiếng Việt */
+                    body, table, th, td, h2, p {
+                        font-family: 'DejaVu Sans', 'Times New Roman', sans-serif !important;
+                        font-size: 10px;
+                    }
+                    h2 {
+                        font-size: 14px;
+                        font-weight: bold;
+                    }
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                    th, td {
+                        border: 1px solid black;
+                        padding: 3px;
+                        text-align: center;
+                    }
+                    th {
+                        background-color: #f2f2f2;
+                    }
+                    .text-right {
+                        text-align: right;
+                    }
+                    .text-left {
+                        text-align: left;
+                    }
+                </style>
+                <div class="page">
+                    <h2 style="text-align: center;">BẢNG KÊ HÀNG ĐÃ GIAO</h2>
+                    <p style="text-align: center;">
+                        Từ ngày <t t-esc="min([record.date for record in docs])"/>
+                        đến ngày <t t-esc="max([record.date for record in docs])"/>
+                    </p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Ngày giao</th>
+                                <th>NV Giao</th>
+                                <th>Tên KH</th>
+                                <th>Số Seri</th>
+                                <th>Loại Hàng</th>
+                                <th>ĐVT</th>
+                                <th>SL</th>
+                                <th>Giá(S)</th>
+                                <th>Thành tiền(S)</th>
+                                <th>Thu ABA</th>
+                                <th>Thu Tiền Mặt</th>
+                                <th>Nợ Tiền Mặt</th>
+                                <th>Ngày Trả</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="docs" t-as="record">
+                                <td>
+                                    <t t-esc="record.date" />
+                                </td>
+                                <td class="text-left">
+                                    <t t-esc="record.delivery_employee"/>
+                                </td>
+                                <td class="text-left">
+                                    <t t-esc="record.customer"/>
+                                </td>
+                                <td>
+                                    <t t-esc="record.id"/>
+                                </td>
+                                <td class="text-left">
+                                    <t t-esc="record.name"/>
+                                </td>
+                                <td>
+                                    <t t-esc="record.province"/>
+                                </td>
+                                <td class="text-right">
+                                    <t t-esc="record.quantity" />
+                                </td>
+                                <td class="text-right">
+                                    <t t-esc="record.unit_price" />
+                                </td>
+                                <td class="text-right">
+                                    <t t-esc="record.total_price" />
+                                </td>
+                                <td class="text-right">
+                                    <t t-esc="record.received_aba" />
+                                </td>
+                                <td class="text-right">
+                                    <t t-esc="record.received_cash" />
+                                </td>
+                                <td class="text-right">
+                                    <t t-esc="record.debit_cash" />
+                                </td>
+                                <td>
+                                    <t t-esc="record.payment_date" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="quan_ly_kho_hang_van_chuyen" model="ir.ui.menu">
+    <field name="action" ref="base.action_open_website" />
+    <field name="name">Vận chuyển hàng</field>
+    <field name="parent_id" ref="stock.menu_stock_warehouse_mgmt" />
+    <field name="sequence">2</field>
+  </record>
+  <record id="quan_ly_van_chuyen_hang_nha" model="ir.ui.menu">
+    <field name="action" ref="stock_transportation.action_van_chuyen_hang_nha" />
+    <field name="name">Vận chuyển hàng nhà</field>
+    <field name="parent_id" ref="quan_ly_kho_hang_van_chuyen" />
+    <field name="sequence">1</field>
+  </record>
+  <record id="quan_ly_van_chuyen_hang_ky_gui" model="ir.ui.menu">
+    <field name="action" ref="stock_transportation.action_van_chuyen_hang_ky_gui" />
+    <field name="name">Vận chuyển hàng ký gửi</field>
+    <field name="parent_id" ref="quan_ly_kho_hang_van_chuyen" />
+    <field name="sequence">2</field>
+  </record>
+</odoo>

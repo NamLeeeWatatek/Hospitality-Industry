@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="view_stock_picking_form_inherit" model="ir.ui.view" context="{'studio': True}">
+    <field name="name">stock.picking.form.inherit</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form" />
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='origin']" position="after">
+          <field name="don_ban_hang" force_save="1" readonly="True" />
+          <field name="bom_of_product" force_save="1" readonly="True" />
+        </xpath>
+      </data>
+    </field>
+    <field name="mode">extension</field>
+    <field name="priority">160</field>
+    <field name="type">form</field>
+  </record>
+  <record id="lot_customize" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//form[1]/sheet[1]/group[@name='main_group']/group[2]/div[3]" position="after">
+          <field name="tuoi_dao" options="{&quot;human_readable&quot;:true}"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="stock.view_production_lot_form"/>
+    <field name="mode">extension</field>
+    <field name="model">stock.lot</field>
+    <field name="name">Lot: stock.production.lot.form customization</field>
+    <field name="priority">160</field>
+    <field name="type">form</field>
+  </record>
+</odoo>

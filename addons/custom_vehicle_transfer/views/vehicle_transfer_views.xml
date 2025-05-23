@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- list View -->
+    <record id="vehicle_transfer_list_view" model="ir.ui.view">
+        <field name="name">vehicle.transfer.list</field>
+        <field name="model">vehicle.transfer</field>
+        <field name="arch" type="xml">
+            <list create="false" edit="false" default_order="date desc">
+                <header>
+                    <button name="%(action_vehicle_transfer_date_filter_wizard)d"
+                            string="Lọc ngày"
+                            type="action"
+                            class="btn-primary"/>
+                </header>
+                <field name="id" string="STT"/>
+                <field name="order_id" readonly="1" class="text-info fw-bold"/>
+                <button name="action_open_custom_sale_order"
+                        type="object"
+                        icon="fa-external-link"
+                        string=""
+                        title="Mở Đơn Hàng Ký Gửi"
+                        class="btn-link"/>
+                <field name="date"/>
+                <field class="fw-bold text-info" name="vehicle_number"/>
+                <field name="contract_number"/>
+                <field name="customer"/>
+                <field name="name"/>
+                <field class="fw-bold text-info" name="quantity"/>
+                <field name="move_qty"/>
+                <field name="province"/>
+                <field name="regulation"/>
+                <field name="invoice_qty"/>
+                <field name="unit_price"/>
+                <field name="total_price"/>
+                <field name="currency"/>
+                <field name="payment_vn"/>
+                <field name="payment_cpc"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_vehicle_transfer_search" model="ir.ui.view">
+        <field name="name">vehicle.transfer.search</field>
+        <field name="model">vehicle.transfer</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="date"/>
+                <field name="vehicle_number"/>
+                <field name="customer"/>
+                <field name="name"/>
+                <filter string="Hàng ký gửi từ ngày đến ngày" name="filter_consignment_from_to" domain='[&quot;&amp;&quot;, &quot;&amp;&quot;, (&quot;date_utc&quot;, &quot;&gt;=&quot;, &quot;2025-04-20&quot;), (&quot;date_utc&quot;, &quot;&lt;=&quot;, &quot;2025-04-20&quot;), (&quot;consignment_transfer&quot;, &quot;=&quot;, True)]'/>
+                <filter string="Hàng ký gửi hôm nay" name="filter_consignment_today" domain="[('consignment_transfer', '=', True), ('date_utc', '=', context_today())]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Khách hàng" name="group_by_customer" context="{'group_by': 'customer'}"/>
+                    <filter string= "Biển số xe" name="group_by_vehicle_number" context="{'group_by': 'vehicle_number'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="vehicle_transfer_action" model="ir.actions.act_window">
+        <field name="name">Hàng hóa đã chuyển</field>
+        <field name="res_model">vehicle.transfer</field>
+        <field name="view_mode">list</field>
+        <field name="mobile_view_mode">list</field>
+        <field name="view_id" ref="vehicle_transfer_list_view"/>
+        <field name="context">{'search_default_filter_consignment_today': True}</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="vehicle_transfer_menu" parent="consignment.bao_cao_ky_gui" action="vehicle_transfer_action" sequence="20"/>
+
+</odoo>

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vehicle_transfer,access.vehicle.transfer,model_vehicle_transfer,base.group_user,1,1,1,1
+access_received_transfer,access.received.transfer,model_received_transfer,base.group_user,1,1,1,1
+access_deliveried_transfer,access.deliveried.transfer,model_deliveried_transfer,base.group_user,1,1,1,1
+access_vehicle_transfer_wizard,access.vehicle.transfer.wizard,model_vehicle_transfer_date_filter_wizard,base.group_user,1,1,1,1

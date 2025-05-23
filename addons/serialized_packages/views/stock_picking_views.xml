@@ -1,0 +1,36 @@
+<odoo>
+    <record id="view_picking_form_inherit" model="ir.ui.view" forcecreate="1">
+        <field name="name">Vận chuyển hàng</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="mode">extension</field>
+        <field name="priority">160</field>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="thong_tin_xe" invisible="picking_type_id not in [2, 10, 17, 25]"/>
+                </xpath>
+
+                <xpath expr="//field[@name='location_id']" position="after">
+                    <field name="bien_so_xe" invisible="picking_type_id not in [2, 10, 17, 25]"/>
+                </xpath>
+
+                <xpath expr="//page[@name='extra']" position="replace" />
+
+                <xpath expr="//field[@name='bien_so_xe']" position="after">
+                    <field name="ten_tai_xe" invisible="picking_type_id not in [2, 10, 17, 25]"/>
+                </xpath>
+
+                <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='location_id'][2]"
+                    position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='lot_ids']" position="attributes">
+                    <attribute name="column_invisible">False</attribute>
+                    <attribute name="invisible">False</attribute>
+                </xpath>
+            </data>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,19 @@
+<odoo>
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="arch" type="xml">
+            <data>
+                <xpath
+                    expr="//form[1]/sheet[1]/notebook[1]/page[@name='invoice_tab']/field[@name='invoice_line_ids']/list[1]/field[@name='price_unit']"
+                    position="attributes">
+                    <attribute name="options">{"digits":[6,3]}</attribute>
+                </xpath>
+            </data>
+        </field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="mode">extension</field>
+        <field name="model">account.move</field>
+        <field name="name">account.move.form customization</field>
+        <field name="priority">1600</field>
+        <field name="type">form</field>
+    </record>
+</odoo>

@@ -1,0 +1,90 @@
+<odoo>
+
+    <record id="module_category_long_phuong" model="ir.module.category">
+        <field name="name">Long Phượng</field>
+        <field name="description">Nhóm người dùng cho Long Phượng</field>
+        <field name="sequence" type="int">10</field>
+        <field name="exclusive" eval="1" />
+    </record>
+
+    <record id="group_lp_user_hcm" model="res.groups">
+        <field name="name">User HCM</field>
+        <field name="category_id" ref="module_category_long_phuong" />
+        <field name="implied_ids"
+            eval="[(4, ref('base.group_user')), 
+                                        (4, ref('base.group_partner_manager')), 
+                                        (4, ref('base.group_multi_currency')), 
+                                        (4, ref('product.group_product_manager')),
+                                        (4, ref('consignment.group_consignment_employee')),
+                                        (4, ref('sales_team.group_sale_salesman_all_leads'))]" />
+    </record>
+
+    <record id="group_lp_assistant_hcm" model="res.groups">
+        <field name="name">Warehouse assistant HCM</field>
+        <field name="category_id" ref="module_category_long_phuong" />
+        <field name="implied_ids"
+            eval="[
+            (4, ref('group_permission_lp.group_lp_user_hcm')),
+            (4, ref('purchase.group_purchase_user')),
+            (4, ref('consignment.group_consignment_admin')),
+            (4, ref('account.group_account_invoice')), 
+            (4, ref('stock.group_stock_manager'))   
+        ]" />
+    </record>
+
+    <record id="group_lp_admin_hcm" model="res.groups">
+        <field name="name">Admin HCM</field>
+        <field name="category_id" ref="module_category_long_phuong" />
+        <field name="implied_ids"
+            eval="[
+            (4, ref('group_permission_lp.group_lp_user_hcm')),
+            (4, ref('purchase.group_purchase_user')),
+            (4, ref('consignment.group_consignment_admin')),
+            (4, ref('consignment.group_change_consignment')),
+            (4, ref('account.group_account_invoice')), 
+            (4, ref('stock.group_stock_manager'))   
+        ]" />
+    </record>
+
+    <record id="group_lp_admin_cam" model="res.groups">
+        <field name="name">Admin CAM</field>
+        <field name="category_id" ref="module_category_long_phuong" />
+        <field name="implied_ids"
+            eval="[(4, ref('base.group_user')), 
+                                        (4, ref('base.group_partner_manager')), 
+                                        (4, ref('base.group_multi_currency')), 
+                                        (4, ref('product.group_product_manager')),
+                                        (4, ref('consignment.group_consignment_admin')),
+                                        (4, ref('stock.group_stock_manager'))]" />
+    </record>
+
+    <record id="group_lp_cam" model="res.groups">
+        <field name="name">Thủ kho 1</field>
+        <field name="category_id" ref="module_category_long_phuong" />
+        <field name="implied_ids"
+            eval="[(4, ref('base.group_user')), 
+                                        (4, ref('base.group_partner_manager')), 
+                                        (4, ref('base.group_multi_currency')), 
+                                        (4, ref('product.group_product_manager')),
+                                        (4, ref('consignment.group_consignment_admin'))]" />
+    </record>
+
+    <record id="group_lp_admin_cam_tram" model="res.groups">
+        <field name="name">Admin CAM Tram</field>
+        <field name="category_id" ref="module_category_long_phuong" />
+        <field name="implied_ids"
+            eval="[(4, ref('group_permission_lp.group_lp_cam')),
+            (4, ref('account.group_account_invoice')),
+            (4, ref('stock.group_stock_manager'))]" />
+    </record>
+
+    <record id="group_lp_admin" model="res.groups">
+        <field name="name">Quản trị viên</field>
+        <field name="category_id" ref="module_category_long_phuong" />
+        <field name="implied_ids"
+            eval="[(4, ref('group_permission_lp.group_lp_admin_hcm')), 
+                    (4, ref('group_permission_lp.group_lp_admin_cam_tram')),
+                    (4, ref('purchase.group_purchase_manager'))]" />
+    </record>
+
+</odoo>

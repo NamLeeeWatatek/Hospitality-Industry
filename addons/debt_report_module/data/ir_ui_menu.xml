@@ -1,0 +1,29 @@
+<odoo>
+  <record id="menu_debt_report" model="ir.ui.menu">
+    <field name="action" ref="action_debt_report" />
+    <field name="name">Công nợ</field>
+    <field name="parent_id" ref="account.account_reports_management_menu" />
+  </record>
+  <record id="view_invoice_filter" model="ir.ui.view">
+    <field name="name">account.move search</field>
+    <field name="model">account.move</field>
+    <field name="arch" type="xml">
+      <search>
+        <filter name="out_invoice" string="Công nợ" domain="[('move_type', '=', 'out_invoice')]" />
+      </search>
+    </field>
+  </record>
+  <record id="view_debt_list" model="ir.ui.view">
+    <field name="name">account.move.list.debt</field>
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="account.view_invoice_tree" />
+    <field name="arch" type="xml">
+      <!-- Thêm các cột mới -->
+      <xpath expr="//list" position="inside">
+        <!-- <field name="invoice_origin" string="Đơn vận đơn" /> -->
+        <field name="all_products_info" string="Sản phẩm, Số lượng" />
+      </xpath>
+    </field>
+  </record>
+
+</odoo>

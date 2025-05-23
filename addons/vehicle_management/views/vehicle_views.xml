@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Danh sách xe -->
+    <record id="view_vehicle_list" model="ir.ui.view">
+        <field name="name">vehicle.management.list</field>
+        <field name="model">vehicle.management</field>
+        <field name="arch" type="xml">
+            <list string="Danh sách xe">
+                <field name="license_plate" string="Biển số xe"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- View kế thừa: Thêm editable="top" -->
+    <record id="view_vehicle_list_inherit_editable" model="ir.ui.view">
+        <field name="name">vehicle.management.list.inherit</field>
+        <field name="model">vehicle.management</field>
+        <field name="inherit_id" ref="view_vehicle_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list[1]" position="attributes">
+                <attribute name="editable">top</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Biểu mẫu xe -->
+    <record id="view_vehicle_form" model="ir.ui.view">
+        <field name="name">vehicle.management.form</field>
+        <field name="model">vehicle.management</field>
+        <field name="arch" type="xml">
+            <form string="Thông tin xe">
+                <sheet>
+                    <group>
+                        <field name="license_plate" string="Biển số xe"/>
+                        <field name="state"/>
+                        <field name="description"/>
+                    </group>
+                    <notebook>
+                        <page string="Lịch sử trạng thái">
+                            <field name="status_history_ids">
+                                <list>
+                                    <field name="status"/>
+                                    <field name="change_date"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tìm kiếm xe -->
+    <record id="view_vehicle_search" model="ir.ui.view">
+        <field name="name">vehicle.management.search</field>
+        <field name="model">vehicle.management</field>
+        <field name="arch" type="xml">
+            <search string="Tìm kiếm xe">
+                <field name="license_plate" string="Biển số xe"/>
+                <filter string="Hoạt động" name="active" domain="[('state', '=', 'active')]"/>
+                <filter string="Không hoạt động" name="inactive" domain="[('state', '=', 'inactive')]"/>
+                <filter string="Bảo trì" name="maintenance" domain="[('state', '=', 'maintenance')]"/>
+                <separator/>
+                <filter string="Đã lưu trữ" name="archived" domain="[('active', '=', False)]"/>
+                <group expand="1" string="Hiển thị">
+                    <filter string="Đã lưu trữ" name="show_archived" domain="[('active', '=', False)]"/>
+                    <filter string="Không lưu trữ" name="show_not_archived" domain="[('active', '=', True)]"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="vehicle_management.action_vehicle_management" model="ir.actions.act_window">
+        <field name="name">Quản lý xe</field>
+        <field name="res_model">vehicle.management</field>
+        <field name="view_mode">list,form</field>
+        <field name="mobile_view_mode">list,form</field>
+        <field name="search_view_id" ref="view_vehicle_search"/>
+        <field name="view_id" ref="view_vehicle_list"/>
+    </record>
+</odoo>

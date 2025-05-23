@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="vehicle_transfer_report" model="ir.actions.report">
+        <field name="name">Báo cáo hàng hóa đã chuyển</field>
+        <field name="model">vehicle.transfer</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">custom_vehicle_transfer.vehicle_transfer_report_template</field>
+        <field name="report_file">custom_vehicle_transfer.vehicle_transfer_report_template</field>
+        <field name="print_report_name">'Vehicle Transfer Report - %s' % (object.name)</field>
+        <field name="paperformat_id" ref="custom_vehicle_transfer.paperformat_nolayout" />
+        <field name="binding_model_id" ref="model_vehicle_transfer" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="vehicle_transfer_report_template">
+        <t t-call="web.basic_layout">
+                <style>
+                    /* Định nghĩa font chữ hỗ trợ tiếng Việt */
+                    body, table, th, td, h2, p {
+                        font-family: 'DejaVu Sans', 'Times New Roman', sans-serif !important;
+                        font-size: 16px;
+                    }
+                    h2 {
+                        font-size: 20px;
+                        font-weight: bold;
+                    }
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                    th, td {
+                        border: 1px solid black;
+                        padding: 5px;
+                        text-align: center;
+                    }
+                    th {
+                        background-color: #f2f2f2;
+                    }
+                </style>
+                <div class="page">
+                    <h2 style="text-align: center;">BẢNG KÊ HÀNG ĐÃ CHUYỂN</h2>
+                    <p style="text-align: center;"> Từ ngày <t t-esc="min([record.date for record in docs])"/> đến ngày <t t-esc="max([record.date for record in docs])"/></p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Ngày/Tháng/Năm</th>
+                                <th>Số xe</th>
+                                <th>Mã hóa đơn</th>
+                                <th>Khách hàng</th>
+                                <th>Tên hàng</th>
+                                <th>SL đóng gói đã chuyển</th>
+                                <th>SL đóng gói</th>
+                                <th>Đơn vị tính</th>
+                                <th>Quy cách</th>
+                                <th>Số lượng</th>
+                                <th>Đơn giá</th>
+                                <th>Thành tiền</th>
+                                <th>Loại tiền</th>
+                                <th>Thu VN</th>
+                                <th>Thu CPC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="docs" t-as="record">
+                                <td>
+                                    <t t-esc="record.id" />
+                                </td>
+                                <td>
+                                    <t t-esc="record.date" />
+                                </td>
+                                <td>
+                                    <t t-esc="record.vehicle_number" />
+                                </td>
+                                <td>
+                                    <t t-esc="record.contract_number" />
+                                </td>
+                                <td>
+                                    <t t-esc="record.customer" />
+                                </td>
+                                <td>
+                                    <t t-esc="record.name" />
+                                </td>
+                                <td>
+                                    <t t-esc="record.quantity" />
+                                </td>
+                                <td>
+                                    <t t-esc="record.move_qty" />
+                                </td>
+                                <td>
+                                    <t t-esc="record.province" />
+                                </td>
+                                <td>
+                                    <t t-esc="record.regulation" />
+                                </td>
+                                <td>
+                                    <t t-esc="record.invoice_qty" />
+                                </td>
+                                <td>
+                                    <t t-esc="record.unit_price" />
+                                </td>
+                                <td>
+                                    <t t-esc="record.total_price" />
+                                </td>
+                                <td>
+                                    <t t-esc="record.currency" />
+                                </td>
+                                <td>
+                                    <t t-esc="record.payment_vn" />
+                                </td>
+                                <td>
+                                    <t t-esc="record.payment_cpc" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        </t>
+    </template>
+</odoo>

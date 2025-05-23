@@ -1,0 +1,21 @@
+<odoo>
+    <record id="active_lot_field" model="ir.ui.view">
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='move_line_ids']" position="after">
+                <field name="lot_id" force_save="1" optional="show" />
+            </xpath>
+            <data>
+                <xpath expr="//field[@name='lot_ids']" position="attributes">
+                    <attribute name="column_invisible">False</attribute>
+                    <attribute name="invisible">False</attribute>
+                </xpath>
+            </data>
+        </field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="mode">extension</field>
+        <field name="model">stock.picking</field>
+        <field name="name">stock.picking.form customization</field>
+        <field name="priority">160</field>
+        <field name="type">form</field>
+    </record>
+</odoo>

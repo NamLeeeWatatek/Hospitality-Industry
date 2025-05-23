@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="stock_picking_form_view" model="ir.ui.view">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//button[@name='action_view_stock_valuation_layers']" position="replace" />
+        <xpath expr="//div[@name='button_box']" position="inside">
+          <button name="action_view_consignment_order"
+            type="object"
+            class="oe_stat_button"
+            icon="fa-truck"
+            string="Đơn ký gửi">
+          </button>
+        </xpath>
+
+        <!-- ẩn button trả hàng -->
+        <xpath expr="//button[@name='588']" position="replace"/>
+
+        <xpath expr="//button[@name='action_view_consignment_order']" position="attributes">
+          <attribute name="invisible">
+            not is_consignment or not origin or sale_id.state == 'draft' or picking_type_code != "incoming"
+          </attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='owner_id']" position="attributes">
+          <attribute name="string">Người nhận ký gửi</attribute>
+          <attribute name="invisible">picking_type_code != "incoming" or not is_consignment</attribute>
+        </xpath>
+
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']/list[1]/field[@name='product_uom']" position="replace">
+          <field name="consignment_packed_type" optional="show"/>
+          <!-- <field name="unit_of_measure" optional="show"/> -->
+        </xpath>
+
+        <xpath expr="//field[@name='product_id']" position="attributes">
+          <attribute name="domain">["&amp;", "&amp;", ("sale_ok", "=", True), ("product_type", "=", "consignment_product"), ("tracking", "=", "serial"), ("uom_id", "in", [12])]</attribute>
+          <attribute name="context">
+              {'search_default_sale_ok': 1, 'search_default_tracking': 'serial', 'search_default_uom_id': 12,
+              'default_sale_ok': 1,'default_is_storable': True, 'default_tracking': 'serial', 'default_uom_id': 12, 'default_product_type': 'consignment_product'}
+          </attribute>
+        </xpath>
+
+      </data>
+    </field>
+    <field name="inherit_id" ref="stock.view_picking_form" />
+    <field name="mode">primary</field>
+    <field name="model">stock.picking</field>
+    <field name="name">consignment.stock.picking.form</field>
+    <field name="priority">160</field>
+    <field name="type">form</field>
+  </record>
+</odoo>

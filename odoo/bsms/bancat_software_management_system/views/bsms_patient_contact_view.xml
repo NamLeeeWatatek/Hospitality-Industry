@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id ="action_bsms_contact" model="ir.actions.act_window">
+            <field name ="name">BSMS Contacts</field>
+            <field name ="res_model">bsms.contact</field>
+            <field name ="view_mode">list,form</field>
+            <field name ="help" type ="html">
+                <p class ="o_view_nocontent_smiling_face">
+                    Create a new contact
+                </p>
+            </field>
+
+        </record>
+
+        <record id="bsms_action_patient_contacts" model="ir.actions.act_window">
+            <field name="name">Patient</field>
+            <field name="path">patient</field> 
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,list,form,activity</field>
+            <!-- <field name="search_view_id" ref="base.view_res_partner_filter"/> -->
+            <field name="domain">[('is_patient', '=', True)]</field>
+            <field name="context">{'default_is_patient': True, 'default_is_donor': False}</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a Contact in your address book
+              </p><p>
+                Odoo helps you track all activities related to your contacts.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_contacts_view_kanban" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="base.res_partner_kanban_view"/>
+            <field name="act_window_id" ref="bsms_action_patient_contacts"/>
+        </record>
+        <record id="action_contacts_view_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">list</field>
+            <field name="view_id" ref="base.view_partner_tree"/>
+            <field name="act_window_id" ref="bsms_action_patient_contacts"/>
+        </record>
+        <record id="action_contacts_view_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="base.view_partner_form"/>
+            <field name="act_window_id" ref="bsms_action_patient_contacts"/>
+        </record>
+
+
+        <record id="view_patient_form" model="ir.ui.view">
+            <field name="name">res.partner.patient.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <field name="is_patient" invisible="1" readonly="1" />
+                    <field name="is_donor" invisible="1" readonly="1" />
+                </xpath>
+                
+                <!-- <xpath expr="//field[@name='type']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath> -->
+
+                <!-- <xpath expr="//field[@name='company_type']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('donor_type_id', '=', 'Organizatio')]}</attribute>
+                </xpath> -->
+
+                <!-- <xpath expr="//field[@name='company_type']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                    <attribute name="attrs">{'invisible': [('is_patient', '=', True), ('is_patient', '=', False), ('id', '=', False), ('id', '=', True)]}</attribute>
+                </xpath> -->
+            </field>
+        </record>
+
+        <!-- <record id="action_bsms_patient" model="ir.actions.act_window">
+            <field name="name">Patients</field>
+            <field name="res_model">bsms.contact</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('is_patient', '=', True)]</field>
+        </record>
+        
+        <record id="action_bsms_donor" model="ir.actions.act_window">
+            <field name="name">Donors</field>
+            <field name="res_model">bsms.contact</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('is_donor', '=', True)]</field>
+        </record> -->
+
+
+    </data>
+    
+</odoo>

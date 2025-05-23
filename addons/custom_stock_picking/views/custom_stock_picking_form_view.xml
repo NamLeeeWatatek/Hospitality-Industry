@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="custom_stock_picking_form_view" model="ir.ui.view">
+    <field name="arch" type="xml">
+
+      <!-- Đổi tên cột "product_uom" trên danh sách sản phẩm thành Quy cách -->
+      <!-- <xpath expr="//field[@name='product_uom']" position="attributes">
+        <attribute name="string">Quy cách</attribute>
+      </xpath> -->
+
+      <!-- filter sẵn các sản phẩm có tracking serial và đơn vị tính là "kg" -->
+      <!-- Thiết lập bộ lọc sẵn cho trường 'product_id' -->
+      <xpath expr="//field[@name='product_id']" position="attributes">
+        <attribute name="domain">["&amp;", "&amp;", ("sale_ok", "=", True), ("product_type", "=",
+          "consignment_product"), ("tracking", "=", "serial"), ("uom_id", "in", [12])]</attribute>
+        <attribute name="context">
+          {'search_default_sale_ok': 1, 'search_default_tracking': 'serial',
+          'search_default_uom_id': 12,
+          'default_sale_ok': 1,'default_is_storable': True, 'default_tracking': 'serial',
+          'default_uom_id': 12, 'default_product_type': 'consignment_product'}
+        </attribute>
+      </xpath>
+
+    </field>
+    <!-- Kế thừa từ view gốc 'stock.view_picking_form' -->
+    <field name="inherit_id" ref="stock.view_picking_form" />
+    <field name="mode">primary</field>
+    <field name="model">stock.picking</field>
+    <field name="name">stock.picking.form.custom</field>
+    <field name="priority">160</field>
+    <field name="type">form</field>
+  </record>
+</odoo>

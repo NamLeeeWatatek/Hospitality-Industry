@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <!-- Menu cha "Kiện hàng" -->
+  <record id="quan_ly_kho_hang_kien_hang" model="ir.ui.menu">
+    <field name="name">Kiện hàng hiện có</field>
+    <field name="parent_id" ref="stock.menu_warehouse_report" />
+    <field name="sequence">101</field>
+  </record>
+
+  <!-- Menu con: Kiện hàng ký gửi -->
+  <record id="menu_kien_hang_ky_gui" model="ir.ui.menu">
+    <field name="name">Kiện hàng ký gửi</field>
+    <field name="parent_id" ref="quan_ly_kho_hang_kien_hang" />
+    <field name="action" ref="serialized_packages.current_stock_quant_consignment" />
+    <field name="sequence">1</field>
+  </record>
+
+  <!-- Menu con: Kiện hàng nhà -->
+  <record id="menu_kien_hang_nha_cai" model="ir.ui.menu">
+    <field name="name">Kiện hàng nhà</field>
+    <field name="parent_id" ref="quan_ly_kho_hang_kien_hang" />
+    <field name="action" ref="serialized_packages.current_stock_quant_house" />
+    <field name="sequence">2</field>
+  </record>
+</odoo>

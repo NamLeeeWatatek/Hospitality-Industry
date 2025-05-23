@@ -1,0 +1,21 @@
+<odoo>
+    <record id="ir_cron_import_res_partner" model="ir.cron">
+        <field name="name">Import Res Partner</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="state">code</field>
+        <field name="code">model.import_data()</field>
+        <field name='interval_number'>1</field>
+        <field name='interval_type'>days</field>
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="ir_cron_import_product_template" model="ir.cron">
+        <field name="name">Import Product Template</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="state">code</field>
+        <field name="code">model.import_data()</field>
+        <field name='interval_number'>1</field>
+        <field name='interval_type'>days</field>
+        <field name="active" eval="False"/>
+    </record>
+</odoo>

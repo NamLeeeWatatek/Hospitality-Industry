@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="view_mrp_bom_form_custom" model="ir.ui.view">
+    <field name="name">mrp.bom.form.custom</field>
+    <field name="model">mrp.bom</field>
+    <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//form/sheet/group" position="attributes">
+          <attribute name="string">Thông tin sản phẩm</attribute>
+        </xpath>
+        <xpath expr="//form/sheet/group/group/field[@name='company_id']" position="after">
+          <field name="khach_hang"/>
+          <xpath expr="//field[@name='code']" position="move"/>
+        </xpath>
+        <xpath expr="//form/sheet/group/group/field[@name='product_tmpl_id']" position="after">
+          <field name="phan_loai_san_pham"/>
+          <field name="mo_ta"/>
+        </xpath>
+        <xpath expr="//form/sheet/group" position="after">
+          <group name="bom_thiet_ke" string="Thiết kế">
+            <group name="bom_thiet_ke_left">
+              <field name="chieu_dai"/>
+              <field name="chieu_rong"/>
+              <field name="pd"/>
+              <field name="cavity_hang"/>
+              <field name="cavity_cot"/>
+              <field name="khoang_cach_hang"/>
+              <field name="khoang_cach_cot"/>
+              <field name="khoang_cach_toi_liner_trai"/>
+              <field name="khoang_cach_toi_liner_phai"/>
+              <field name="kho_nvl_chinh"/>
+              <field name="kho_nvl_phu"/>
+            </group>
+            <group name="bom_thiet_ke_right">
+              <field name="huong_cuon"/>
+              <field name="loai_dao"/>
+              <field name="tuoi_dao"/>
+              <field name="buoc_dao"/>
+              <field name="so_mau"/>
+              <field name="quy_cach_dong_goi"/>
+              <field name="don_vi"/>
+              <field name="so_luong_dong_goi"/>
+            </group>
+          </group>
+          <group name="bom_ban_ve">
+            <field name="ban_ve" widget="pdf_viewer"/>
+          </group>
+        </xpath>
+      </data>
+    </field>
+  </record>
+
+  <record id="remove_attachments_mrp_bom_form" model="ir.ui.view">
+        <field name="name">Remove Attachments in MRP BoM Form</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="mode">extension</field>
+        <field name="arch" type="xml">
+                <!-- Xóa trường attachments_count -->
+                <xpath expr="//field[@name='attachments_count']" position="replace">
+                    <!-- Thay bằng không gì cả để xóa -->
+                </xpath>
+
+                <!-- Xóa nút action_see_attachments -->
+                <xpath expr="//button[@name='action_see_attachments']" position="replace">
+                    <!-- Thay bằng không gì cả để xóa -->
+                </xpath>
+        </field>
+    </record>
+</odoo>

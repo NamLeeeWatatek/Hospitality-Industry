@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="ui_customize.custom_purchase_order_ui" model="ir.ui.view" context="{'studio': True}" forcecreate="1">
+    <field name="inherit_id" ref="purchase.purchase_order_form"/>
+    <field name="mode">extension</field>
+    <field name="model">purchase.order</field>
+    <field name="name">Purchase.order.form customization</field>
+    <field name="priority">160</field>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//form[1]/header[1]/field[@name='state']" position="after">
+          <button string="Yêu cầu duyệt báo giá" name="action_request_approval" type="object" class="oe_highlight"/>
+        </xpath>
+        <xpath expr="//field[@name='picking_type_id']" position="after">
+          <field name="origin"/>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+          <page string="Lịch sử báo giá" name="page_lich_su_bao_gia">
+            <field name="saved_quotation" readonly="1">
+            </field>
+          </page>
+        </xpath>
+      </data>
+    </field>
+  </record>
+</odoo>

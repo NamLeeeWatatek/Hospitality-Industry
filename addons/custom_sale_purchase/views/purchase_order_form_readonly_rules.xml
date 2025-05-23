@@ -1,0 +1,64 @@
+<odoo>
+    <!-- Định nghĩa một bản ghi (record) để mở rộng giao diện đơn mua hàng -->
+    <record id="purchase_order_form_readonly_rules" model="ir.ui.view">
+        <!-- Xác định phần mở rộng cho biểu mẫu -->
+        <field name="arch" type="xml">
+            <data>
+                <!-- Bắt buộc lưu thay đổi trên dòng đơn hàng -->
+                <xpath expr="//field[@name='order_line']" position="attributes">
+                    <attribute name="force_save">1</attribute>
+                </xpath>
+
+                <!-- Đặt trạng thái chỉ đọc cho số lượng sản phẩm nếu đơn là thanh toán trước hoặc
+                đã được mua/xác nhận -->
+                <xpath
+                    expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='order_line']/list[1]/field[@name='product_qty']"
+                    position="attributes">
+                    <attribute name="readonly">is_downpayment or state in ["purchase", "done"]</attribute>
+                </xpath>
+
+                <!-- Đặt trạng thái chỉ đọc cho đơn giá nếu đã được lập hóa đơn hoặc đơn hàng đã
+                hoàn tất -->
+                <xpath
+                    expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='order_line']/list[1]/field[@name='price_unit']"
+                    position="attributes">
+                    <attribute name="readonly">qty_invoiced != 0 or state in ["purchase", "done"]</attribute>
+                </xpath>
+
+                <!-- Đặt trạng thái chỉ đọc cho thuế nếu đơn là thanh toán trước hoặc đã được
+                mua/xác nhận -->
+                <xpath
+                    expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='order_line']/list[1]/field[@name='taxes_id']"
+                    position="attributes">
+                    <attribute name="readonly">is_downpayment or state in ["purchase", "done"]</attribute>
+                </xpath>
+
+                <!-- Không cho nhập thông tin Hàng Nhà trong Đơn Mua khi trạng thái là Đơn Mua Hàng -->
+                <xpath expr="//field[@name='order_line']" position="attributes">
+                    <attribute name="readonly">state in ["done", "cancel", "purchase"]</attribute>
+                </xpath>
+
+                <!-- Ẩn Nút Bill Matching -->
+                <xpath expr="//button[@name='action_bill_matching']" position="attributes">
+                    <attribute name="invisible">not partner_id or state not in ('purchase', 'done') or not partner_bill_count or invoice_status == 'invoiced'or True</attribute>
+                </xpath>
+            </data>
+        </field>
+
+        <!-- Kế thừa giao diện đơn mua hàng mặc định -->
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="mode">extension</field>
+
+        <!-- Chỉ định mô hình dữ liệu là "purchase.order" (đơn mua hàng) -->
+        <field name="model">purchase.order</field>
+
+        <!-- Đặt tên cho phần mở rộng -->
+        <field name="name">purchase_order_form_readonly_rules</field>
+
+        <!-- Đặt mức độ ưu tiên -->
+        <field name="priority">160</field>
+
+        <!-- Xác định loại giao diện là "form" -->
+        <field name="type">form</field>
+    </record>
+</odoo>

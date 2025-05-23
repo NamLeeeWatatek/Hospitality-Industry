@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="product_customize_views" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//div[@name='taxes_div']" position="after">
+          <field name="standare_c1" style="max-inline-size: 100px;"/>
+          <!-- <span class="opacity-0">&#160;₫</span> -->
+          <!-- <span> mỗi <div name="uom_id" class="o_field_widget o_field_many2one oe_inline">
+              <field name="uom_id" options="{'no_open': True}" />
+            </div>
+          </span> -->
+        </xpath>
+        <xpath
+          expr="//form[@name='Product Template']/sheet[@name='product_form']/notebook[1]/page[@name='general_information']/group[1]/group[@name='group_standard_price']/label[3]"
+          position="attributes">
+          <attribute name="string">Chi phí mua hàng dự kiến</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="product.product_template_only_form_view" />
+    <field name="mode">extension</field>
+    <field name="model">product.template</field>
+    <field name="name">Product template: product.template.product.form customization</field>
+    <field name="priority">160</field>
+    <field name="type">form</field>
+  </record>
+</odoo>

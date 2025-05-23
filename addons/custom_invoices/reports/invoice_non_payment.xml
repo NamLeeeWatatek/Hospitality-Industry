@@ -1,0 +1,1368 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <record id="account.report_invoice_document" model="ir.ui.view" forcecreate="1">
+        <field name="arch" type="xml">
+            <t t-name="account.report_invoice_document">
+                <t t-call="web.external_layout">
+                    <style>
+                        @font-face {
+                        font-family: 'Noto Sans Khmer';
+                        src:
+                        url('/custom_stock_picking/static/src/fonts/NotoSansKhmer-VariableFont_wdth,wght.ttf')
+                        format('truetype');
+                        }
+                        * {
+                        font-family: 'Noto Sans Khmer', sans-serif !important;
+                        }
+
+                        strong, span, div, p, h1, h2, h3, td, th {
+                        color: black !important;
+                        background-color: white !important;
+                        }
+
+                        h2 &gt; span {
+                        font-size: 25px !important;
+                        font-weight: bold !important;
+                        }
+
+                        th &gt; span {
+                        font-weight: bold !important;
+                        }
+
+                        tr &gt; th {
+                        border-color: black !important;
+                        }
+
+                        span, strong, div {
+                        font-size: 18px !important;
+                        color: black !important;
+                        }
+
+                        td, th, th &gt; span {
+                        font-size: 14px !important;
+                        color: black !important;
+                        }
+
+                        .o_table_boxed table:not(.o_ignore_layout_styling) thead
+                        th:not(:last-child), .o_table_boxed-rounded
+                        table:not(.o_ignore_layout_styling) thead th:not(:last-child) {
+                        border-right: 2px solid black;
+                        }
+
+                        .o_table_boxed table:not(.o_ignore_layout_styling) thead th,
+                        .o_table_boxed-rounded table:not(.o_ignore_layout_styling) thead th {
+                        border-bottom: 2px solid black;
+                        }
+
+                        .o_table_boxed table:not(.o_ignore_layout_styling) tbody
+                        td:not(:last-child), .o_table_boxed-rounded
+                        table:not(.o_ignore_layout_styling) tbody td:not(:last-child) {
+                        border-right: 2px solid black;
+                        }
+
+                        .o_table_boxed table:not(.o_ignore_layout_styling) tbody tr:not(:last-child)
+                        td, .o_table_boxed-rounded table:not(.o_ignore_layout_styling) tbody
+                        tr:not(:last-child) td {
+                        border-bottom: 2px solid black;
+                        }
+
+                        .o_table_boxed table:not(.o_ignore_layout_styling)::before,
+                        .o_table_boxed-rounded table:not(.o_ignore_layout_styling)::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        bottom: 0;
+                        right: 0;
+                        pointer-events: none;
+                        border: 2px solid black;
+                        }
+
+                        .o_table_boxed-rounded table:not(.o_ignore_layout_styling) th {
+                        border-color: black !important;
+                        }
+
+                    </style>
+                    <t t-set="o" t-value="o.with_context(lang=lang)" />
+                    <t t-set="forced_vat" t-value="o.fiscal_position_id.foreign_vat" />
+                    <div class="row" style="font-family: 'Noto Sans Khmer', sans-serif;">
+                        <t t-if="o.partner_shipping_id and (o.partner_shipping_id != o.partner_id)">
+                            <div class="col-6">
+                                <t t-set="information_block">
+                                    <div groups="account.group_delivery_invoice_address"
+                                        name="shipping_address_block">
+                                        <strong>Địa chỉ giao hàng</strong>
+                                        <div t-field="o.partner_shipping_id"
+                                            t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
+                                    </div>
+                                </t>
+                            </div>
+                            <div class="col-6" name="address_not_same_as_shipping">
+                                <t t-set="address">
+                                    <address class="mb-0" t-field="o.partner_id"
+                                        t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
+                                    <div t-if="o.partner_id.vat"
+                                        id="partner_vat_address_not_same_as_shipping"><t
+                                            t-if="o.company_id.account_fiscal_country_id.vat_label"
+                                            t-out="o.company_id.account_fiscal_country_id.vat_label"
+                                            id="inv_tax_id_label" /><t t-else="">Tax ID</t>: <span
+                                            t-field="o.partner_id.vat" /></div>
+                                </t>
+                            </div>
+                        </t>
+                        <t
+                            t-elif="o.partner_shipping_id and (o.partner_shipping_id == o.partner_id)">
+                            <!-- <div class="offset-col-6 col-6" name="address_same_as_shipping">
+                    <t t-set="address">
+                        <address class="mb-0" t-field="o.partner_id"
+                            t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;,
+                &quot;name&quot;], &quot;no_marker&quot;: True}" />
+                        <div t-if="o.partner_id.vat" id="partner_vat_address_same_as_shipping">
+                            <t t-if="o.company_id.account_fiscal_country_id.vat_label"
+                                t-out="o.company_id.account_fiscal_country_id.vat_label"
+                                id="inv_tax_id_label" />
+                                    <t t-else="">Tax ID</t>: <span
+                                t-field="o.partner_id.vat" />
+                        </div>
+                    </t>
+                </div> -->
+                        </t>
+                        <t t-else="">
+                            <div class="offset-col-6 col-6" name="no_shipping">
+                                <t t-set="address">
+                                    <address class="mb-0" t-field="o.partner_id"
+                                        t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
+                                    <div t-if="o.partner_id.vat" id="partner_vat_no_shipping"><t
+                                            t-if="o.company_id.account_fiscal_country_id.vat_label"
+                                            t-out="o.company_id.account_fiscal_country_id.vat_label"
+                                            id="inv_tax_id_label" /><t t-else="">Tax ID</t>: <span
+                                            t-field="o.partner_id.vat" /></div>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                    <div class="clearfix invoice_main"
+                        style="font-family: 'Noto Sans Khmer', sans-serif;">
+                        <div class="page mb-4 text-center">
+                            <t t-set="layout_document_title">
+                                <span t-if="not proforma" />
+                                <span t-else="">CHIEU LE</span>
+                                <!-- <h1 class="text-center"
+                                    t-if="o.move_type == 'out_invoice' and o.state == 'posted' and not o.is_consignment_invoice">HOA
+                                    DON BAN HANG</h1> -->
+                                <!-- <h1 class="text-center"
+                                    t-if="o.move_type == 'out_invoice' and o.state == 'posted' and o.is_consignment_invoice">HOA
+                                    DON KY GUI</h1> -->
+                                <t
+                                    t-if="o.company_id.id == 1">
+                                    <h1 class="text-center"
+                                        style="font-weight: bold; font-size: 50px;">HÓA ĐƠN</h1>
+                                </t>
+                                <t
+                                    t-if="o.company_id.id != 1">
+                                    <h1 class="text-center"
+                                        style="font-weight: bold; font-size: 50px;"> វិក័យប័ត <br />
+                                        (INVOICE) </h1>
+                                </t>
+                                <!-- <h1 class="text-center"
+                                    t-elif="o.move_type == 'out_invoice' and o.state == 'draft'">Hóa
+                                    đơn nháp</h1>
+                                <h1 class="text-center"
+                                    t-elif="o.move_type == 'out_invoice' and o.state == 'cancel'">Hóa
+                                    đơn đã hủy</h1>
+                                <h1 class="text-center"
+                                    t-elif="o.move_type == 'out_refund' and o.state == 'posted'">Giấy
+                                    báo có</h1>
+                                <h1 class="text-center"
+                                    t-elif="o.move_type == 'out_refund' and o.state == 'draft'">Giấy
+                                    báo có nháp</h1>
+                                <h1 class="text-center"
+                                    t-elif="o.move_type == 'out_refund' and o.state == 'cancel'">Giấy
+                                    báo có đã huỷ</h1>
+                                <h1 class="text-center" t-elif="o.move_type == 'in_refund'">Giấy báo
+                                    có nhà cung cấp</h1>
+                                <h1 class="text-center" t-elif="o.move_type == 'in_invoice'">HOA DON
+                                    MUA HANG</h1> -->
+                                <p class="text-center" t-if="o.name != '/'" t-field="o.name">
+                                    INV/2023/0001</p>
+                            </t>
+                            <div class="oe_structure" />
+                            <div id="informations" class="row mb-4">
+                                <div class="col" t-if="o.invoice_date" name="invoice_date">
+                                    <t t-if="o.move_type == 'out_invoice'">
+                                        <t t-if="o.company_id.id == 1">
+                                            <strong>Ngày lập hóa đơn</strong>
+                                        </t>
+                                        <t t-else="">
+                                            <strong>ថ្ងៃបង្កើតវិក្កយបត្រ</strong><br />Invoice Date </t>
+                                    </t>
+                                    <t t-elif="o.move_type == 'out_refund'">
+                                        <t t-if="o.company_id.id == 1">
+                                            <strong>Ngày lập giấy báo có:</strong>
+                                        </t>
+                                        <t t-else="">
+                                            <strong>ថ្ងៃបង្កើតសម្ងាត់កំណត់:</strong><br />Credit
+                                            Note Date </t>
+                                    </t>
+                                    <t t-elif="o.move_type == 'out_receipt'">
+                                        <t t-if="o.company_id.id == 1">
+                                            <strong>Ngày nhận hàng dự kiến</strong>
+                                        </t>
+                                        <t t-else="">
+                                            <strong>ថ្ងៃទទួលទំនិញសម្រាប់ព្យាករណ៍</strong><br />Expected
+                                            Receipt Date </t>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-if="o.company_id.id == 1">
+                                            <strong>Ngày</strong>
+                                        </t>
+                                        <t t-else="">
+                                            <strong>ថ្ងៃ</strong><br />Date </t>
+                                    </t>
+                                    <div t-esc="o.invoice_date.strftime('%d/%m/%Y')">2023-09-12</div>
+                                </div>
+                                <div class="col">
+                                    <t
+                                        t-if="o.move_type == 'out_invoice' and not o.is_consignment_invoice">
+                                        <t t-if="o.company_id.id == 1">
+                                            <strong>Khách hàng</strong>
+                                        </t>
+                                        <t t-else="">
+                                            <span><strong>អតិថិជន</strong><br />Customer</span>
+                                        </t>
+                                    </t>
+                                    <t
+                                        t-if="o.move_type == 'out_invoice' and o.is_consignment_invoice">
+                                        <t t-if="o.company_id.id == 1">
+                                            <strong>Khách hàng ký gửi</strong>
+                                        </t>
+                                        <t t-else="">
+                                            <strong>អតិថិជនដាក់បញ្ចូល</strong><br />Consignment
+                                            Customer </t>
+                                    </t>
+                                    <t t-if="o.move_type == 'in_invoice'">
+                                        <t t-if="o.company_id.id == 1">
+                                            <strong>Nhà cung cấp</strong>
+                                        </t>
+                                        <t t-else="">
+                                            <strong>អ្នកផ្គត់ផ្គង់</strong><br />Supplier </t>
+                                    </t>
+                                    <div t-field="o.partner_id.name" />
+                                </div>
+                                <div class="col" t-if="o.invoice_date" name="invoice_date">
+                                    <t t-if="o.company_id.id == 1">
+                                        <strong>Số điện thoại</strong>
+                                    </t>
+                                    <t t-else="">
+                                        <strong>លេខទូរស័ព្ទ</strong><br />Phone Number </t>
+                                    <div class="mr-2" t-field="o.partner_id.phone" />
+                                </div>
+                                <div class="col"
+                                    t-if="o.invoice_date_due and o.move_type == 'out_invoice' and o.state == 'posted'"
+                                    name="due_date">
+                                    <t t-if="o.company_id.id == 1">
+                                        <strong>Ngày tới hạn</strong>
+                                    </t>
+                                    <t t-else="">
+                                        <strong>ថ្ងៃកំណត់</strong><br />Due Date </t>
+                                    <div t-esc="o.invoice_date_due.strftime('%d/%m/%Y')" />
+                                </div>
+                                <div class="col" t-if="o.delivery_date" name="delivery_date">
+                                    <t t-if="o.company_id.id == 1">
+                                        <strong>Ngày hàng đến dự kiến</strong>
+                                    </t>
+                                    <t t-else="">
+                                        <strong>ថ្ងៃការទំព័រដែលបានព្យាករណ៍</strong><br />Expected
+                                        Delivery Date </t>
+                                    <div t-esc="o.delivery_date.strftime('%d/%m/%Y')" />
+                                </div>
+                                <div class="col" t-if="o.invoice_origin" name="origin">
+                                    <t t-if="o.company_id.id == 1">
+                                        <strong>Biên nhận</strong>
+                                    </t>
+                                    <t t-else="">
+                                        <strong>ឯកសារដើម</strong><br />Receipt </t>
+                                    <div t-field="o.invoice_origin">SO123</div>
+                                </div>
+                                <div class="col" t-if="o.partner_id.ref" name="customer_code">
+                                    <strong>Mã khách hàng</strong>
+                                    <div t-field="o.partner_id.ref" />
+                                </div>
+                                <div class="col" t-if="o.ref" name="reference">
+                                    <strong>Tham chiếu</strong>
+                                    <div t-field="o.ref">INV/2023/00001</div>
+                                </div>
+                                <div class="col" t-if="o.invoice_incoterm_id" name="incoterm_id">
+                                    <strong>Incoterm</strong>
+                                    <div t-if="o.incoterm_location">
+                                        <span t-field="o.invoice_incoterm_id.code" />
+                                        <br />
+                                        <span t-field="o.incoterm_location" />
+                                    </div>
+                                    <div t-else="" t-field="o.invoice_incoterm_id.code" class="m-0" />
+                                </div>
+                            </div>
+                            <t t-set="display_discount"
+                                t-value="any(l.discount for l in o.invoice_line_ids)" />
+                            <div class="oe_structure" />
+                            <table class="o_has_total_table table o_main_table table-borderless"
+                                name="invoice_line_table">
+                                <thead>
+                                    <tr>
+                                        <th name="th_stt" class="text-center">
+                                            <t t-if="o.company_id.id == 1">
+                                                <span>STT</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span><strong>ល.រ</strong><br/>No.</span>
+                                            </t>
+                                        </th>
+                                        <th name="th_description" class="text-start">
+                                            <t t-if="o.company_id.id == 1">
+                                                <span>Sản phẩm (Mô tả)</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span><strong>ផលិតផល</strong><br />Product</span>
+                                            </t>
+                                        </th>
+                                        <th name="th_quantity" class="text-start">
+                                            <t t-if="o.company_id.id == 1">
+                                                <span>Số lượng</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span><strong>បរិមាណ</strong><br />Quantity</span>
+                                            </t>
+                                        </th>
+                                        <th name="th_priceunit"
+                                            t-attf-class="text-end text-nowrap {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}"
+                                            t-if="o.is_consignment_invoice">
+                                            <t t-if="o.company_id.id == 1">
+                                                <span>Quy cách</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span><strong>ប្រភេទវេចខ្ចប់</strong><br />Packed
+                                                    Type</span>
+                                            </t>
+                                        </th>
+                                        <th name="th_subtotal"
+                                            t-attf-class="text-end text-nowrap {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                            <t t-if="o.company_id.id == 1">
+                                                <span>ĐVT</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span><strong>ខ្នាត</strong><br />UoM</span>
+                                            </t>
+                                        </th>
+                                        <th name="th_subtotal"
+                                            t-attf-class="text-end text-nowrap {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                            <t t-if="o.company_id.id == 1">
+                                                <span>Đơn giá</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span><strong>តម្លៃឯកតា</strong><br />Unit Price</span>
+                                            </t>
+                                        </th>
+                                        <th name="th_discount" t-if="display_discount"
+                                            t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                            <t t-if="o.company_id.id == 1">
+                                                <span>% chiết khấu</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span><strong>% បញ្ចុះតម្លៃ</strong><br />Discount %</span>
+                                            </t>
+                                        </th>
+
+                                        <th name="th_subtotal" class="text-end">
+                                            <t t-if="o.company_id.id == 1">
+                                                <span>Tổng</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span><strong>សរុប</strong><br />Total</span>
+                                            </t>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="invoice_tbody">
+                                    <t t-set="current_subtotal" t-value="0" />
+                                    <t t-set="current_total" t-value="0" />
+                                    <t t-set="i_delivery" t-value="0"/>
+                                    <t t-set="lines"
+                                        t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)" />
+                                    <t t-foreach="lines" t-as="line">
+                                        <t t-set="current_subtotal"
+                                            t-value="current_subtotal + line.price_subtotal" />
+                                        <t t-set="current_total"
+                                            t-value="current_total + line.price_total" />
+                                        <tr
+                                            t-att-class="'fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                            <t t-if="line.display_type == 'product'"
+                                                name="account_invoice_line_accountable">
+                                                <td name="td_stt" class="text-center">
+                                                    <t t-set="i_delivery" t-value="i_delivery + 1"/>
+                                                    <span t-esc="i_delivery"/>
+                                                </td>
+                                                <td name="account_invoice_line_name" class="text-start">
+                                                    <span t-if="line.name" t-field="line.name"
+                                                        t-options="{'widget': 'text'}">Bánh burger
+                                                        thịt heo muối</span>
+                                                </td>
+                                                <td name="td_quantity" class="text-start">
+                                                    <span t-field="line.quantity">3.00</span>
+                                                    <span t-field="line.product_uom_id"
+                                                        groups="uom.group_uom"
+                                                        t-if="not o.is_consignment_invoice">
+                                                        đơn vị</span>
+                                                </td>
+                                                <td name="td_quantity" class="text-end"
+                                                    t-if="o.is_consignment_invoice">
+                                                    <span t-field="line.consignment_packed_type" />
+                                                </td>
+                                                <td name="td_quantity" class="text-end">
+                                                    <span t-field="line.unit_of_measure" />
+                                                </td>
+                                                <td name="td_price_unit"
+                                                    t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                                    <span class="text-nowrap"
+                                                        t-field="line.price_unit">9.00</span>
+                                                </td>
+                                                <td name="td_discount" t-if="display_discount"
+                                                    t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                                    <span class="text-nowrap"
+                                                        t-field="line.discount">0</span>
+                                                </td>
+                                                <!-- <t t-set="taxes"
+                                        t-value="', '.join([(tax.invoice_label or tax.name) for tax in line.tax_ids])" />
+                                    <td name="td_taxes"
+                                        t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }} {{
+                                    'text-nowrap' if len(taxes) &lt; 10 else '' }}">
+                                        <span t-out="taxes" id="line_tax_ids">Tax 15%</span>
+                                    </td> -->
+                                                <td name="td_subtotal"
+                                                    class="text-end o_price_total">
+                                                    <span class="text-nowrap"
+                                                        t-field="line.price_subtotal">
+                                                        27.00</span>
+                                                </td>
+                                            </t>
+                                            <t t-elif="line.display_type == 'line_section'">
+                                                <td colspan="99">
+                                                    <span t-field="line.name"
+                                                        t-options="{'widget': 'text'}">Tiêu đề phần</span>
+                                                </td>
+                                                <t t-set="current_section" t-value="line" />
+                                                <t t-set="current_subtotal" t-value="0" />
+                                            </t>
+                                            <t t-elif="line.display_type == 'line_note'">
+                                                <td colspan="99">
+                                                    <span t-field="line.name"
+                                                        t-options="{'widget': 'text'}">Một ghi chú,
+                                                        chứa nội dung thường được áp dụng cho phần
+                                                        hoặc sản phẩm ở trên.</span>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                        <!-- <t
+                                            t-if="current_section and (line_last or lines[line_index+1].display_type == 'line_section')">
+                                            <tr class="is-subtotal text-end">
+                                                <td colspan="99">
+                                                    <strong class="mr16">Thành tiền</strong>
+                                                    <span t-out="current_subtotal"
+                                                        t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;:
+                                        o.currency_id}">
+                                                        31.05</span>
+                                                </td>
+                                            </tr>
+                                        </t> -->
+                                    </t>
+                                </tbody>
+                            </table>
+                            <div style="font-family: 'Noto Sans Khmer', sans-serif;">
+                                <div id="right-elements"
+                                    t-attf-class="#{'col-5' if report_type != 'html' else 'col-12 col-md-5'} ms-5 d-inline-block float-end">
+                                    <div id="total" class="clearfix row">
+                                        <div class="ms-auto">
+                                            <table
+                                                class="o_total_table table table-borderless avoid-page-break-inside">
+                                                <!-- Tax totals summary (invoice currency) -->
+                                                <t t-if="o.tax_totals">
+                                                    <t t-set="tax_totals" t-value="o.tax_totals" />
+                                                    <t t-set="currency" t-value="o.currency_id" />
+                                                    <t t-set="same_tax_base"
+                                                        t-value="tax_totals['same_tax_base']" />
+                                                    <t t-foreach="tax_totals['subtotals']"
+                                                        t-as="subtotal">
+                                                        <tr class="o_subtotal">
+                                                            <td>
+                                                                <t t-if="o.company_id.id == 1">
+                                                                    <span>Số tiền chưa thuế</span>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <span>Untaxed Amount</span>
+                                                                </t>
+                                                            </td>
+                                                            <td class="text-end">
+                                                                <span
+                                                                    t-att-class="oe_subtotal_footer_separator"
+                                                                    t-out="subtotal['base_amount_currency']"
+                                                                    t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                                                                    27.00</span>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+
+                                                    <tr
+                                                        t-if="'cash_rounding_base_amount_currency' in tax_totals">
+                                                        <t t-if="o.company_id.id == 1">
+                                                            <td>Làm tròn</td>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <td>Rounding</td>
+                                                        </t>
+                                                        <td class="text-end">
+                                                            <span
+                                                                t-out="tax_totals['cash_rounding_base_amount_currency']"
+                                                                t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                                                                0</span>
+                                                        </td>
+                                                    </tr>
+
+                                                    <!--Total
+                                                    amount with all taxes-->
+                                                    <tr class="o_total">
+                                                        <t t-if="o.company_id.id == 1">
+                                                            <td>
+                                                                <strong>Tổng tiền</strong>
+                                                            </td>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <td>
+                                                                <strong>Total</strong>
+                                                            </td>
+                                                        </t>
+                                                        <td class="text-end">
+                                                            <strong
+                                                                t-out="tax_totals['total_amount_currency']"
+                                                                t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                                                                31.05</strong>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+
+                                                <!--Payments-->
+                                                <t t-if="print_with_payments">
+                                                    <t t-if="o.payment_state != 'invoicing_legacy'">
+                                                        <t t-set="payments_vals"
+                                                            t-value="o.sudo().invoice_payments_widget and o.sudo().invoice_payments_widget['content'] or []" />
+                                                        <t t-foreach="payments_vals"
+                                                            t-as="payment_vals">
+                                                            <tr
+                                                                t-if="payment_vals['is_exchange'] == 0">
+                                                                <td>
+                                                                    <i
+                                                                        class="oe_form_field text-end oe_payment_label">Thanh
+                                                                        toán vào <t
+                                                                            t-out="payment_vals['date']"
+                                                                            t-options="{&quot;widget&quot;: &quot;date&quot;}">
+                                                                        2021-09-19</t></i>
+                                                                </td>
+                                                                <td class="text-end">
+                                                                    <span
+                                                                        t-out="payment_vals['amount']"
+                                                                        t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}">
+                                                                        20.00</span>
+                                                                    <br />
+                                                                    <span class="fw-bold" style="display: inline-block;max-width: 100%;font-size: clamp(10px, 1vw, 14px);white-space: nowrap;"> Thực trả: <t t-out="payment_vals['actual_amount_paid']" />
+                                                                        (
+                                                                            <t t-if="payment_vals['journal_name'] == 'Bank'">
+                                                                                        ABA
+                                                                            </t>
+                                                                            <t t-elif="payment_vals['journal_name'] == 'Cash' and o.company_id.id == 1">
+                                                                                        Tiền mặt
+                                                                            </t>
+                                                                            <t t-else="">
+                                                                                <t t-out="payment_vals['journal_name']"/>
+                                                                            </t>
+                                                                                    )
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                            </t>
+                                                            <t t-if="len(payments_vals) &gt; 0">
+                                                                <tr class="fw-bold">
+                                                                    <td>Số tiền phải trả</td>
+                                                                    <td class="text-end">
+                                                                        <span t-field="o.amount_residual">
+                                                                        11.05</span>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                                <tr class="fw-bold">
+                                                    <td>
+                                                        <t t-if="o.company_id.id == 1">
+                                                            Ghi nhận
+                                                        </t>
+                                                        <t t-else="">
+                                                            Recorded
+                                                        </t>
+                                                    </td>
+                                                    <td class="text-end">
+                                                        <span>
+                                                            ______________________</span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <p class="text-end lh-sm"
+                                            t-if="o.company_id.display_invoice_amount_total_words">
+                                            Tổng tiền bằng chữ: <br />
+                                        <small
+                                                class="text-muted lh-sm">
+                                                <span t-field="o.amount_total_words">Ba mươi mốt đô
+                                            la và năm xu</span>
+                                            </small>
+                                        </p>
+                                    </div>
+                                    <!-- Tax totals summary (company currency) -->
+                                    <t t-if="o.tax_totals.get('display_in_company_currency')">
+                                        <t t-set="tax_totals" t-value="o.tax_totals" />
+                                        <t
+                                            t-call="account.document_tax_totals_company_currency_template" />
+                                    </t>
+                                    <t t-else="">
+                                        <div class="oe_structure" />
+                                    </t>
+                                </div>
+                                <div id="payment_term" class="clearfix">
+                                    <div class="justify-text">
+                                        <p t-if="not is_html_empty(o.fiscal_position_id.note)"
+                                            name="note" class="mb-2">
+                                            <span t-field="o.fiscal_position_id.note" />
+                                        </p>
+                                    </div>
+                                    <div class="justify-text">
+                                        <p t-if="not is_html_empty(o.taxes_legal_notes)"
+                                            name="taxes_legal_notes" class="mb-2">
+                                            <span t-field="o.taxes_legal_notes" />
+                                        </p>
+                                    </div>
+                                    <t t-set="payment_term_details" t-value="o.payment_term_details" />
+                                    <div class="col-4 mt-n3" style="margin-left: 10px;">
+                                        <table
+                                            class="o_total_table table table-borderless avoid-page-break-inside">
+                                            <tr>
+                                                <td class="text-center">Tiền mặt</td>
+                                                <td class="text-center">ABA</td>
+                                            </tr>
+                                            <tr>
+                                                <td><br/></td>
+                                                <td><br/></td>
+                                            </tr>
+                                        </table>
+
+                                        <!-- HÓA ĐƠN LIÊN KẾT -->
+                                        <div class="mt-3"
+                                            t-if="o.move_type in ('out_invoice', 'in_refund') and o.payment_reference">
+                                            <p name="payment_communication"> HOA DON LIEN KET: <span
+                                                    class="fw-bold" t-field="o.payment_reference">
+                                                </span>
+                                                <t
+                                                    t-if="o.partner_bank_id"><br /> trên tài khoản
+                                                này: <span
+                                                        t-field="o.partner_bank_id" class="fw-bold" />
+                                                </t>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <span id="payment_terms_note_id"
+                                            t-if="o.invoice_payment_term_id.note"
+                                            t-field="o.invoice_payment_term_id.note"
+                                            name="payment_term">Thanh toán trong vòng 30 ngày theo
+                                            lịch</span>
+                                        <br />
+                                        <t
+                                            t-if="o.invoice_payment_term_id.display_on_invoice and payment_term_details">
+                                            <div t-if="o.show_payment_term_details"
+                                                id="total_payment_term_details_table" class="row">
+                                                <div
+                                                    t-attf-class="#{'col-10' if report_type != 'html' else 'col-sm-10 col-md-9'}">
+                                                    <t
+                                                        t-if="o._is_eligible_for_early_payment_discount(o.currency_id,o.invoice_date)">
+                                                        <td><span
+                                                                t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"
+                                                                t-out="o.invoice_payment_term_id._get_amount_due_after_discount(o.amount_total, o.amount_tax)">
+                                                            30.00</span> đến hạn nếu thanh toán
+                                                            trước <span
+                                                                t-out="o.invoice_payment_term_id._get_last_discount_date_formatted(o.invoice_date)">
+                                                            2024-01-01</span>
+                                                        </td>
+                                                    </t>
+                                                    <t t-if="len(payment_term_details) &gt; 1"
+                                                        t-foreach="payment_term_details" t-as="term">
+                                                        <div><span t-out="term_index + 1">1</span> -
+                                                            Khoản trả góp <t
+                                                                t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"
+                                                                t-out="term.get('amount')"
+                                                                class="text-end">
+                                                                31.05</t>
+                                                        <span> đến hạn vào </span>
+                                                        <t
+                                                                t-out="term.get('date')"
+                                                                class="text-start">
+                                                                2024-01-01</t>
+                                                        </div>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <t t-set="show_qr"
+                                        t-value="o.display_qr_code and o.amount_residual &gt; 0" />
+                                    <div t-if="not show_qr" name="qr_code_placeholder"
+                                        class="oe_structure" />
+                                    <div id="qrcode" class="d-flex mb-3 avoid-page-break-inside"
+                                        t-else="">
+                                        <div class="qrcode me-3" id="qrcode_image">
+                                            <t t-set="qr_code_url"
+                                                t-value="o._generate_qr_code(silent_errors=True)" />
+                                            <p t-if="qr_code_url" class="position-relative mb-0">
+                                                <img t-att-src="qr_code_url" />
+                                                <img src="/account/static/src/img/Odoo_logo_O.svg"
+                                                    id="qrcode_odoo_logo"
+                                                    class="top-50 start-50 position-absolute bg-white border border-white border-3 rounded-circle" />
+                                            </p>
+                                        </div>
+                                        <div class="d-inline text-muted lh-sm fst-italic"
+                                            id="qrcode_info" t-if="qr_code_url">
+                                            <p>Quét mã QR này bằng<br />ứng dụng ngân hàng của bạn</p>
+                                        </div>
+                                    </div>
+                                    <!--terms
+                        and conditions-->
+                                    <div class="text-muted mb-3"
+                                        t-attf-style="#{'text-align:justify;text-justify:inter-word;' if o.company_id.terms_type != 'html' else ''}"
+                                        t-if="not is_html_empty(o.narration)" name="comment">
+                                        <span t-field="o.narration" />
+                                    </div>
+                                </div>
+                                <div class="row mt-4 pb-4">
+                                    <div class="col-4">
+                                        <t t-if="o.company_id.id == 1">
+                                            <strong>Khách hàng</strong>
+                                            <div style="font-style: italic; font-weight: 300">(Kí và
+                                                ghi rõ họ tên)</div>
+                                        </t>
+                                        <t t-else="">
+                                            <strong>Customer</strong>
+                                            <div style="font-style: italic; font-weight: 300">(Sign
+                                                and write full name)</div>
+                                        </t>
+                                    </div>
+                                    <div class="col-4">
+                                        <t t-if="o.company_id.id == 1">
+                                            <strong>Thủ kho</strong>
+                                            <div style="font-style: italic; font-weight: 300">(Kí và
+                                                ghi rõ họ tên)</div>
+                                        </t>
+                                        <t t-else="">
+                                            <strong>Warehouse Keeper</strong>
+                                            <div style="font-style: italic; font-weight: 300">(Sign
+                                                and write full name)</div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </field>
+        <field name="key">account.report_invoice_document</field>
+        <field name="name">report_invoice_document</field>
+        <field name="type">qweb</field>
+    </record>
+    <record id="account.document_tax_totals_company_currency_template" model="ir.ui.view"
+        forcecreate="1">
+        <field name="arch" type="xml">
+            <t t-name="account.document_tax_totals_company_currency_template">
+                <t t-set="currency" t-value="o.company_currency_id" />
+                <t t-set="same_tax_base" t-value="tax_totals['same_tax_base']" />
+                <div
+                    class="mb-2 mt-3 border p-2 avoid-page-break-inside totals_taxes_company_currency">
+                    <table class="o_total_table table table-borderless mb-0">
+                        <p class="tax_computation_company_currency"> Thuế <span
+                                t-field="o.company_currency_id" />
+                        </p>
+                        <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
+                            <tr class="o_subtotal">
+                                <td>
+                                    <span t-out="subtotal['name']">Tổng tiền</span>
+                                </td>
+                                <td class="text-end">
+                                    <span t-out="subtotal['base_amount']"
+                                        t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                                        27.00</span>
+                                </td>
+                            </tr>
+                            <t t-foreach="subtotal['tax_groups']" t-as="tax_group">
+                                <tr class="o_taxes">
+                                    <t
+                                        t-if="same_tax_base or tax_group['display_base_amount'] is None">
+                                        <td>
+                                            <span class="text-nowrap"
+                                                t-out="tax_group['group_name']" />
+                                        </td>
+                                        <td class="text-end o_price_total">
+                                            <span class="text-nowrap"
+                                                t-out="tax_group['tax_amount']"
+                                                t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                                                31.05</span>
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td>
+                                            <span t-out="tax_group['group_name']">Thuế 15%</span>
+                                            <span> on </span>
+                                            <span class="text-nowrap"
+                                                t-out="tax_group['display_base_amount']"
+                                                t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                                                27.00</span>
+                                        </td>
+                                        <td class="text-end o_price_total">
+                                            <span class="text-nowrap"
+                                                t-out="tax_group['tax_amount']"
+                                                t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                                                4.05</span>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </t>
+                        <!--Total
+            amount with all taxes-->
+                        <!-- <tr class="o_total">
+                            <td>
+                                <strong>Thành tiền</strong>
+                            </td>
+                            <td class="text-end">
+                                <strong t-out="tax_totals['total_amount']"
+                                    t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                                    31.05</strong>
+                            </td>
+                        </tr> -->
+                        <tr class="o_total">
+                            <td>
+                                <strong>Ghi nhận</strong>
+                            </td>
+                            <td class="text-end">
+                                <strong>...</strong>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </field>
+        <field name="key">account.document_tax_totals_company_currency_template</field>
+        <field name="name">document_tax_totals_company_currency_template</field>
+        <field name="type">qweb</field>
+    </record>
+
+    <record id="report_invoice_document_non_payment_custom" model="ir.ui.view">
+        <field name="active" eval="False" />
+        <field name="arch" type="xml">
+            <t t-name="account.report_invoice_document">
+                <t t-call="web.external_layout">
+                    <t t-set="o" t-value="o.with_context(lang=lang)" />
+                    <t t-set="forced_vat" t-value="o.fiscal_position_id.foreign_vat" />
+                    <!-- So that it appears in the footer of the report instead of the company VAT
+                    if it's set -->
+                    <div class="row">
+                        <t t-if="o.partner_shipping_id and (o.partner_shipping_id != o.partner_id)">
+                            <div class="col-6">
+                                <t t-set="information_block">
+                                    <div groups="account.group_delivery_invoice_address"
+                                        name="shipping_address_block">
+                                        <strong>Địa chỉ giao hàng</strong>
+                                        <div t-field="o.partner_shipping_id"
+                                            t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
+                                    </div>
+                                </t>
+                            </div>
+                            <div class="col-6" name="address_not_same_as_shipping">
+                                <t t-set="address">
+                                    <address class="mb-0" t-field="o.partner_id"
+                                        t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
+                                    <div t-if="o.partner_id.vat"
+                                        id="partner_vat_address_not_same_as_shipping"><t
+                                            t-if="o.company_id.account_fiscal_country_id.vat_label"
+                                            t-out="o.company_id.account_fiscal_country_id.vat_label"
+                                            id="inv_tax_id_label" /><t t-else="">Mã số thuế</t>: <span
+                                            t-field="o.partner_id.vat" /></div>
+                                </t>
+                            </div>
+                        </t>
+                        <t
+                            t-elif="o.partner_shipping_id and (o.partner_shipping_id == o.partner_id)">
+                            <div class="offset-col-6 col-6" name="address_same_as_shipping">
+                                <t t-set="address">
+                                    <address class="mb-0" t-field="o.partner_id"
+                                        t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
+                                    <div t-if="o.partner_id.vat"
+                                        id="partner_vat_address_same_as_shipping"><t
+                                            t-if="o.company_id.account_fiscal_country_id.vat_label"
+                                            t-out="o.company_id.account_fiscal_country_id.vat_label"
+                                            id="inv_tax_id_label" /><t t-else="">Mã số thuế</t>: <span
+                                            t-field="o.partner_id.vat" /></div>
+                                </t>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="offset-col-6 col-6" name="no_shipping">
+                                <t t-set="address">
+                                    <address class="mb-0" t-field="o.partner_id"
+                                        t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
+                                    <div t-if="o.partner_id.vat" id="partner_vat_no_shipping"><t
+                                            t-if="o.company_id.account_fiscal_country_id.vat_label"
+                                            t-out="o.company_id.account_fiscal_country_id.vat_label"
+                                            id="inv_tax_id_label" /><t t-else="">Mã số thuế</t>: <span
+                                            t-field="o.partner_id.vat" /></div>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                    <div class="clearfix invoice_main">
+                        <div class="page mb-4">
+                            <t t-set="layout_document_title">
+                                <span t-if="not proforma" />
+                                <span t-else="">CHIEU LE</span>
+                                <span t-if="o.move_type == 'out_invoice' and o.state == 'posted'">Hóa
+                                    đơn</span>
+                                <span t-elif="o.move_type == 'out_invoice' and o.state == 'draft'">Hóa
+                                    đơn nháp</span>
+                                <span t-elif="o.move_type == 'out_invoice' and o.state == 'cancel'">Hóa
+                                    đơn đã hủy</span>
+                                <span t-elif="o.move_type == 'out_refund' and o.state == 'posted'">Giấy
+                                    báo có</span>
+                                <span t-elif="o.move_type == 'out_refund' and o.state == 'draft'">Giấy
+                                    báo có nháp</span>
+                                <span t-elif="o.move_type == 'out_refund' and o.state == 'cancel'">Giấy
+                                    báo có đã huỷ</span>
+                                <span t-elif="o.move_type == 'in_refund'">Giấy báo có nhà cung cấp</span>
+                                <span t-elif="o.move_type == 'in_invoice'">Hóa đơn mua hàng</span>
+                                <span t-if="o.name != '/'" t-field="o.name">INV/2023/0001</span>
+                            </t>
+                            <div class="oe_structure" />
+                            <div id="informations" class="row mb-4">
+                                <div class="col" t-if="o.invoice_date" name="invoice_date">
+                                    <t t-if="o.move_type == 'out_invoice'">
+                                        <strong>Ngày lập hóa đơn</strong>
+                                    </t>
+                                    <t t-elif="o.move_type == 'out_refund'">
+                                        <strong>Ngày lập giấy báo có:</strong>
+                                    </t>
+                                    <t t-elif="o.move_type == 'out_receipt'">
+                                        <strong>Ngày nhận</strong>
+                                    </t>
+                                    <t t-else="">
+                                        <strong>Ngày</strong>
+                                    </t>
+                                    <div t-field="o.invoice_date">2023-09-12</div>
+                                </div>
+                                <div class="col"
+                                    t-if="o.invoice_date_due and o.move_type == 'out_invoice' and o.state == 'posted'"
+                                    name="due_date">
+                                    <strong>Ngày đến hạn</strong>
+                                    <div t-field="o.invoice_date_due">2023-10-31</div>
+                                </div>
+                                <div class="col" t-if="o.delivery_date" name="delivery_date">
+                                    <strong>Ngày giao</strong>
+                                    <div t-field="o.delivery_date">2023-09-25</div>
+                                </div>
+                                <div class="col" t-if="o.invoice_origin" name="origin">
+                                    <strong>Nguồn</strong>
+                                    <div t-field="o.invoice_origin">SO123</div>
+                                </div>
+                                <div class="col" t-if="o.partner_id.ref" name="customer_code">
+                                    <strong>Mã khách hàng</strong>
+                                    <div t-field="o.partner_id.ref" />
+                                </div>
+                                <div class="col" t-if="o.ref" name="reference">
+                                    <strong>Tham chiếu</strong>
+                                    <div t-field="o.ref">INV/2023/00001</div>
+                                </div>
+                                <div class="col" t-if="o.invoice_incoterm_id" name="incoterm_id">
+                                    <strong>Incoterm</strong>
+                                    <div t-if="o.incoterm_location">
+                                        <span t-field="o.invoice_incoterm_id.code" />
+                                        <br />
+                                        <span t-field="o.incoterm_location" />
+                                    </div>
+                                    <div t-else="" t-field="o.invoice_incoterm_id.code" class="m-0" />
+                                </div>
+                            </div>
+                            <t t-set="display_discount"
+                                t-value="any(l.discount for l in o.invoice_line_ids)" />
+                            <div class="oe_structure" />
+                            <table class="o_has_total_table table o_main_table table-borderless"
+                                name="invoice_line_table">
+                                <thead>
+                                    <tr>
+                                        <th name="th_description" class="text-start">
+                                            <span>Diễn giải</span>
+                                        </th>
+                                        <th name="th_quantity" class="text-end">
+                                            <span>Số lượng</span>
+                                        </th>
+                                        <th name="th_priceunit"
+                                            t-attf-class="text-end text-nowrap {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                            <span>Đơn giá</span>
+                                        </th>
+                                        <th name="th_discount" t-if="display_discount"
+                                            t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                            <span>% chiết khấu</span>
+                                        </th>
+                                        <th name="th_taxes"
+                                            t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                            <span>Thuế</span>
+                                        </th>
+                                        <th name="th_subtotal" class="text-end">
+                                            <span>Số tiền</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="invoice_tbody">
+                                    <t t-set="current_subtotal" t-value="0" />
+                                    <t t-set="current_total" t-value="0" />
+                                    <t t-set="lines"
+                                        t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)" />
+                                    <t t-foreach="lines" t-as="line">
+                                        <t t-set="current_subtotal"
+                                            t-value="current_subtotal + line.price_subtotal" />
+                                        <t t-set="current_total"
+                                            t-value="current_total + line.price_total" />
+                                        <tr
+                                            t-att-class="'fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                            <t t-if="line.display_type == 'product'"
+                                                name="account_invoice_line_accountable">
+                                                <td name="account_invoice_line_name">
+                                                    <span t-if="line.name" t-field="line.name"
+                                                        t-options="{'widget': 'text'}">Bánh burger
+                                                        thịt heo muối</span>
+                                                </td>
+                                                <td name="td_quantity" class="text-end text-nowrap">
+                                                    <span t-field="line.quantity">3.00</span>
+                                                    <span t-field="line.product_uom_id"
+                                                        groups="uom.group_uom">đơn vị</span>
+                                                </td>
+                                                <td name="td_price_unit"
+                                                    t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                                    <span class="text-nowrap"
+                                                        t-field="line.price_unit">9.00</span>
+                                                </td>
+                                                <td name="td_discount" t-if="display_discount"
+                                                    t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                                    <span class="text-nowrap"
+                                                        t-field="line.discount">0</span>
+                                                </td>
+                                                <t t-set="taxes"
+                                                    t-value="', '.join([(tax.invoice_label or tax.name) for tax in line.tax_ids])" />
+                                                <td name="td_taxes"
+                                                    t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }} {{ 'text-nowrap' if len(taxes) &lt; 10 else '' }}">
+                                                    <span t-out="taxes" id="line_tax_ids">Thuế 15%</span>
+                                                </td>
+                                                <td name="td_subtotal"
+                                                    class="text-end o_price_total">
+                                                    <span class="text-nowrap"
+                                                        t-field="line.price_subtotal">27.00</span>
+                                                </td>
+                                            </t>
+                                            <t t-elif="line.display_type == 'line_section'">
+                                                <td colspan="99">
+                                                    <span t-field="line.name"
+                                                        t-options="{'widget': 'text'}">Tiêu đề phần</span>
+                                                </td>
+                                                <t t-set="current_section" t-value="line" />
+                                                <t t-set="current_subtotal" t-value="0" />
+                                            </t>
+                                            <t t-elif="line.display_type == 'line_note'">
+                                                <td colspan="99">
+                                                    <span t-field="line.name"
+                                                        t-options="{'widget': 'text'}">Một ghi chú,
+                                                        chứa nội dung thường được áp dụng cho phần
+                                                        hoặc sản phẩm ở trên.</span>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                        <!-- <t
+                                            t-if="current_section and (line_last or lines[line_index+1].display_type == 'line_section')">
+                                            <tr class="is-subtotal text-end">
+                                                <td colspan="99">
+                                                    <strong class="mr16">Thành tiền</strong>
+                                                    <span t-out="current_subtotal"
+                                                        t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;:
+                                        o.currency_id}">
+                                                        31.05</span>
+                                                </td>
+                                            </tr>
+                                        </t> -->
+                                    </t>
+                                </tbody>
+                            </table>
+                            <div>
+                                <div id="right-elements"
+                                    t-attf-class="#{'col-5' if report_type != 'html' else 'col-12 col-md-5'} ms-5 d-inline-block float-end">
+                                    <div id="total" class="clearfix row">
+                                        <div class="ms-auto">
+                                            <table
+                                                class="o_total_table table table-borderless avoid-page-break-inside">
+                                                <!-- Tax totals summary (invoice currency) -->
+                                                <t t-if="o.tax_totals">
+                                                    <t t-set="tax_totals" t-value="o.tax_totals" />
+                                                    <t t-set="currency" t-value="o.currency_id" />
+                                                    <t t-foreach="tax_totals['subtotals']"
+                                                        t-as="subtotal">
+                                                        <tr class="o_subtotal">
+                                                            <td>
+                                                                <t t-if="o.company_id.id == 1">
+                                                                    <span>Số tiền chưa thuế</span>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <span>Untaxed Amount</span>
+                                                                </t>
+                                                            </td>
+                                                            <td class="text-end">
+                                                                <span
+                                                                    t-att-class="oe_subtotal_footer_separator"
+                                                                    t-out="subtotal['base_amount_currency']"
+                                                                    t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                                                                    27.00</span>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+
+                                                    <tr
+                                                        t-if="'cash_rounding_base_amount_currency' in tax_totals">
+                                                        <t t-if="o.company_id.id == 1">
+                                                            <td>Làm tròn</td>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <td>Rounding</td>
+                                                        </t>
+                                                        <td class="text-end">
+                                                            <span
+                                                                t-out="tax_totals['cash_rounding_base_amount_currency']"
+                                                                t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                                                                0</span>
+                                                        </td>
+                                                    </tr>
+
+                                                    <!--Total
+                                                    amount with all taxes-->
+                                                    <tr class="o_total">
+                                                        <t t-if="o.company_id.id == 1">
+                                                            <td>
+                                                                <strong>Tổng tiền</strong>
+                                                            </td>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <td>
+                                                                <strong>Total</strong>
+                                                            </td>
+                                                        </t>
+                                                        <td class="text-end">
+                                                            <strong
+                                                                t-out="tax_totals['total_amount_currency']"
+                                                                t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                                                                31.05</strong>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <!--Payments-->
+                                                <t t-if="print_with_payments">
+                                                    <t t-if="o.payment_state != 'invoicing_legacy'">
+                                                        <t t-set="payments_vals"
+                                                            t-value="o.sudo().invoice_payments_widget and o.sudo().invoice_payments_widget['content'] or []" />
+                                                        <t t-foreach="payments_vals"
+                                                            t-as="payment_vals">
+                                                            <div t-out="payment_vals">
+                                                            </div>
+                                                            <tr
+                                                                t-if="payment_vals['is_exchange'] == 0">
+                                                                <td>
+                                                                    <i
+                                                                        class="oe_form_field text-end oe_payment_label">
+                                                                        <t
+                                                                            t-if="o.company_id.id == 1">
+                                                                            Thanh toán vào
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                            Payment Date
+                                                                        </t>
+                                                                        <t
+                                                                            t-out="payment_vals['date']"
+                                                                            t-options="{&quot;widget&quot;: &quot;date&quot;}">
+                                                                            2021-09-19</t>
+                                                                    </i>
+                                                                </td>
+                                                                <td class="text-end">
+                                                                    <span
+                                                                        t-out="payment_vals['amount']"
+                                                                        t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}">
+                                                                        20.00</span>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                        <t t-if="len(payments_vals) &gt; 0">
+                                                            <tr class="fw-bold">
+                                                                <td>
+                                                                    <t t-if="o.company_id.id == 1">
+                                                                        Số tiền phải trả
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        Amount Payable
+                                                                    </t>
+                                                                </td>
+                                                                <td class="text-end">
+                                                                    <span
+                                                                        t-field="o.amount_residual">
+                                                                        11.05</span>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <p class="text-end lh-sm"
+                                            t-if="o.company_id.display_invoice_amount_total_words">
+                                            Tổng tiền bằng chữ: <br />
+                                        <small
+                                                class="text-muted lh-sm">
+                                                <span t-field="o.amount_total_words">Ba mươi mốt đô
+                                            la và năm xu</span>
+                                            </small>
+                                        </p>
+                                    </div>
+                                    <!-- Tax totals summary (company currency) -->
+                                    <t t-if="o.tax_totals.get('display_in_company_currency')">
+                                        <t t-set="tax_totals" t-value="o.tax_totals" />
+                                        <t
+                                            t-call="account.document_tax_totals_company_currency_template" />
+                                    </t>
+                                    <t t-else="">
+                                        <div class="oe_structure" />
+                                    </t>
+                                </div>
+                                <div id="payment_term" class="clearfix">
+                                    <div class="justify-text">
+                                        <p t-if="not is_html_empty(o.fiscal_position_id.note)"
+                                            name="note" class="mb-2">
+                                            <span t-field="o.fiscal_position_id.note" />
+                                        </p>
+                                    </div>
+                                    <div class="justify-text">
+                                        <p t-if="not is_html_empty(o.taxes_legal_notes)"
+                                            name="taxes_legal_notes" class="mb-2">
+                                            <span t-field="o.taxes_legal_notes" />
+                                        </p>
+                                    </div>
+                                    <t t-set="payment_term_details" t-value="o.payment_term_details" />
+                                    <div class="mb-3">
+                                        <span id="payment_terms_note_id"
+                                            t-if="o.invoice_payment_term_id.note"
+                                            t-field="o.invoice_payment_term_id.note"
+                                            name="payment_term">Thanh toán trong vòng 30 ngày theo
+                                            lịch</span>
+                                        <br />
+                                        <t
+                                            t-if="o.invoice_payment_term_id.display_on_invoice and payment_term_details">
+                                            <div t-if="o.show_payment_term_details"
+                                                id="total_payment_term_details_table" class="row">
+                                                <div
+                                                    t-attf-class="#{'col-10' if report_type != 'html' else 'col-sm-10 col-md-9'}">
+                                                    <t
+                                                        t-if="o._is_eligible_for_early_payment_discount(o.currency_id,o.invoice_date)">
+                                                        <td><span
+                                                                t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"
+                                                                t-out="o.invoice_payment_term_id._get_amount_due_after_discount(o.amount_total, o.amount_tax)">
+                                                            30.00</span> đến hạn nếu thanh toán
+                                                            trước <span
+                                                                t-out="o.invoice_payment_term_id._get_last_discount_date_formatted(o.invoice_date)">
+                                                            2024-01-01</span>
+                                                        </td>
+                                                    </t>
+                                                    <t t-if="len(payment_term_details) &gt; 1"
+                                                        t-foreach="payment_term_details" t-as="term">
+                                                        <div><span t-out="term_index + 1">1</span> -
+                                                            Khoản trả góp <t
+                                                                t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"
+                                                                t-out="term.get('amount')"
+                                                                class="text-end">31.05</t>
+                                                        <span> đến
+                                                            hạn vào </span>
+                                                        <t
+                                                                t-out="term.get('date')"
+                                                                class="text-start">2024-01-01</t>
+                                                        </div>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <div class="mb-3"
+                                        t-if="o.move_type in ('out_invoice', 'in_refund') and o.payment_reference">
+                                        <p name="payment_communication"> Nội dung thanh toán: <span
+                                                class="fw-bold" t-field="o.payment_reference">
+                                            INV/2023/00001</span>
+                                        <t t-if="o.partner_bank_id"><br />
+                                            trên tài khoản này: <span t-field="o.partner_bank_id"
+                                                    class="fw-bold" />
+                                            </t>
+                                        </p>
+                                    </div>
+                                    <t t-set="show_qr"
+                                        t-value="o.display_qr_code and o.amount_residual &gt; 0" />
+                                    <div t-if="not show_qr" name="qr_code_placeholder"
+                                        class="oe_structure" />
+                                    <div id="qrcode" class="d-flex mb-3 avoid-page-break-inside"
+                                        t-else="">
+                                        <div class="qrcode me-3" id="qrcode_image">
+                                            <t t-set="qr_code_url"
+                                                t-value="o._generate_qr_code(silent_errors=True)" />
+                                            <p t-if="qr_code_url" class="position-relative mb-0">
+                                                <img t-att-src="qr_code_url" />
+                                                <img src="/account/static/src/img/Odoo_logo_O.svg"
+                                                    id="qrcode_odoo_logo"
+                                                    class="top-50 start-50 position-absolute bg-white border border-white border-3 rounded-circle" />
+                                            </p>
+                                        </div>
+                                        <div class="d-inline text-muted lh-sm fst-italic"
+                                            id="qrcode_info" t-if="qr_code_url">
+                                            <p>Quét mã QR này bằng<br />ứng dụng ngân hàng của bạn</p>
+                                        </div>
+                                    </div>
+                                    <!--terms
+                                    and conditions-->
+                                    <div class="text-muted mb-3"
+                                        t-attf-style="#{'text-align:justify;text-justify:inter-word;' if o.company_id.terms_type != 'html' else ''}"
+                                        t-if="not is_html_empty(o.narration)" name="comment">
+                                        <span t-field="o.narration" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </field>
+        <field name="key">_account.report_invoice_document_non_payment_custom_</field>
+        <field name="name">backup__report_invoice_document_non_payment_custom</field>
+        <field name="type">qweb</field>
+    </record>
+</odoo>

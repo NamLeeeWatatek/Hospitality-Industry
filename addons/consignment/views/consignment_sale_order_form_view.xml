@@ -1,0 +1,268 @@
+<odoo>
+    <record id="view_sale_order_form_consignment" model="ir.ui.view">
+        <field name="name">sale.order.form.consignment</field>
+        <field name="model">sale.order</field>
+        <!--**** view kế thừa nhưng sẽ hoạt động độc lập không ghi đè view gốc ****-->
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+
+            <!-- Thêm các trường ký gửi sau trường "Khách hàng" -->
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_consignment_order" string="Là đơn ký gửi" invisible="1" />
+                <field name="consignment_fee_collector" string="Kho thu phí ký gửi">
+                    <attribute name="readonly">state in ["cancel", "sale"]</attribute>
+                </field>
+                <field name="consignment_fee_collector" string="Kho thu phí ký gửi">
+                    <attribute name="groups">consignment.group_change_consignment</attribute>
+                </field>
+                <field name="recipient_id" string="Người gửi hàng">
+                    <attribute name="readonly">state in ["cancel", "sale"]</attribute>
+                </field>
+            </xpath>
+
+            <xpath expr="//form[1]/sheet[1]/group[@name='sale_header']/group[@name='partner_details']/field[@name='consignment_fee_collector'][1]" position="attributes">
+                <attribute name="groups">!consignment.group_change_consignment</attribute>
+            </xpath>
+
+            <xpath expr="//form[1]/sheet[1]/group[@name='sale_header']/group[@name='partner_details']/field[@name='consignment_fee_collector'][2]" position="attributes">
+               <attribute name="groups">consignment.group_change_consignment</attribute>
+            </xpath>
+
+            <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='name']" position="after">
+                <field optional="show" name="billing_qty"/>
+            </xpath>
+            <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='product_uom_qty']" position="attributes">
+                <attribute name="string">Số lượng đóng gói</attribute>
+                <attribute name="width">130</attribute>
+            </xpath>
+
+            <!-- Ẩn cột "Thuế" trong danh sách sản phẩm -->
+            <!-- <xpath expr="//field[@name='order_line']/list/field[@name='tax_id']"
+                position="attributes">
+                <attribute name="column_invisible">True</attribute>
+            </xpath> -->
+
+            <!-- Thêm hai trường "Quy cách" và "ĐVT" vào danh sách sản phẩm ngay sau cột "product_uom_qty" -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='unit_of_measure']" position="after">
+                <field name="consignment_packed_type" string="Quy cách" attrs="{'invisible': [('parent.is_consignment_order', '=', False)]}" />
+            </xpath>
+
+            <!-- Thêm các cột vào danh sách sản phẩm -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='qty_invoiced']" position="before">
+                <!--**** Ẩn list column có điều kiện sử dụng optional và column_invisible ****-->
+                <field name="received_qty" string="Đã nhận" column_invisible="1 not in allowed_company_ids or parent.state != 'sale'" optional="show"/>
+            </xpath>
+
+            <xpath expr="//field[@name='received_qty']" position="attributes">
+                <attribute name="class">fw-bold text-info</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/list/field[@name='received_qty']" position="before">
+                <!--**** Ẩn list column có điều kiện sử dụng optional và column_invisible ****-->
+                <field name="consignment_delivered_qty" string="Đã giao" column_invisible="2 not in allowed_company_ids or parent.state != 'sale'" optional="show"/>
+            </xpath>
+
+            <xpath expr="//field[@name='consignment_delivered_qty']" position="attributes">
+                <attribute name="class">fw-bold text-info</attribute>
+            </xpath>
+
+            <!-- Ẩn qty_delivered nếu allowed_company_ids = 1 -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='qty_delivered']" position="attributes">
+                <attribute name="column_invisible">True</attribute>
+            </xpath>
+
+            <!-- Xóa cột "product_uom" nếu là đơn ký gửi -->
+            <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='product_uom'][2]" position="replace"/>
+            <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='product_uom']" position="replace"/>
+
+            <xpath expr="//field[@name='consignment_fee_collector']" position="attributes">
+                <attribute name="invisible">not is_consignment_order</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='recipient_id']" position="attributes">
+                <attribute name="invisible">not is_consignment_order</attribute>
+            </xpath>
+            <!-- Chỉ đọc trường consignment_fee_collector khi đơn hàng đã được xác nhận hoặc hủy -->
+            <xpath expr="//field[@name='consignment_fee_collector']" position="attributes">
+                <attribute name="force_save">1</attribute>
+                <attribute name="readonly">state in ["sale", "cancel"]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='recipient_id']" position="attributes">
+                <attribute name="force_save">1</attribute>
+                <attribute name="readonly">state in ["sale", "cancel"]</attribute>
+            </xpath>
+            <!-- Ẩn payment_term_id -->
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <!-- Thêm nút Phiếu Nhập -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_receipt"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-truck">
+                    <field name="sale_id_stock_picking_count" widget="statinfo"
+                        string="Nhập kho" />
+                </button>
+            </xpath>
+
+            <!-- Thêm nút Phiếu Giao -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_consignment_delivery"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-truck">
+                    <field name="sale_id_stock_picking_delivery_count" widget="statinfo"
+                        string="Giao hàng" />
+                </button>
+            </xpath>
+
+            <xpath expr="//form/header" position="inside">
+                <button name="action_create_outgoing_picking"
+                        type="object"
+                        string="Giao hàng ký gửi"
+                        class="oe_highlight"
+                        icon="fa-handshake-o">
+                </button>
+            </xpath>
+
+            <xpath expr="//form/header/button[@name='action_create_outgoing_picking']" position="attributes">
+                <attribute name="invisible">2 not in allowed_company_ids or sale_id_stock_picking_delivery_count &gt;= 1</attribute>
+            </xpath>
+
+            <xpath expr="//div[@name='button_box']/button[@name='action_view_consignment_delivery']" position="attributes">
+                <attribute name="invisible">2 not in allowed_company_ids or sale_id_stock_picking_delivery_count &lt; 1</attribute>
+            </xpath>
+
+            <xpath
+            expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/widget[@name='qty_at_date_widget']"
+            position="replace" />
+
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('user_ids', '=', False), ('id', 'not in', [1, 7, 8])]</attribute>
+                <attribute name="options">{'no_quick_create': True}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='recipient_id']" position="attributes">
+                <attribute name="domain">[('user_ids', '=', False), ('id', 'not in', [1, 7, 8])]</attribute>
+                <attribute name="options">{'no_quick_create': True}</attribute>
+            </xpath>
+
+            <!-- khóa order_line khi đơn ký gửi đã bị hủy hoặc đã được xác nhận -->
+            <xpath expr="//field[@name='order_line']" position="attributes">
+                <attribute name="force_save">1</attribute>
+                <attribute name="readonly">is_consignment_order == True and ( state in ["cancel", "sale"] or locked )</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='action_view_receipt']" position="attributes">
+                <attribute name="invisible">not is_consignment_order or sale_id_stock_picking_count&lt;= 0</attribute>
+                <attribute name="groups">consignment.group_consignment_admin</attribute>
+            </xpath>
+
+            <!-- filter sẵn các sản phẩm có tracking serial và đơn vị tính là "kg" -->
+            <xpath expr="//field[@name='product_template_id']" position="attributes">
+                <attribute name="domain">["&amp;", "&amp;", ("sale_ok", "=", True), ("product_type", "=", "consignment_product"), ("tracking", "=", "lot"), ("uom_id", "in", [12])]</attribute>
+                <attribute name="context">
+                    {'search_default_sale_ok': 1, 'search_default_tracking': 'lot', 'search_default_uom_id': 12,
+                    'default_sale_ok': 1,'default_is_storable': True, 'default_tracking': 'lot', 'default_uom_id': 12, 'default_product_type': 'consignment_product'}
+                </attribute>
+            </xpath>
+
+            <!-- Ẩn nút tạo hóa đơn ở kho khác nếu thu ở hồ chí minh và ngược lại -->
+            <xpath expr="//form[1]/header[1]/button[@name='352']" position="attributes">
+                <attribute name="invisible">
+                    invoice_status != 'to invoice' or not (
+                        (1 in allowed_company_ids and consignment_fee_collector == 'hcm') or
+                        (1 not in allowed_company_ids and consignment_fee_collector == 'campuchia'))
+                </attribute>
+                <attribute name="groups">consignment.group_consignment_admin</attribute>
+            </xpath>
+
+            <!-- Ẩn các tab other_information, optional_products -->
+            <xpath expr="//page[@name='other_information']" position="replace"/>
+            <xpath expr="//page[@name='optional_products']" position="replace"/>
+            <!-- Ẩn nút giao hàng ở đơn ký gửi -->
+            <xpath expr="//button[@name='action_view_delivery']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <!-- Thay đổi vị trí cho phù hợp -->
+            <xpath expr="//field[@name='consignment_packed_type']" position="after">
+                <xpath expr="//field[@name='billing_qty']" position="move"/>
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='price_unit']" position="move"/>
+            </xpath>
+            <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='price_subtotal']" position="after">
+                <xpath expr="//field[@name='received_qty']" position="move"/>
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='qty_invoiced']" position="move"/>
+            </xpath>
+
+            <!-- Ẩn nút hủy khi xem đơn ký gửi ở Kho hàng cũ -->
+            <xpath expr="//button[@name='action_cancel']" position="attributes">
+                <attribute name="invisible">1 not in allowed_company_ids</attribute>
+            </xpath>
+            
+            <xpath expr="//button[@name='action_draft']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='action_view_invoice']" position="attributes">
+                <attribute name="groups">consignment.group_consignment_admin</attribute>
+            </xpath>
+
+            <!-- Nút xác nhận -->
+            <xpath expr="//form[1]/header[1]/button[@name='action_confirm'][2]" position="attributes">
+                <attribute name="class">text-white bg-primary</attribute>
+            </xpath>
+
+            <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='price_unit']" position="attributes">
+                <attribute name="groups">consignment.group_consignment_admin</attribute>
+            </xpath>
+            <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='price_subtotal']" position="attributes">
+                <attribute name="groups">consignment.group_consignment_admin</attribute>
+            </xpath>
+            <xpath expr="//form[1]/sheet[1]/group[@name='sale_header']/group[@name='order_details']/div[3]/field[@name='pricelist_id']" position="attributes">
+                <attribute name="groups">consignment.group_consignment_admin</attribute>
+            </xpath>
+            <xpath expr="//group[@name='sale_total']" position="attributes">
+                <attribute name="groups">consignment.group_consignment_admin</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='action_confirm']" position="after">
+                <!-- Nút "In báo giá ký gửi" -->
+                <button name="%(action_print_with_unit_price_pdf)d"
+                        type="action"
+                        class="btn btn-secondary"
+                        string="In báo giá ký gửi">
+                        <span class="fa fa-print"></span> In báo giá ký gửi
+                </button>
+
+                <!-- Nút "In biên nhận ký gửi" -->
+                <button name="%(action_print_non_unit_price_pdf)d"
+                        type="action"
+                        class="btn btn-secondary"
+                        string="In biên nhận ký gửi">
+                        <span class="fa fa-print"></span> In biên nhận ký gửi
+                </button>
+            </xpath>
+
+            <xpath expr="//button[@name='%(action_print_with_unit_price_pdf)d']" position="attributes">
+                <attribute name="groups">consignment.group_consignment_admin</attribute>
+                <!-- kho cam ẩn in biên nhận ký gửi -->
+                <attribute name="invisible">state not in ['sale'] or 1 not in allowed_company_ids</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='%(action_print_non_unit_price_pdf)d']" position="attributes">
+                <attribute name="groups">consignment.group_consignment_employee</attribute>
+                <!-- kho cam ẩn in báo giá ký gửi -->
+                <attribute name="invisible">state not in ['draft', 'cancel', 'sale'] or 1 not in allowed_company_ids</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='action_cancel']" position="attributes">
+                <attribute name="groups">consignment.group_consignment_admin</attribute>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

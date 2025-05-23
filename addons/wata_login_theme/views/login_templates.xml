@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="custom_login_layout_inherit" inherit_id="web.login_layout">
+        <xpath expr="//t[@t-call='web.frontend_layout']/div/div/div/div/a" position="replace">
+            <a href="https://www.watatech.com.vn" target="_blank">Powered by <span>WATA TECH</span></a>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Gán menu "Quản lý xe" làm menu con của "Vận tải" -->
+    <menuitem id="menu_vehicle_management_root" name="Quản lý xe" parent="stock.menu_stock_warehouse_mgmt" sequence="10"/>
+    <menuitem id="menu_vehicle_management" name="Tổng quan hoạt động" parent="menu_vehicle_management_root" action="vehicle_management.action_vehicle_management" sequence="10"/>
+</odoo>

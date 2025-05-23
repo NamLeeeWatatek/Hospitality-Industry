@@ -1,0 +1,28 @@
+<odoo>
+    <record id="custom_stock_picking_receipt_search_filters" model="ir.ui.view">
+        <field name="arch" type="xml">
+            <data>
+                <!-- Thêm một trường tìm kiếm mới (state) ngay sau trường 'name' trong phần tửsearch -->
+                <xpath expr="//search[1]/field[@name='name']" position="after">
+                    <field name="state" />
+                </xpath>
+
+                <!-- Thêm hai bộ lọc (filter) mới ngay sau bộ lọc 'status' -->
+                <xpath expr="//filter[@name='status']" position="after">
+                    <!-- Bộ lọc nhóm theo ngày hoàn thành (date_done) -->
+                    <filter name="filter_group_by_date_done" string="Ngày nhập"
+                        context="{'group_by': 'date_done'}" />
+                    <!-- Bộ lọc nhóm theo mã tham chiếu (name) -->
+                    <filter name="filter_group_by_reference" string="Mã tham chiếu"
+                        context="{'group_by': 'name'}" />
+                </xpath>
+            </data>
+        </field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search" />
+        <field name="mode">primary</field>
+        <field name="model">stock.picking</field>
+        <field name="name">custom_stock_picking_search_filter</field>
+        <field name="priority">99</field>
+        <field name="type">search</field>
+    </record>
+</odoo>

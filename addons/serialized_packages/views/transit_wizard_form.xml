@@ -1,0 +1,27 @@
+<odoo>
+    <record id="view_stock_quant_transit_wizard" model="ir.ui.view">
+        <field name="name">stock.quant.transit.wizard.form</field>
+        <field name="model">stock.quant.transit.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Vận chuyển lên xe">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="vehicle_id" string="Biển số xe"/>
+                            <field name="date" string="Giờ khởi hành"/>
+                        </group>
+                        <group>
+                            <field name="driver_name" string="Tên tài xế"/>
+                            <field name="vehicle_info" string="Thông tin xe"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Xác nhận vận chuyển" type="object" name="action_confirm"
+                            class="oe_highlight" icon="fa-truck"/>
+                        <button string="Hủy bỏ" type="object" name="action_cancel" class="btn-secondary" target="current" icon="fa-times"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

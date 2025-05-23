@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_product_tree_inherit" model="ir.ui.view">
+        <field name="name">product.product.tree.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="stock.product_product_stock_tree"/>  <!-- Kế thừa tree view -->
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='uom_id']" position="attributes">
+                <attribute name="string">Quy cách</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

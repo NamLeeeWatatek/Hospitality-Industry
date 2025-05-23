@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="them_ma_khach_hang" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Mã khách hàng</field>
+    <field name="model">res.partner</field>
+    <field name="model_id" ref="base.model_res_partner"/>
+    <field name="name">x_ma_khachhang</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+
+  <record id="lienhe_them_ma_nha_cung_cap" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Mã nhà cung cấp</field>
+    <field name="model">res.partner</field>
+    <field name="model_id" ref="base.model_res_partner"/>
+    <field name="name">x_studio_ma_nhacungcap</field>
+    <field name="on_delete" eval="False"/>
+  </record>
+
+  <record id="don_hang_them_ma_nha_cung_cap" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="related">partner_id.x_studio_ma_nhacungcap</field>
+    <field name="field_description">Mã nhà cung cấp</field>
+    <field name="model">purchase.order</field>
+    <field name="model_id" ref="purchase.model_purchase_order"/>
+    <field name="name">x_ma_nhacungcap</field>  
+    <field name="store" eval="True"/> 
+  </record> <!-- Đóng thẻ bị thiếu -->
+
+  <record id="add_customer_id_invoice" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">char</field>
+    <field name="related">partner_id.x_ma_khachhang</field>
+    <field name="field_description">Customer ID</field>
+    <field name="model">account.move</field>
+    <field name="model_id" ref="account.model_account_move"/>
+    <field name="name">x_customer_id</field>
+    <field name="on_delete" eval="False"/>
+    <field name="readonly" eval="True"/>
+    <field name="store" eval="True"/> <!-- Đặt thành True nếu cần tìm kiếm hoặc lọc -->
+  </record>
+
+  <record id="custom_contact_search" model="ir.ui.view" context="{'studio': True}">  
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//search[1]/field[@name='name']" position="before">
+          <field name="x_ma_khachhang"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="base.view_res_partner_filter"/>
+    <field name="mode">extension</field>
+    <field name="model">res.partner</field>
+    <field name="name">Odoo Studio: res.partner.select customization</field>
+    <field name="priority">160</field>
+    <field name="type">search</field>
+  </record>
+
+  <record id="product_loai_mat_hang" model="ir.model.fields" context="{'studio': True}">
+    <field name="ttype">selection</field>
+    <field name="copied" eval="True"/>
+    <field name="field_description">Loại mặt hàng</field>
+    <field name="model">product.template</field>
+    <field name="model_id" ref="product.model_product_template"/>
+    <field name="name">x_loai_mat_hang</field>
+    <field name="on_delete" eval="False"/>
+    <field name="selection">[('Hàng sản xuất', 'Hàng sản xuất'), ('Hàng mua bán', 'Hàng mua bán')]</field>
+  </record>
+</odoo>

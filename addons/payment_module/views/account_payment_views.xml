@@ -1,0 +1,52 @@
+<odoo>
+    <data>
+        <record id="view_account_payment_form_custom" model="ir.ui.view">
+            <field name="name">account.payment.form.custom</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form" />
+            <field name="priority">160</field>
+            <field name="arch" type="xml">
+
+                <!-- Đổi "Sổ nhật ký" thành "Phương thức thanh toán" -->
+                <xpath expr="//form//field[@name='journal_id']" position="attributes">
+                    <attribute name="string">Phương thức</attribute>
+                </xpath>
+
+                <!-- Ẩn phương thức thanh toán & tài khoản nhận -->
+                <xpath expr="//form//field[@name='payment_method_line_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath
+                    expr="//form[1]/sheet[1]/group[@name='main_group']/group[@name='group2']/field[@name='partner_bank_id'][3]"
+                    position="attributes">
+                    <attribute name="invisible">True</attribute>
+                    <attribute name="required">False</attribute>
+                </xpath>
+                <xpath
+                    expr="//form[1]/sheet[1]/group[@name='main_group']/group[@name='group2']/field[@name='partner_bank_id'][2]"
+                    position="attributes">
+                    <attribute name="invisible">True</attribute>
+                    <attribute name="required">False</attribute>
+                </xpath>
+                <xpath expr="//form//field[@name='payment_type']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <!-- Thêm Hóa đơn cần thanh toán và Số tiền thực tế trả -->
+                <xpath expr="//field[@name='journal_id']" position="after">
+                    <!-- <field name="invoice_id" string="Hóa đơn cần thanh toán"
+                        readonly="1" /> -->
+                    <field name="actual_amount_paid" string="Số tiền thực tế trả"
+                        widget="monetary" options="{'currency_field': 'actual_currency_id'}"
+                        readonly="state == 'paid'" />
+                </xpath>
+
+                <xpath expr="//field[@name='actual_amount_paid']" position="after">
+                    <field name="actual_currency_id" readonly="state == 'paid'" />
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

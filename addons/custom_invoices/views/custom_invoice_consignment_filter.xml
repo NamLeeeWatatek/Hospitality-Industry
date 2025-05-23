@@ -1,0 +1,154 @@
+<odoo>
+    <!-- Định nghĩa một record trong model "ir.ui.view" để tùy chỉnh bộ lọc tìm kiếm -->
+    <record id="custom_invoice_consignment_filter" model="ir.ui.view">
+
+        <field name="arch" type="xml">
+            <!-- Loại bỏ hoặc thay thế các bộ lọc tìm kiếm hiện có -->
+            <xpath expr="//filter[@name='accounting_date']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='duedate']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//search[1]/group[1]/separator[1]" />
+            <xpath expr="//filter[@name='group_by_company']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='groupy_by_journal']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='preferred_payment_method_line']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- <xpath expr="//filter[@name='sales_channel']" /> -->
+            <xpath expr="//filter[@name='status']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- <xpath expr="//filter[@name='salesperson']" /> -->
+            <xpath expr="//filter[@name='activities_upcoming_all']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='activities_today']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='activities_overdue']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='due_date']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//search[1]/filter[@name='date']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//search[1]/separator[7]" />
+            <xpath expr="//filter[@name='late']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='in_payment']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='open']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//search[1]/separator[6]" />
+            <xpath expr="//filter[@name='to_check']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='out_refund']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//search[1]/separator[4]" />
+            <xpath expr="//filter[@name='not_sent']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//search[1]/separator[3]" />
+            <xpath expr="//filter[@name='not_secured']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//search[1]/separator[2]" />
+            <xpath expr="//filter[@name='cancel']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='posted']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='draft']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='sales_channel']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+
+
+            <!-- Đổi tên bộ lọc "partner" thành "Khách hàng" -->
+            <xpath expr="//filter[@name='partner']" position="attributes">
+                <attribute name="string">Khách hàng</attribute>
+            </xpath>
+
+            <!-- Thêm một bộ lọc nhóm theo trạng thái thanh toán -->
+            <xpath expr="//filter[@name='partner']" position="after">
+                <filter name="status_in_payment_group_by_payment_state"
+                    string="Trạng thái thanh toán"
+                    context="{'group_by': 'payment_state'}" />
+            </xpath>
+
+            <!-- Thêm các bộ lọc mới vào sau bộ lọc "invoice_date" -->
+            <xpath expr="//filter[@name='invoice_date']" position="after">
+                <!-- Thêm một thanh phân cách để nhóm các bộ lọc trạng thái thanh toán -->
+                <separator name="separator_payment_status" />
+
+
+                <!-- Bộ lọc hóa đơn chưa thanh toán -->
+                <filter domain="[('payment_state', '=', 'not_paid')]"
+                    name="filter_not_paid"
+                    string="Chưa thanh toán" />
+
+                <!-- Bộ lọc hóa đơn đang trong quá trình thanh toán -->
+                <filter domain="[('payment_state', '=', 'in_payment')]"
+                    name="filter_in_payment"
+                    string="Đang thanh toán" />
+
+                <!-- Bộ lọc hóa đơn đã thanh toán -->
+                <filter domain="[('payment_state', '=', 'paid')]"
+                    name="filter_paid"
+                    string="Đã thanh toán" />
+            </xpath>
+
+            <!-- Đổi Nhãn cho trường saleperson thành Người phụ trách -->
+            <xpath expr="//field[@name='invoice_user_id']" position="attributes">
+                <attribute name="string">Người phụ trách</attribute>
+            </xpath>
+
+        </field>
+
+        <!-- Kế thừa view tìm kiếm từ module "account" -->
+        <field name="inherit_id" ref="account.view_account_invoice_filter" />
+        <!-- Chế độ kế thừa: primary  -->
+        <field name="mode">primary</field>
+
+        <!-- Xác định model mà view này áp dụng (hóa đơn kế toán) -->
+        <field name="model">account.move</field>
+
+        <!-- Đặt tên tùy chỉnh cho view này -->
+        <field name="name">custom.invoice.consignment.filter</field>
+
+        <!-- Thiết lập độ ưu tiên của view này (cao hơn mặc định) -->
+        <field name="priority">160</field>
+
+        <!-- Xác định kiểu view là "search" (tìm kiếm) -->
+        <field name="type">search</field>
+    </record>
+
+
+    <record id="account.action_move_out_invoice_type" model="ir.actions.act_window">
+        <field name="name">Customer Invoices</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="mobile_view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="custom_invoices.custom_invoice_consignment_filter" />
+        <field name="domain">[('move_type', 'in', ['out_invoice', 'out_refund'])]</field>
+        <field name="context">{'search_default_out_invoice': 1,'default_move_type': 'out_invoice', 'default_is_consignment_invoice': True}</field>
+    </record>
+
+</odoo>

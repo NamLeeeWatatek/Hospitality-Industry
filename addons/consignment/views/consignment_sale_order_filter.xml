@@ -1,0 +1,50 @@
+<odoo>
+    <record id="sale_order_consignment_filter" model="ir.ui.view">
+        <field name="name">sale.order.consignment.filter</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter string="Đơn hàng ký gửi" name="filter_consignment"
+                    domain="[('is_consignment_order', '=', True)]" />
+            </xpath>
+            <!-- Thay thế bộ lọc 'order_month' -->
+            <xpath expr="//filter[@name='order_month']" position="replace" />
+
+            <!-- Thay thế bộ lọc 'customer' -->
+            <xpath expr="//filter[@name='customer']" position="replace">
+                <!-- Thêm bộ lọc mới: Nhóm theo 'Người nhận' -->
+                <filter name="group_by_recipient" string="Người nhận"
+                    context="{'group_by': 'partner_id'}" />
+            </xpath>
+
+            <!-- Thay thế bộ lọc 'salesperson' -->
+            <xpath expr="//filter[@name='salesperson']" position="replace">
+                <!-- Thêm bộ lọc mới: Nhóm theo 'Trạng thái hóa đơn' -->
+                <filter name="group_by_invoice_status" string="Trạng thái hóa đơn"
+                    context="{'group_by': 'invoice_status'}" />
+                <!-- Thêm bộ lọc mới: Nhóm theo 'Người gửi' -->
+                <filter name="group_by_sender" string="Người gửi"
+                    context="{'group_by': 'recipient_id'}" />
+            </xpath>
+
+            <!-- Thay thế các trường 'order_line', 'team_id', 'user_id' -->
+            <xpath expr="//field[@name='order_line']" position="replace" />
+            <xpath expr="//field[@name='team_id']" position="replace" />
+            <xpath expr="//field[@name='user_id']" position="replace" />
+
+            <!-- Thêm các trường mới vào phần tìm kiếm sau trường 'name' -->
+            <xpath expr="//search[1]/field[@name='name']" position="after">
+                <field name="invoice_status" string="Trạng thái hóa đơn" />
+                <field name="recipient_id" string="Người gửi" />
+            </xpath>
+
+            <!-- Cập nhật thuộc tính của trường 'partner_id' -->
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="operator" />
+                <attribute name="string">Người nhận</attribute>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

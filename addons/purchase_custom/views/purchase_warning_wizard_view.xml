@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_purchase_warning_wizard_form" model="ir.ui.view">
+        <field name="name">purchase.warning.wizard.form</field>
+        <field name="model">purchase.warning.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cảnh báo">
+                <group>
+                    <p>Một số sản phẩm có số lượng lớn hơn 1000. Điều này có thể ảnh hưởng đến hiệu suất của hệ thống. Bạn có muốn tiếp tục không ?</p>
+                </group>
+                <footer>
+                    <button name="confirm_order" type="object" string="Xác nhận" class="btn-primary"/>
+                    <button string="Hủy" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_purchase_warning_wizard" model="ir.actions.act_window">
+        <field name="name">Purchase Order Warning</field>
+        <field name="res_model">purchase.warning.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

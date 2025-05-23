@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_picking_inherit_sort" model="ir.ui.view">
+        <field name="name">stock.picking.sort.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree" />
+        <field name="arch" type="xml">
+            <list position="attributes">
+                <attribute name="default_order">create_date desc</attribute>
+            </list>
+        </field>
+    </record>
+</odoo>

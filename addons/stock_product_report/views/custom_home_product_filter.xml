@@ -1,0 +1,20 @@
+<odoo>
+    <!-- Định nghĩa một bản ghi mới trong model 'ir.ui.view' để thêm bộ lọc vào giao diện tìm kiếm -->
+    <record id="sale_order_home_filter" model="ir.ui.view">
+        <field name="name">home_product_filter</field>
+        <field name="model">stock.move.line</field>
+        
+        <!--view kế thừa nhưng sẽ hoạt động độc lập không ghi đè view gốc-->
+         <field name="mode">primary</field>
+        <!-- Kế thừa view tìm kiếm có sẵn của 'stock.move.line' -->
+        <field name="inherit_id" ref="stock.stock_move_line_view_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+            
+                <!-- Thêm bộ lọc mới vào giao diện tìm kiếm -->
+                <filter domain="[('is_home_order', '=', True)]" name="home_product_filter"
+                        string="Đơn Hàng Nhà" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

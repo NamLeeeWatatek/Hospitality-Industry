@@ -1,0 +1,25 @@
+<odoo>
+    <record id="view_picking_form_inherit" model="ir.ui.view" forcecreate="1">
+        <field name="name">Quay lại Đơn Bán Hàng</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="mode">extension</field>
+        <field name="priority">160</field>
+        <field name="arch" type="xml">
+            <!-- Thêm nút "Quay lại Đơn Bán Hàng" sau nút kiểm tra tồn kho -->
+            <xpath expr="//button[@name='action_view_stock_valuation_layers']" position="after">
+                <button class="oe_stat_button"
+                    icon="fa-external-link"
+                    type="object"
+                    name="action_return_to_sale_order"
+                    string="Quay lại Đơn Bán Hàng"
+                    invisible="button_visibility == False">
+                    <field widget="statinfo" name="sale_id" string="Đơn Bán Hàng" />
+                </button>
+            </xpath>
+            <xpath expr="//button[@name='action_detailed_operations']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

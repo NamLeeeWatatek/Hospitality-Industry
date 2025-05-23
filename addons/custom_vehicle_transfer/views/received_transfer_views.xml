@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="received_transfer_list_view" model="ir.ui.view">
+        <field name="name">received.transfer.list</field>
+        <field name="model">received.transfer</field>
+        <field name="arch" type="xml">
+            <list create="false" edit="false">
+                <field name="id" string="STT"/>
+                <field name="date" string="Ngày/Tháng/Năm"/>
+                <field name="invoice_number" string="Mã hóa đơn"/>
+                <field name="customer" string="Khách hàng"/>
+                <field name="name" string="Tên hàng"/>
+                <field name="province" string="Đơn vị tính"/>
+                <field name="regulation" string="Quy cách"/>
+                <field name="quantity" string="Số lượng"/>
+                <field name="unit_price" string="Đơn giá"/>
+                <field name="total_price" string="Thành tiền"/>
+                <field name="currency" string="Loại tiền"/>
+                <field name="payment_vn" string="Thu VN"/>
+                <field name="payment_cpc" string="Thu CPC"/>
+                <field name="status_in_payment" string="HTTT"/>
+                <field name="invoice_date_due" string="Ngày thanh toán"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="received_transfer_action" model="ir.actions.act_window">
+        <field name="name">Hàng hóa đã nhận</field>
+        <field name="res_model">received.transfer</field>
+        <field name="view_mode">list</field>
+        <field name="mobile_view_mode">list</field>
+        <field name="view_id" ref="received_transfer_list_view"/>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="received_transfer_menu" parent="consignment.bao_cao_ky_gui" action="received_transfer_action" sequence="21"/>
+</odoo>

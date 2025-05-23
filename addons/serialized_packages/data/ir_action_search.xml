@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stock_quant_search_inherit" model="ir.ui.view">
+        <field name="name">stock.quant.search.view.inherit</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.stock_quant_search_view"/>
+        <field name="arch" type="xml">
+            <!-- Thêm các trường tìm kiếm vào phần search -->
+            <xpath expr="//search" position="inside">
+                <field name="date" string="Ngày xuất kho" filter_domain="[('date', '=', self)]"/>
+                <field name="state" string="Trạng thái" filter_domain="[('state', '=', self)]"/>
+                <field name="vehicle_id" string="Mã số xe" filter_domain="[('vehicle_id', 'ilike', self)]"/>
+                <field name="reference_code" string="Mã tham chiếu" filter_domain="[('reference_code', 'ilike', self)]"/>
+                <field name="source_document" string="Chứng từ gốc" filter_domain="[('source_document', 'ilike', self)]"/>
+            </xpath>
+
+            <!-- Thêm các bộ lọc vào group Filters -->
+            <xpath expr="//group[@string='Filters']" position="inside">
+                <!-- Bỏ domain "[('date', '=', self)]" vì không hợp lệ trong <filter> -->
+                <filter string="Ngày xuất kho" name="date"/>
+                <filter string="Trạng thái" name="state" domain="[('state', '=', 'done')]"/>
+                <filter string="Mã số xe" name="vehicle_id" domain="[('vehicle_id', '!=', False)]"/>
+            </xpath>
+
+            <!-- Thêm group by nếu cần -->
+            <xpath expr="//group[@string='Group By']" position="inside">
+                <filter string="Trạng thái" name="group_by_state" context="{'group_by': 'state'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

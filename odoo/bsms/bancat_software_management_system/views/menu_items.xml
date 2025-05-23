@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<menuitem name="BSMS" id="menu_root_bsms_contact" web_icon="bancat_software_management_system,static/description/icon.png">
+        <menuitem name="BSMS" id="menu_bsms" sequence="-1" action="bancat_software_management_system.action_bsms_contact"/>
+        <menuitem name="BSMS Contacts" id="menu_bsms_contact" >
+            <menuitem name="BSMS Donor" id="menu_bsms_donor" action="bancat_software_management_system.bsms_action_donor_contacts"/>
+            <menuitem name="BSMS Patient" id="menu_bsms_patient" action="bancat_software_management_system.bsms_action_patient_contacts"/>
+        </menuitem>
+        <menuitem name="Configuration" id="menu_bsms_config">
+            <menuitem name="Donor Type" id="menu_bsms_type" action="bancat_software_management_system.action_donor_type"/>
+        </menuitem>
+    </menuitem>
+</odoo>

@@ -1,0 +1,286 @@
+<data>
+  <xpath expr="//form[1]/header[1]/button[@name='button_validate']" position="attributes">
+    <attribute name="invisible">(state in ['draft', 'confirmed', 'done', 'cancel'] or (picking_type_id in [34, 50]) and ( show_check_availability == True))</attribute>
+  </xpath>
+  <xpath expr="//form[1]/header[1]/button[@name='button_validate'][2]" position="attributes">
+    <attribute name="invisible">(state in ['waiting', 'assigned', 'done', 'cancel'] or (picking_type_id in [34, 50]) and ( show_check_availability == True or state in ['draft']))</attribute>
+  </xpath>
+  <xpath expr="//button[@name='230']" position="attributes">
+    <attribute name="invisible">True</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/div[not(@name)][1]/h1[1]/div[1]/field[@name='picking_type_code']" position="attributes">
+    <attribute name="invisible">True</attribute>
+    <attribute name="string">Operation Type</attribute>
+    <attribute name="widget">priority</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/div[1]" position="after">
+    <field name="x_studio_many2one_field_6t4_1ihns25fq" string="● Kho nhận ký gửi" force_save="1" readonly="state in [&quot;done&quot;, &quot;cancel&quot;] or x_studio_automatic_1 == &quot;system&quot;" invisible="picking_type_id not in [9, 25, 42, 58]" class="text-info"/>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='partner_id']" position="attributes">
+    <attribute name="domain">[]</attribute>
+    <attribute name="force_save">1</attribute>
+    <attribute name="groups">!__export__.res_groups_40_80a3ac21</attribute>
+    <attribute name="invisible">picking_type_id in [2, 18, 9, 25, 42, 58]</attribute>
+    <attribute name="readonly">state in ["cancel", "done"] or x_studio_automatic_1 == "system"</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='partner_id']" position="after">
+    <field name="x_studio_s_in_thoi" force_save="1" readonly="state in [&quot;done&quot;, &quot;cancel&quot;]" invisible="picking_type_id not in [1, 17, 34, 50]" required="picking_type_id in [1, 17, 34, 50]" groups="!__export__.res_groups_40_80a3ac21"/>
+    <field name="x_studio_" required="True" invisible="picking_type_id not in [2, 18, 1, 17]" string="● Địa chỉ kho hàng giao đến" force_save="1" readonly="state in [&quot;done&quot;, &quot;cancel&quot;]"/>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='picking_type_id']" position="attributes">
+    <attribute name="class">text-primary fw-bolder</attribute>
+    <attribute name="force_save">1</attribute>
+    <attribute name="readonly">state not in ["draft"] or x_studio_automatic_1 == "system"</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='picking_type_id']" position="after">
+    <field name="x_studio_automatic_1" invisible="True"/>
+    <field name="x_studio_tng_tin_bn_hng" force_save="1" readonly="True" invisible="picking_type_id not in [34, 50]"/>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='location_id'][2]" position="attributes">
+    <attribute name="force_save">1</attribute>
+    <attribute name="invisible">True</attribute>
+    <attribute name="readonly">True</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='location_dest_id'][2]" position="attributes">
+    <attribute name="force_save">1</attribute>
+    <attribute name="invisible">True</attribute>
+    <attribute name="readonly">True</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/label[1]" position="before">
+    <field name="x_studio_a_ch_xut_hng" invisible="True" string="Địa chỉ kho hàng"/>
+  </xpath>
+  <xpath expr="//field[@name='scheduled_date']" position="attributes">
+    <attribute name="force_save">1</attribute>
+    <attribute name="readonly">state in ["cancel", "done"] or x_studio_automatic_1 == "system"</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/field[@name='origin']" position="attributes">
+    <attribute name="class">text-danger fw-bolder</attribute>
+    <attribute name="force_save">1</attribute>
+    <attribute name="readonly">state in ["cancel", "done"] or x_studio_automatic_1 == "system"</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/field[@name='origin']" position="after">
+    <field name="x_studio_kho_giao_hng_k_gi_1" required="picking_type_id in [9, 25, 42, 58]" invisible="picking_type_id not in [9, 25, 42, 58]" force_save="1" readonly="state in [&quot;done&quot;, &quot;cancel&quot;] or x_studio_automatic_1 == &quot;system&quot;"/>
+    <field name="x_studio_thng_tin_xe_vn_chuyn_1" invisible="picking_type_id not in [9, 25, 42, 58]" required="picking_type_id in [9, 25, 42, 58]" force_save="1" readonly="state in [&quot;done&quot;, &quot;cancel&quot;] or x_studio_automatic_1 == &quot;system&quot;"/>
+    <field name="x_studio_a_ch_kho_hng" force_save="1" readonly="state in [&quot;cancel&quot;, &quot;done&quot;] or x_studio_automatic_1 == &quot;system&quot;" string="Địa chỉ kho" invisible="picking_type_id in [9, 25, 42, 58]"/>
+    <field name="x_studio_tng_tin_mua_hng" force_save="1" readonly="True" invisible="picking_type_id not in [1, 17]" groups="!__export__.res_groups_40_80a3ac21"/>
+    <field name="x_studio_currency_id" required="False" force_save="1" readonly="state in [&quot;done&quot;, &quot;cancel&quot;]" string="Đơn Vị Tiền Tệ" invisible="picking_type_id in [2, 18, 33, 49, 9, 25, 42, 58]" groups="!__export__.res_groups_40_80a3ac21"/>
+  </xpath>
+  <xpath expr="//page[@name='operations']" position="attributes">
+    <attribute name="invisible">picking_type_id in [9, 25, 42, 58]</attribute>
+    <attribute name="string">Hoạt động lưu kho</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']" position="attributes">
+    <attribute name="force_save">1</attribute>
+    <attribute name="readonly">state == "done" and is_locked or x_studio_automatic_1 == "system"</attribute>
+  </xpath>
+  <xpath expr="//field[@name='has_tracking']" position="after">
+    <field name="x_studio_automatic" optional="show" column_invisible="True"/>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']/list[1]/field[@name='product_id']" position="attributes">
+    <attribute name="domain">[("product_tmpl_id.is_storable", "=", True)]</attribute>
+    <attribute name="optional">show</attribute>
+    <attribute name="readonly">( state != "draft" and not additional ) or move_lines_count &gt; 0 or x_studio_automatic == "system"</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']/list[1]/field[@name='product_uom_qty']" position="attributes">
+    <attribute name="optional">show</attribute>
+    <attribute name="readonly">not is_initial_demand_editable or x_studio_automatic == "system"</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']/list[1]/field[@name='product_uom_qty']" position="after">
+    <field name="price_unit" optional="show" readonly="picking_type_id in [33, 49] or x_studio_automatic == &quot;system&quot;" invisible="picking_type_id in [2, 18, 33, 49]" groups="!__export__.res_groups_40_80a3ac21"/>
+  </xpath>
+  <xpath expr="//field[@name='quantity']" position="attributes">
+    <attribute name="optional">hide</attribute>
+    <attribute name="readonly">True</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']/list[1]/field[@name='product_uom']" position="attributes">
+    <attribute name="optional">show</attribute>
+    <attribute name="readonly">state != "draft" and not additional or x_studio_automatic == "system"</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']/list[1]/field[@name='product_uom']" position="after">
+    <field optional="show" name="x_studio_quy_cch_ng_gi" readonly="state != &quot;draft&quot; and not additional or x_studio_automatic == &quot;system&quot;"/>
+  </xpath>
+  <xpath expr="//page[@name='extra']" position="attributes">
+    <attribute name="invisible">True</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='note']" position="attributes">
+    <attribute name="invisible">True</attribute>
+  </xpath>
+  <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+    <page string="Hoạt động ký gửi" name="studio_page_7pu_1ihnrcjlc" invisible="True">
+      <field name="move_ids">
+        <list decoration-muted="state == 'cancel'" default_order="date, picking_id, sequence" string="Moves" create="true">
+          <field name="date" column_invisible="True"/>
+          <field name="date_deadline" optional="hide"/>
+          <field name="picking_id" string="Reference" column_invisible="True" readonly="state == 'done'"/>
+          <field name="sequence" column_invisible="True"/>
+          <field name="origin" optional="hide"/>
+          <field name="x_studio_boolean_field_806_1ihnvra7a" optional="show"/>
+          <field name="x_studio_selection_field_5k4_1ihnvobn5" optional="show"/>
+          <field name="x_studio_ngi_gi" optional="show"/>
+          <field name="x_studio_ngi_nhn" optional="show"/>
+          <field name="product_id" readonly="state == 'done'"/>
+          <field name="product_uom_qty" readonly="state == 'done'" string="Số lượng"/>
+          <field name="product_uom" options="{'no_open': True, 'no_create': True}" string="Đơn vị" groups="uom.group_uom"/>
+          <field name="location_id" options="{'no_create': True}" column_invisible="True"/>
+          <field name="location_dest_id" column_invisible="True"/>
+          <field name="state" optional="hide"/>
+          <field name="company_id" column_invisible="True"/>
+        </list>
+        <form string="Stock Moves" create="0" edit="true">
+          <header>
+            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,assigned,done" invisible="True"/>
+          </header>
+          <sheet name="studio_sheet_ee54da">
+            <div class="oe_button_box" name="button_box"/>
+            <group name="studio_group_1dc022">
+              <group name="main_grp" colspan="2">
+                <group name="main_grp_col1" string="Thông tin đơn hàng">
+                  <field name="reference" string="Mã đơn ký gửi gốc"/>
+                  <field name="location_id" options="{'no_create': True}" string="Địa điểm kho nhận hàng ký gửi" domain="[(&quot;location_id&quot;, &quot;in&quot;, [41, 29])]"/>
+                  <field name="company_id" invisible="True" string="Kho hàng nhận ký gửi" force_save="1" readonly="True"/>
+                  <field name="x_studio_selection_field_5k4_1ihnvobn5" string="Thu tiền ở" required="True"/>
+                  <field name="x_studio_boolean_field_806_1ihnvra7a" string="Đã thu tiền"/>
+                  <field name="location_dest_id" options="{'no_create': True}" invisible="True"/>
+                  <field name="company_id" groups="base.group_multi_company"/>
+                </group>
+                <group name="main_grp_col2" string="Thông tin hàng ký gửi">
+                  <field name="product_uom_category_id" invisible="1"/>
+                  <field name="product_id" readonly="state == 'done'" string="Hàng ký gửi"/>
+                  <label for="product_uom_qty" string="Số lượng ký gửi"/>
+                  <div class="o_row" name="studio_div_b1b347">
+                    <field name="product_uom_qty" readonly="state == 'done'"/>
+                    <field name="product_uom" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom"/>
+                  </div>
+                  <field name="name" invisible="1"/>
+                  <div class="o_td_label" name="studio_div_982185">
+                    <label for="date" string="Ngày nhận ký gửi" invisible="state == 'done'"/>
+                    <label for="date" string="Date Processing" invisible="state != 'done'"/>
+                  </div>
+                  <field name="date" readonly="1" nolabel="1"/>
+                  <field name="x_studio_gi_tr_gi_hng" required="True"/>
+                  <field name="x_studio_ph_vn_chuyn" required="True"/>
+                  <field name="x_studio_currency_id" string="Đơn vị tiền tệ" required="True"/>
+                  <field name="date_deadline" force_save="1" invisible="True"/>
+                </group>
+              </group>
+            </group>
+            <group name="studio_group_31f_1ihnusu9m">
+              <group name="studio_group_31f_left" string="Thông tin người gửi">
+                <field name="x_studio_ngi_gi"/>
+                <field name="x_studio_s_in_thoi" force_save="1" readonly="True"/>
+              </group>
+              <group name="studio_group_31f_right" string="Thông tin người nhận">
+                <field name="x_studio_ngi_nhn"/>
+                <field name="x_studio_s_in_thoi_1" force_save="1" readonly="True"/>
+              </group>
+            </group>
+            <field name="x_studio_thng_tin_b_sung" placeholder="Thông tin bổ sung cho gói hàng ký gửi"/>
+          </sheet>
+        </form>
+      </field>
+    </page>
+    <page string="Hoạt động ký gửi" name="studio_page_7gh_1ii0h6p6e" invisible="picking_type_id not in [9, 25, 42, 58]">
+      <xpath expr="//page[@name='studio_page_7gh_1ii0h6p6e']" position="inside">
+        <field name="move_ids_without_package" force_save="1" readonly="state == &quot;done&quot;">
+          <list string="Stock Moves Without Package" default_order="x_studio_boolean_field_2gn_1ii0jeel0 asc">
+            <field name="product_id" readonly="state == 'done'" string="Hàng ký gửi" optional="show"/>
+            <field name="x_studio_thu_tin_" optional="show"/>
+            <field name="x_studio_ngi_gi_1" optional="show"/>
+            <field name="x_studio_ngi_nhn_1" optional="show"/>
+            <field name="product_uom_qty" readonly="state == 'done'" string="Số lượng" optional="show"/>
+            <field name="product_uom" options="{'no_open': True, 'no_create': True}" string="Đơn vị" optional="show"/>
+            <field name="x_studio_quy_cch_ng_gi" optional="show"/>
+            <field name="x_studio_boolean_field_2gn_1ii0jeel0" optional="show"/>
+          </list>
+          <form string="Thông tin ký gửi" create="0" edit="true" force_save="1">
+            <field name="company_id" invisible="True"/>
+            <header>
+              <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,assigned,done" invisible="True"/>
+            </header>
+            <sheet name="studio_sheet_8955ea">
+              <div class="oe_button_box" name="button_box"/>
+              <group name="studio_group_5ka_1ii0jbn0b" string="Thông tin thu tiền">
+                <field name="x_studio_boolean_field_2gn_1ii0jeel0" string="Đã giao hàng" invisible="company_id not in [3, 4]" force_save="1" readonly="state == &quot;done&quot;"/>
+                <field name="x_studio_thu_tin_" required="x_studio_currency_id" force_save="1" readonly="x_studio_automatic == &quot;system&quot; or state in [&quot;done&quot;, &quot;cancel&quot;]"/>
+                <field name="x_studio_hnh_thc_thanh_ton" required="x_studio_currency_id" force_save="1" readonly="x_studio_automatic == &quot;system&quot; or state in [&quot;done&quot;, &quot;cancel&quot;]"/>
+              </group>
+              <group name="main_grp_col2" string="Thông tin hàng ký gửi">
+                <field name="reference" string="Mã ký gửi theo xe"/>
+                <field name="product_id" readonly="x_studio_automatic == &quot;system&quot; or state in [&quot;done&quot;, &quot;cancel&quot;]" string="Hàng ký gửi" placeholder="VD: 1 gói đèn trùm" domain="[(&quot;product_tmpl_id.is_storable&quot;, &quot;=&quot;, False)]" force_save="1"/>
+                <field name="product_uom_category_id" invisible="1"/>
+                <label for="product_uom_qty" string="Số lượng ký gửi"/>
+                <div class="o_row" name="studio_div_c7a681">
+                  <field name="product_uom_qty" readonly="x_studio_automatic == &quot;system&quot; or state in [&quot;done&quot;, &quot;cancel&quot;]" placeholder="Số lượng" force_save="1"/>
+                  <field name="product_uom" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom" placeholder="VD: kg" force_save="1" readonly="x_studio_automatic == &quot;system&quot; or state in [&quot;done&quot;, &quot;cancel&quot;]"/>
+                </div>
+                <field name="x_studio_quy_cch_ng_gi" force_save="1" readonly="x_studio_automatic == &quot;system&quot; or state in [&quot;done&quot;, &quot;cancel&quot;]"/>
+                <field name="x_studio_gi_tr_gi_hng_1" force_save="1" readonly="x_studio_automatic == &quot;system&quot; or state in [&quot;done&quot;, &quot;cancel&quot;]"/>
+                <field name="x_studio_ph_vn_chuyn_1" force_save="1" readonly="x_studio_automatic == &quot;system&quot; or state in [&quot;done&quot;, &quot;cancel&quot;]"/>
+                <field name="x_studio_currency_id" force_save="1" readonly="x_studio_automatic == &quot;system&quot; or state in [&quot;done&quot;, &quot;cancel&quot;]"/>
+                <field name="x_studio_automatic" invisible="True"/>
+                <field name="name" invisible="1"/>
+                <div class="o_td_label" name="studio_div_70da76">
+                  <label for="date" string="Date Processing" invisible="state != 'done'"/>
+                </div>
+                <field name="date" readonly="1" nolabel="1" invisible="True"/>
+                <field name="date_deadline" force_save="1" invisible="True"/>
+              </group>
+              <group name="studio_group_60u_1ii0igk98">
+                <group name="studio_group_60u_left" string="Thông tin người gửi">
+                  <field name="x_studio_ngi_gi_1" required="x_studio_currency_id" force_save="1" readonly="x_studio_automatic == &quot;system&quot; or state in [&quot;done&quot;, &quot;cancel&quot;]" domain="[(&quot;is_company&quot;, &quot;!=&quot;, True)]"/>
+                  <field name="x_studio_s_in_thoi_2" required="x_studio_currency_id" string="Liên hệ người gửi" force_save="1" readonly="x_studio_automatic == &quot;system&quot; or state in [&quot;done&quot;, &quot;cancel&quot;]"/>
+                </group>
+                <group name="studio_group_60u_right" string="Thông tin người nhận">
+                  <field name="x_studio_ngi_nhn_1" required="x_studio_currency_id" force_save="1" readonly="x_studio_automatic == &quot;system&quot; or state in [&quot;done&quot;, &quot;cancel&quot;]" domain="[(&quot;is_company&quot;, &quot;!=&quot;, True)]"/>
+                  <field name="x_studio_s_in_thoi_3" required="x_studio_currency_id" string="Liên hệ người nhận" force_save="1" readonly="x_studio_automatic == &quot;system&quot; or state in [&quot;done&quot;, &quot;cancel&quot;]"/>
+                </group>
+              </group>
+              <field name="x_studio_html_field_5va_1ii0ihk4o" placeholder="Thêm một ghi chú nội bộ"/>
+            </sheet>
+          </form>
+        </field>
+      </xpath>
+    </page>
+    <page string="Ghi chú" name="studio_page_9e1_1ii0h7f4c">
+      <field name="x_studio_html_field_4cv_1ii0h85nu" placeholder="Thêm một ghi chú nội bộ" force_save="1" readonly="state in [&quot;cancel&quot;, &quot;done&quot;] or x_studio_automatic_1 == &quot;system&quot;"/>
+    </page>
+  </xpath>
+  <xpath expr="/form[1]/sheet[1]/notebook[1]/page[1]/field[1]" position="inside">
+    <form string="Move Detail">
+                    <field name="sequence" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                    <field name="location_id" invisible="1"/>
+                    <field name="location_dest_id" invisible="1"/>
+                    <field name="picking_id" invisible="1" readonly="state == 'done'"/>
+                    <field name="picking_type_id" invisible="1"/>
+                    <field name="is_locked" invisible="1"/>
+                    <field name="picking_type_entire_packs" invisible="1"/>
+                    <field name="display_assign_serial" invisible="1"/>
+                    <field name="display_import_lot" invisible="1"/>
+                    <field name="product_uom_category_id" invisible="1"/>
+                    <field name="product_uom" invisible="1" groups="!uom.group_uom"/>
+                    <field name="picking_code" invisible="1"/>
+                    <field name="has_tracking" invisible="1"/>
+                    <field name="show_quant" invisible="1"/>
+                    <field name="show_lots_text" invisible="1"/>
+                    <field name="show_lots_m2o" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="product_id" readonly="id or move_line_ids"/>
+                            <label for="product_uom_qty"/>
+                            <div class="o_row">
+                                <span><field name="product_uom_qty" readonly="state != 'draft'" nolabel="1"/></span>
+                                <span><field name="product_uom" groups="uom.group_uom" readonly="state != 'draft'" nolabel="1" options="{'no_open': True}"/></span>
+                            </div>
+                        </group>
+                        <group/>
+                    </group>
+                    <div class="d-flex">
+                        <widget class="btn btn-link btn-group" name="generate_serials" invisible="not display_assign_serial"/>
+                        <widget class="btn btn-link btn-group" name="import_lots" invisible="not display_import_lot"/>
+                    </div>
+                    <field name="move_line_ids" readonly="state == 'cancel' or (state == 'done' and is_locked) or not product_id" context="{'list_view_ref': 'stock.view_stock_move_line_operation_tree', 'form_view_ref': 'stock.view_move_line_mobile_form', 'default_picking_id': picking_id, 'default_move_id': id, 'default_product_id': product_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id, 'active_picking_id': picking_id}" widget="sml_x2_many"/>
+                </form>
+  </xpath>
+</data>

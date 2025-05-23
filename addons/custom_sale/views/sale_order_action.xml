@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_sale_quotations_custom" model="ir.actions.act_window">
+        <field name="name">Quotations</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,kanban,form,calendar,pivot,graph</field>
+        <field name="mobile_view_mode">list,kanban,form</field>
+        <field name="view_id" ref="sale.view_order_tree"/>
+        <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+        <field name="domain">[("is_consignment_order", "=", False)]</field>
+        <field name="context">{'search_default_my_quotation': 1}</field>
+    </record>
+
+    <!-- Ghi đè menu nếu cần -->
+    <record id="sale.menu_sale_quotations" model="ir.ui.menu">
+        <field name="action" ref="action_sale_quotations_custom"/>
+    </record>
+</odoo>

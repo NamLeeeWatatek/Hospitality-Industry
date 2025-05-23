@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <record id="view_order_form_inherit_sale_custom" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.origin</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='locked']" position="attributes">
+                    <attribute name="groups">sales_team.group_sale_manager</attribute>
+                    <attribute name="widget">boolean_toggle</attribute>
+                    <attribute name="invisible">False</attribute>
+                </xpath>
+                <xpath expr="//form[1]/header[1]/field[@name='state']" position="after">
+                    <button string="Yêu cầu duyệt báo giá" name="action_request_approval"
+                        type="object" class="oe_highlight" />
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="ma_khach_hang" />
+                </xpath>
+                <xpath expr="//field[@name='ma_khach_hang']" position="after">
+                    <xpath
+                        expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_information']/group[1]/group[@name='sale_shipping']/field[@name='warehouse_id'][2]"
+                        position="move" />
+                </xpath>
+                <xpath expr="//form[1]/header[1]/button[@name='action_confirm'][2]"
+                    position="attributes">
+                    <attribute name="invisible">state != "draft" or locked == True</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_unlock']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//page[@name='optional_products']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="origin" />
+                </xpath>
+                <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+                    <page string="Lệnh sản xuất" name="page_lenh_san_xuat">
+                        <field name="lenh_san_xuat" />
+                    </page>
+                    <page string="Báo giá đã lưu" name="studio_page_saved_quotation">
+                        <field name="saved_quotation" readonly="1">
+                        </field>
+                    </page>
+                </xpath>
+            </data>
+        </field>
+    </record>
+</odoo>

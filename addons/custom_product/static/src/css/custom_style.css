@@ -1,0 +1,4 @@
+div[name="list_price_uom"] span[name="uom_span"],
+div[name="uom_name"] {
+    display: none !important;
+}

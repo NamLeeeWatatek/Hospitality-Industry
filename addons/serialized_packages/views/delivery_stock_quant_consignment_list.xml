@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="delivery_stock_quant_consignment_list" model="ir.ui.view">
+    <field name="arch" type="xml">
+      <data>
+
+        <xpath expr="//header" position="inside">
+          <button name="open_transit_popup"
+            string="Vận chuyển lên xe"
+            type="object"
+            class="oe_highlight" />
+        </xpath>
+
+      </data>
+    </field>
+    <field name="inherit_id" ref="serialized_packages.packed_lot_stock_quant_consignment_list" />
+    <field name="mode">primary</field>
+    <field name="model">stock.quant</field>
+    <field name="name">Xuất kho kiện hàng ký gửi</field>
+    <field name="priority">160</field>
+    <field name="type">list</field>
+  </record>
+</odoo>

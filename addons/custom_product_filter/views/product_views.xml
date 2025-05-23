@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record id="view_product_template_list_custom" model="ir.ui.view">
+            <field name="name">product.template.list.custom</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <list string="Danh sách sản phẩm" decoration-info="type=='product'" decoration-warning="type=='consu'">
+                    <field name="name" string="Tên sản phẩm"/>
+                    <field name="default_code" string="Mã sản phẩm"/>
+                    <field name="list_price" string="Giá bán"/>
+                    <field name="product_category_type_display" string="Loại hàng"/>
+                    <field name="qty_available" string="Số lượng tồn kho"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_product_template_form_custom" model="ir.ui.view">
+            <field name="name">product.template.form.custom</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <form string="Sản phẩm">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="default_code"/>
+                            <field name="list_price"/>
+                            <field name="product_category_type_display" readonly="1"/>
+                            <field name="qty_available"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="view_product_template_search_custom" model="ir.ui.view">
+            <field name="name">product.template.search.custom</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <search string="Tìm kiếm sản phẩm">
+                    <field name="name"/>
+                    <field name="default_code"/>
+                    <filter string="Hàng nhà" name="house_product" domain="[('type', '=', 'product')]"/>
+                    <filter string="Hàng ký gửi" name="consignment_product" domain="[('type', '=', 'consu')]"/>
+                    <group expand="0" string="Nhóm theo">
+                        <filter string="Loại hàng" name="group_by_category_type" context="{'group_by': 'product_category_type_display'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action for House Product -->
+        <record id="action_house_product" model="ir.actions.act_window">
+            <field name="name">Hàng nhà</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">list,form</field>
+            <field name="mobile_view_mode">list,form</field>
+            <field name="domain">[('type', '=', 'product')]</field>
+            <field name="search_view_id" ref="view_product_template_search_custom"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+                                          (0, 0, {'view_mode': 'list', 'view_id': ref('view_product_template_list_custom')}),
+                                          (0, 0, {'view_mode': 'form', 'view_id': ref('view_product_template_form_custom')})]"/>
+        </record>
+
+        <!-- Action for Consignment Product -->
+        <record id="action_consignment_product" model="ir.actions.act_window">
+            <field name="name">Hàng ký gửi</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">list,form</field>
+            <field name="mobile_view_mode">list,form</field>
+            <field name="domain">[('type', '=', 'consu')]</field>
+            <field name="search_view_id" ref="view_product_template_search_custom"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+                                          (0, 0, {'view_mode': 'list', 'view_id': ref('view_product_template_list_custom')}),
+                                          (0, 0, {'view_mode': 'form', 'view_id': ref('view_product_template_form_custom')})]"/>
+        </record>
+    </data>
+</odoo>

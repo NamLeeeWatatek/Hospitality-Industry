@@ -1,0 +1,45 @@
+<odoo>
+    <record id="custom_invoice_purchase_filter" model="ir.ui.view">
+        <field name="name">custom_invoice_purchase_filter</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_bill_filter" />
+        <field name="mode">extension</field>
+        <field name="priority">99</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <!-- Ẩn các bộ lọc -->
+            <xpath expr="//filter[@name='accounting_date']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='duedate']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='invoicedate']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='group_by_company']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='groupy_by_journal']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='sales_channel']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//filter[@name='preferred_payment_method_line']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- Đổi tên bộ lọc "partner" thành "Nhà cung cấp" -->
+            <xpath expr="//filter[@name='partner']" position="attributes">
+                <attribute name="string">Nhà cung cấp</attribute>
+            </xpath>
+
+            <!-- Thêm bộ lọc "Ngày lập hóa đơn" -->
+            <xpath expr="//filter[@name='groupy_by_journal']" position="after">
+                <filter name="group_by_invoice_date" string="Ngày lập hóa đơn"
+                    context="{'group_by': 'invoice_date'}" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

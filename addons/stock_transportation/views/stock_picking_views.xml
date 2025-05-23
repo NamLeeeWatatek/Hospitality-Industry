@@ -1,0 +1,19 @@
+<odoo>
+    <record id="view_picking_form_inherit_restrict_quantity" model="ir.ui.view">
+        <field name="name">stock.picking.form.restrict.quantity</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="priority" eval="99"/> <!-- Tăng độ ưu tiên -->
+        <field name="arch" type="xml">
+            <!-- Làm trường quantity_done trong tab chi tiết thành read-only -->
+            <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='quantity_done']" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='move_ids_without_package']/list/field[@name='product_qty']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

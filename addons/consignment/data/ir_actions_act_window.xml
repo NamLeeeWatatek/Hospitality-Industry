@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+
+  <record id="action_consignment_orders" model="ir.actions.act_window">
+    <field name="name">Đơn Ký Gửi</field>
+    <field name="res_model">sale.order</field>
+    <field name="view_mode">list,form</field>
+    <field name="mobile_view_mode">list,form</field>
+    <!-- phân quyền công ty sử dụng allowed_company_ids -->
+    <field name="context">{'form_view_ref':
+      'consignment.view_sale_order_form_consignment', 'list_view_ref':
+      'consignment.view_sale_order_list_consignment','default_is_consignment_order': True, 'create':
+      1 in allowed_company_ids, 'search_default_filter_consignment': 1}</field>
+    <field name="help"><![CDATA[
+            <p class="o_view_nocontent_smiling_face">
+                Chưa có đơn ký gửi nào.
+            </p>
+            <p>Danh sách này giúp bạn quản lý các đơn nhận hàng ký gửi.</p>
+            <p>Bạn có thể bấm vào nút "Tạo" để thêm đơn mới.</p>
+        ]]>    </field>
+  </record>
+
+  <record id="view_sale_order_list_consignment" model="ir.ui.view">
+    <field name="name">sale.order.list.consignment</field>
+    <field name="model">sale.order</field>
+    <!--****
+    view kế thừa nhưng sẽ hoạt động độc lập không ghi đè view gốc ****-->
+    <field name="mode">primary</field>
+    <field name="inherit_id" ref="sale.view_order_tree" />
+    <field name="arch" type="xml">
+      <xpath expr="//list" position="attributes">
+        <attribute name="create">{'create': False if user.company_id.id != 1 else True}</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='activity_ids']" position="replace" />
+
+      <!-- Thay đổi nhãn (label) của date_order thành "Ngày nhận hàng" -->
+      <xpath expr="//field[@name='date_order']" position="attributes">
+        <attribute name="string">Ngày nhận hàng</attribute>
+      </xpath>
+
+      <!-- Thay đổi nhãn partner_id thành "Người nhận". -->
+      <xpath expr="//field[@name='partner_id']" position="attributes">
+        <attribute name="string">Người nhận</attribute>
+      </xpath>
+
+      <!-- Thêm trường recipient_id ngay sau partner_id, với nhãn "Người gửi". -->
+      <xpath expr="//field[@name='partner_id']" position="after">
+        <field name="recipient_id" optional="show" string="Người gửi" />
+      </xpath>
+
+      <!-- Thay đổi nhãn user_id thành "Người nhận ký gửi". -->
+      <xpath expr="//field[@name='user_id']" position="attributes">
+        <attribute name="string">Người nhận ký gửi</attribute>
+      </xpath>
+
+      <!-- Đổi tên trường company_id thành "Kho". -->
+      <xpath expr="//list[1]/field[@name='company_id'][2]" position="attributes">
+        <attribute name="string">Kho</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='user_id']" position="after">
+        <field name="consignment_fee_collector" optional="show" string="Kho thu phí ký gửi" />
+      </xpath>
+
+      <xpath expr="//field[@name='amount_total']" position="attributes">
+        <attribute name="groups">consignment.group_consignment_admin</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='invoice_status']" position="attributes">
+        <attribute name="groups">consignment.group_consignment_admin</attribute>
+      </xpath>
+
+      <xpath expr="//field[@name='delivery_status']" position="attributes">
+        <attribute name="optional">show</attribute>
+      </xpath>
+
+    </field>
+  </record>
+
+  <record id="stock_picking_action_picking_type" model="ir.actions.act_window">
+    <field name="name">Phiếu vận chuyển ký gửi</field>
+    <field name="res_model">stock.picking</field>
+    <field name="view_mode">list,form,kanban,calendar,map</field>
+    <field name="mobile_view_mode">list,form</field>
+    <field name="context">{'contact_display': 'partner_address', 'form_view_ref':
+      'consignment.stock_picking_form_view', 'default_is_consignment': True}</field>
+    <field name="domain">[]</field>
+  </record>
+
+  <record id="action_print_with_unit_price_pdf" model="ir.actions.report">
+    <field name="name">Biên nhận có giá [Báo giá]</field>
+    <field name="model">sale.order</field>
+    <field name="report_name">sale.report_consignment_with_price</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="binding_model_id" ref="sale.model_sale_order" />
+    <field name="print_report_name">'Biên nhận có giá [Báo giá] - %s' % (object.name)</field>
+  </record>
+
+  <record id="action_print_non_unit_price_pdf" model="ir.actions.report">
+    <field name="name">Biên nhận ký gửi</field>
+    <field name="model">sale.order</field>
+    <field name="report_name">sale.report_consignment_non_price</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="binding_model_id" ref="sale.model_sale_order" />
+    <field name="print_report_name">'Biên nhận ký gửi - %s' % (object.name)</field>
+  </record>
+
+  <record id="action_picking_tree_ready" model="ir.actions.act_window">
+    <field name="name">To Do</field>
+    <field name="res_model">stock.picking</field>
+    <field name="view_mode">list,kanban,form,calendar</field>
+    <field name="domain"></field>
+    <field name="context">{'contact_display': 'partner_address', 'search_default_available': 1}</field>
+  </record>
+
+  <record id="consignment_action_picking_tree_ready" model="ir.actions.act_window">
+    <field name="name">To Do</field>
+    <field name="res_model">stock.picking</field>
+    <field name="view_mode">list,kanban,form,calendar</field>
+    <field name="domain"></field>
+    <field name="context">{'contact_display': 'partner_address', 'search_default_available': 1, 'form_view_ref':'consignment.stock_picking_form_view', 'default_is_consignment': True}</field>
+  </record>
+
+  <record id="action_picking_tree_graph" model="ir.actions.act_window">
+    <field name="name">To Do</field>
+    <field name="res_model">stock.picking</field>
+    <field name="view_mode">list,kanban,form,calendar</field>
+    <field name="domain"></field>
+    <field name="context">{'contact_display': 'partner_address', 'search_default_available': 1, 'search_default_waiting': 1, 'form_view_ref':'consignment.stock_picking_form_view', 'default_is_consignment': True}</field>
+  </record>
+  
+</odoo>

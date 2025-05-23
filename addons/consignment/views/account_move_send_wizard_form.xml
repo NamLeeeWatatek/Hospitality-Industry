@@ -1,0 +1,19 @@
+<odoo>
+    <record id="view_account_move_send_wizard_form_inherit" model="ir.ui.view">
+        <field name="name">account.move.send.wizard.form.inherit</field>
+        <field name="model">account.move.send.wizard</field>
+        <field name="inherit_id" ref="account.account_move_send_wizard_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='extra_edis']" position="replace">
+                <!-- Ẩn các phương thức gửi -->
+            </xpath>
+            <xpath expr="//footer" position="replace">
+                <footer>
+                    <button string="Print" data-hotkey="w" name="action_send_and_print"
+                        type="object" class="print btn-primary o_mail_send" />
+                    <button string="Cancel" data-hotkey="x" special="cancel" class="btn-secondary" />
+                </footer>
+            </xpath>
+        </field>
+    </record>
+</odoo>

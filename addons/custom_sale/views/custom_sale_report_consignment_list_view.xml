@@ -1,0 +1,20 @@
+<odoo>
+    <record id="custom_sale_report_consignment_list_view" model="ir.ui.view">
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="string">Người nhận ký gửi</attribute>
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="attributes">
+                    <attribute name="string">Kho</attribute>
+                </xpath>
+            </data>
+        </field>
+        <field name="inherit_id" ref="sale.sale_report_view_tree" />
+        <field name="mode">primary</field>
+        <field name="model">sale.report</field>
+        <field name="name">custom_sale_report_consignment_list_view</field>
+        <field name="priority">99</field>
+        <field name="type">list</field>
+    </record>
+</odoo>

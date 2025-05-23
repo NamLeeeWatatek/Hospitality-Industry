@@ -1,0 +1,34 @@
+<odoo>
+    <record id="custom_stock_move_line_pivot" model="ir.ui.view" >
+        <field name="arch" type="xml">
+            <!-- Thêm display_quantity="1" vào Pivot -->
+            <!-- <xpath expr="//pivot" position="attributes">
+                <attribute name="display_quantity">1</attribute>
+            </xpath> -->
+
+            <!-- Thay thế cột `product_category_name` bằng cột `picking_type_id` -->
+            <xpath expr="//field[@name='product_category_name']" position="replace">
+                <field name="picking_type_id" type="col"/>
+            </xpath>
+            <xpath expr="//field[@name='date']" position="after">
+
+            </xpath>
+        </field>
+
+        <!-- Kế thừa view gốc `stock.view_stock_move_line_pivot` -->
+        <field name="inherit_id" ref="stock.view_stock_move_line_pivot"/>
+
+        <!-- Áp dụng thay đổi này lên model `stock.move.line` -->
+        <field name="mode">extension</field>
+        <field name="model">stock.move.line</field>
+        
+        <!-- Đặt tên để dễ nhận diện view -->
+        <field name="name">stock.move.line.pivot.custom</field>
+        <field name="priority">99</field>
+
+        <!-- Xác định loại view là Pivot Table -->
+        <field name="type">pivot</field>
+    </record>
+
+    
+</odoo>

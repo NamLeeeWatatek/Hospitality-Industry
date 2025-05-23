@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Action for Hàng nhà -->
+    <record id="action_stock_report_hang_nha" model="ir.actions.act_window">
+
+        <!-- Tên hiển thị của hành động trong giao diện -->
+        <field name="name">Hàng nhà</field>
+
+        <!-- Mô hình dữ liệu liên quan đến hành động này -->
+        <field name="res_model">stock.move.line</field>
+
+        <!-- Chế độ xem: danh sách (list), biểu mẫu (form), và pivot -->
+        <field name="view_mode">list,form,pivot</field>
+        <field name="mobile_view_mode">list,form</field>
+
+        <!-- Điều kiện lọc dữ liệu: Chỉ hiển thị sản phẩm thuộc loại "home_product" -->
+        <field name="domain">[('product_id.product_tmpl_id.product_type', '=', 'home_product')]</field>
+
+        <!-- Ngữ cảnh mặc định khi mở báo cáo -->
+        <field name="context">{'search_default_home_product_filter': 1,'default_is_home_order': True,'group_by': [], 'pivot_measures': ['quantity','__count'], 'pivot_column_groupby': ['picking_type_id'], 'pivot_row_groupby': ['date:day', 'date:year', 'date:month', 'product_id']}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Đây là báo cáo Hàng nhà.
+            </p>
+            <p>Hiển thị danh sách sản phẩm và tồn kho thuộc sở hữu của công ty.</p>
+        </field>
+    </record>
+
+    <!-- Action for Hàng ký gửi -->
+    <record id="action_stock_report_hang_ky_gui" model="ir.actions.act_window">
+
+        <!-- Tên hiển thị của hành động trong giao diện -->
+        <field name="name">Hàng ký gửi</field>
+
+        <!-- Mô hình dữ liệu liên quan đến hành động này -->
+        <field name="res_model">stock.move.line</field>
+
+        <!-- Chế độ xem: danh sách (list), biểu mẫu (form), và pivot -->
+        <field name="view_mode">list,form,pivot</field>
+        <field name="mobile_view_mode">list,form</field>
+
+        <!-- Điều kiện lọc dữ liệu: Chỉ hiển thị sản phẩm thuộc loại "consignment_product" -->
+        <field name="domain">[('product_id.product_tmpl_id.product_type', '=', 'consignment_product')]</field>
+
+        <!-- Ngữ cảnh mặc định khi mở báo cáo -->
+        <field name="context">{'search_default_consignment_product_filter': 1,'default_is_consignment_order': True,'group_by': [], 'pivot_measures': ['quantity','__count'], 'pivot_column_groupby': ['picking_type_id'], 'pivot_row_groupby': ['date:day', 'date:year', 'date:month', 'product_id']}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Đây là báo cáo Hàng ký gửi.
+            </p>
+            <p>Hiển thị danh sách sản phẩm và tồn kho thuộc hàng ký gửi.</p>
+        </field>
+    </record>
+
+    <!-- Menu for Hàng nhà -->
+    <record id="menu_stock_report_hang_nha" model="ir.ui.menu">
+        <field name="name">Hàng nhà</field>
+        <field name="parent_id" ref="stock.menu_warehouse_report"/>
+        <field name="action" ref="action_stock_report_hang_nha"/>
+        <field name="sequence">10</field>
+    </record>
+
+    <!-- Menu for Hàng ký gửi -->
+    <record id="menu_stock_report_hang_ky_gui" model="ir.ui.menu">
+        <field name="name">Hàng ký gửi</field>
+        <field name="parent_id" ref="stock.menu_warehouse_report"/>
+        <field name="action" ref="action_stock_report_hang_ky_gui"/>
+        <field name="sequence">11</field>
+    </record>
+
+    <!-- Tùy chỉnh view list để hiển thị thông tin sản phẩm và tồn kho -->
+    <record id="view_stock_move_line_list_inherit" model="ir.ui.view">
+        <field name="name">stock.move.line.list.inherit</field>
+        <field name="model">stock.move.line</field>
+
+        <!-- Kế thừa từ view danh sách gốc của stock.move.line -->
+        <field name="inherit_id" ref="stock.view_move_line_tree"/>
+
+        <field name="arch" type="xml">
+            <!-- Thêm các trường vào danh sách hiển thị trong view -->
+            <xpath expr="//list" position="inside">
+                <!-- Thêm cột "Tên sản phẩm" vào danh sách -->
+                <field name="product_id" string="Tên sản phẩm"/>
+
+                <!-- Thêm cột "Mã sản phẩm" vào danh sách -->
+                <field name="product_default_code" string="Mã sản phẩm"/>
+
+                <!-- Thêm cột "Số lượng" vào danh sách -->
+                <field name="quantity" string="Số lượng"/>
+
+                <!-- Thêm cột "Vị trí" vào danh sách -->
+                <field name="location_id" string="Vị trí"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

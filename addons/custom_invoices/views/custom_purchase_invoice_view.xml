@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="custom_purchase_invoice_custom" model="ir.ui.view">
+        <field name="arch" type="xml">
+            <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/label[2]" position="attributes">
+                <attribute name="string">Ngày lập hóa đơn</attribute>
+            </xpath>
+            <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/field[@name='invoice_date'][2]"
+                position="attributes">
+                <attribute name="required">True</attribute>
+            </xpath>
+            <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/field[@name='partner_bank_id']"
+                position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//field[@name='invoice_payment_term_id']" position="attributes">
+                <attribute name="force_save">0</attribute>
+                <attribute name="readonly">False</attribute>
+            </xpath>
+            <xpath
+                expr="//form[1]/sheet[1]/notebook[1]/page[@name='invoice_tab']/field[@name='invoice_line_ids']/list[1]/field[@name='tax_ids']"
+                position="attributes">
+                <attribute name="column_invisible">True</attribute>
+            </xpath>
+            <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/field[@name='payment_reference']"
+                position="attributes">
+                <attribute name="invisible">move_type not in ["in_refund", "out_receipt",
+                    "in_receipt"]</attribute>
+            </xpath>
+
+        </field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="mode">extension</field>
+        <field name="model">account.move</field>
+        <field name="name">custom.account.move.form</field>
+        <field name="priority">1600</field>
+        <field name="type">form</field>
+    </record>
+</odoo>

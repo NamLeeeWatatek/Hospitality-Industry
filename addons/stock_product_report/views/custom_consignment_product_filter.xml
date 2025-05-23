@@ -1,0 +1,18 @@
+<odoo>
+    <!-- Định nghĩa một bản ghi mới trong model 'ir.ui.view' để thêm bộ lọc vào giao diện tìm kiếm -->
+    <record id="sale_order_consignment_filter" model="ir.ui.view">
+        <field name="name">consignment.product.filter</field>
+        <field name="model">stock.move.line</field>
+
+        <!-- Kế thừa view tìm kiếm có sẵn của 'stock.move.line' -->
+        <field name="inherit_id" ref="stock.stock_move_line_view_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+            
+                <!-- Thêm bộ lọc mới vào giao diện tìm kiếm -->
+                <filter domain="[('is_consignment_order', '=', True)]" name="consignment_product_filter"
+                        string="Đơn Hàng Ký Gửi" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,577 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <record id="consignment_with_price_report" model="ir.ui.view">
+        <field name="arch" type="xml">
+            <t t-name="sale.report_consignment_with_price">
+                <t t-call="sale.report_saleorder_raw_with_price" />
+            </t>
+        </field>
+        <field name="key">sale.report_consignment_with_price</field>
+        <field name="name">Biên nhận ký gửi</field>
+        <field name="type">qweb</field>
+    </record>
+    <record id="consignment_with_price_report_doc" model="ir.ui.view">
+        <field name="arch" type="xml">
+            <t t-name="sale.report_saleorder_raw_with_price">
+                <t t-call="web.html_container">
+                    <style>
+                        @font-face {
+                        font-family: 'Noto Sans Khmer';
+                        src:
+                        url('/custom_stock_picking/static/src/fonts/NotoSansKhmer-VariableFont_wdth,wght.ttf')
+                        format('truetype');
+                        }
+                        * {
+                        font-family: 'Noto Sans Khmer', sans-serif !important;
+                        }
+
+                        strong, span, div, p, h1, h2, h3, td, th {
+                        color: black !important;
+                        background-color: white !important;
+                        }
+
+                        h2 &gt; span {
+                        font-size: 25px !important;
+                        font-weight: bold !important;
+                        }
+
+                        th &gt; span {
+                        font-weight: bold !important;
+                        }
+
+                        tr &gt; th {
+                        border-color: black !important;
+                        }
+
+                        span, strong, div {
+                        font-size: 18px !important;
+                        color: black !important;
+                        }
+
+                        td, th, th &gt; span {
+                        font-size: 14px !important;
+                        color: black !important;
+                        }
+
+                        .o_table_boxed table:not(.o_ignore_layout_styling) thead
+                        th:not(:last-child), .o_table_boxed-rounded
+                        table:not(.o_ignore_layout_styling) thead th:not(:last-child) {
+                        border-right: 2px solid black;
+                        }
+
+                        .o_table_boxed table:not(.o_ignore_layout_styling) thead th,
+                        .o_table_boxed-rounded table:not(.o_ignore_layout_styling) thead th {
+                        border-bottom: 2px solid black;
+                        }
+
+                        .o_table_boxed table:not(.o_ignore_layout_styling) tbody
+                        td:not(:last-child), .o_table_boxed-rounded
+                        table:not(.o_ignore_layout_styling) tbody td:not(:last-child) {
+                        border-right: 2px solid black;
+                        }
+
+                        .o_table_boxed table:not(.o_ignore_layout_styling) tbody tr:not(:last-child)
+                        td, .o_table_boxed-rounded table:not(.o_ignore_layout_styling) tbody
+                        tr:not(:last-child) td {
+                        border-bottom: 2px solid black;
+                        }
+
+                        .o_table_boxed table:not(.o_ignore_layout_styling)::before,
+                        .o_table_boxed-rounded table:not(.o_ignore_layout_styling)::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        bottom: 0;
+                        right: 0;
+                        pointer-events: none;
+                        border: 2px solid black;
+                        }
+
+                        .o_table_boxed-rounded table:not(.o_ignore_layout_styling) th {
+                        border-color: black !important;
+                        }
+
+                    </style>
+                    <div style="font-family: 'Noto Sans Khmer', sans-serif;">
+                        <t t-foreach="docs" t-as="doc">
+                            <t t-call="consignment.report_with_price" t-lang="doc.partner_id.lang" />
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </field>
+        <field name="key">sale.report_saleorder_raw_with_price</field>
+        <field name="name">Biên nhân ký gửi</field>
+        <field name="type">qweb</field>
+    </record>
+    <record id="consignment_with_price_report_document" model="ir.ui.view">
+        <field name="arch" type="xml">
+            <t t-name="consignment.report_with_price">
+                <t t-call="web.external_layout">
+                    <style>
+                        @font-face {
+                        font-family: 'Noto Sans Khmer';
+                        src:
+                        url('/custom_stock_picking/static/src/fonts/NotoSansKhmer-VariableFont_wdth,wght.ttf')
+                        format('truetype');
+                        }
+                        * {
+                        font-family: 'Noto Sans Khmer', sans-serif !important;
+                        }
+
+                        strong, span, div, p, h1, h2, h3, td, th {
+                        color: black !important;
+                        background-color: white !important;
+                        }
+
+                        h2 &gt; span {
+                        font-size: 25px !important;
+                        font-weight: bold !important;
+                        }
+
+                        th &gt; span {
+                        font-weight: bold !important;
+                        }
+
+                        tr &gt; th {
+                        border-color: black !important;
+                        }
+
+                        span, strong, div {
+                        font-size: 18px !important;
+                        color: black !important;
+                        }
+
+                        td, th, th &gt; span {
+                        font-size: 14px !important;
+                        color: black !important;
+                        }
+
+                        .o_table_boxed table:not(.o_ignore_layout_styling) thead
+                        th:not(:last-child), .o_table_boxed-rounded
+                        table:not(.o_ignore_layout_styling) thead th:not(:last-child) {
+                        border-right: 2px solid black;
+                        }
+
+                        .o_table_boxed table:not(.o_ignore_layout_styling) thead th,
+                        .o_table_boxed-rounded table:not(.o_ignore_layout_styling) thead th {
+                        border-bottom: 2px solid black;
+                        }
+
+                        .o_table_boxed table:not(.o_ignore_layout_styling) tbody
+                        td:not(:last-child), .o_table_boxed-rounded
+                        table:not(.o_ignore_layout_styling) tbody td:not(:last-child) {
+                        border-right: 2px solid black;
+                        }
+
+                        .o_table_boxed table:not(.o_ignore_layout_styling) tbody tr:not(:last-child)
+                        td, .o_table_boxed-rounded table:not(.o_ignore_layout_styling) tbody
+                        tr:not(:last-child) td {
+                        border-bottom: 2px solid black;
+                        }
+
+                        .o_table_boxed table:not(.o_ignore_layout_styling)::before,
+                        .o_table_boxed-rounded table:not(.o_ignore_layout_styling)::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        bottom: 0;
+                        right: 0;
+                        pointer-events: none;
+                        border: 2px solid black;
+                        }
+
+                        .o_table_boxed-rounded table:not(.o_ignore_layout_styling) th {
+                        border-color: black !important;
+                        }
+
+                    </style>
+                    <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
+                    <t
+                        t-if="doc.partner_shipping_id == doc.partner_invoice_id                              and doc.partner_invoice_id != doc.partner_id                              or doc.partner_shipping_id != doc.partner_invoice_id">
+                        <t t-set="information_block">
+                            <strong style="font-family: 'Noto Sans Khmer', sans-serif;">
+                                <t t-if="doc.partner_shipping_id == doc.partner_invoice_id">
+                                    Địa chỉ xuất hóa đơn và giao hàng
+                                </t>
+                                <t t-else="">
+                                    Địa chỉ xuất hóa đơn:
+                                </t>
+                            </strong>
+                            <div t-field="doc.partner_invoice_id"
+                                style="font-family: 'Noto Sans Khmer', sans-serif;"
+                                t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}" />
+                            <t t-if="doc.partner_shipping_id != doc.partner_invoice_id">
+                                <strong>Địa chỉ giao hàng</strong>
+                                <div t-field="doc.partner_shipping_id"
+                                    t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True, &quot;phone_icons&quot;: True}" />
+                            </t>
+                        </t>
+                    </t>
+                    <div class="page" style="font-family: 'Noto Sans Khmer', sans-serif;">
+                        <div class="oe_structure" />
+                        <t t-set="is_proforma"
+                            t-value="env.context.get('proforma', False) or is_pro_forma" />
+                        <t t-set="layout_document_title">
+                            <span t-if="is_proforma">Hóa đơn chiếu lệ # </span>
+                            <span t-elif="doc.state in ['draft','sent']">Báo giá ký gửi # </span>
+                            <span t-else="">Đơn hàng ký gửi # </span>
+                            <span t-field="doc.name">SO0000</span>
+                        </t>
+                        <div class="row mb-4" id="informations">
+                            <div t-if="doc.client_order_ref" class="col"
+                                name="informations_reference">
+                                <strong>Your Reference</strong>
+                                <div t-field="doc.client_order_ref">SO0000</div>
+                            </div>
+                            <div t-if="doc.date_order" class="col" name="informations_date">
+                                <strong t-if="is_proforma">Issued Date</strong>
+                                <strong t-elif="doc.state in ['draft', 'sent']">Ngày báo giá</strong>
+                                <strong t-else="">Ngày đặt hàng</strong>
+                                <div t-esc="doc.date_order.strftime('%d/%m/%Y')">2023-12-31</div>
+                            </div>
+                            <div t-if="doc.validity_date and doc.state in ['draft', 'sent']"
+                                class="col" name="expiration_date">
+                                <strong>Expiration</strong>
+                                <div t-esc="doc.validity_date.strftime('%d/%m/%Y')">2023-12-31</div>
+                            </div>
+                            <div t-if="doc.user_id.name" class="col">
+                                <strong>Khách hàng (Người nhận)</strong>
+                                <div t-field="doc.partner_id"></div>
+                            </div>
+
+                            <div t-if="doc.user_id.name" class="col">
+                                <strong>Người gửi</strong>
+                                <div t-field="doc.recipient_id"></div>
+                            </div>
+                            <div class="col" t-if="doc.incoterm">
+                                <strong>Incoterm</strong>
+                                <div t-if="doc.incoterm_location">
+                                    <span t-field="doc.incoterm.code" />
+                                    <br />
+                                    <span t-field="doc.incoterm_location" />
+                                </div>
+                                <div t-else="" t-field="doc.incoterm.code" />
+                            </div>
+                            <div t-if="doc.user_id.name" class="col">
+                                <strong>Nhân viên nhận ký gửi</strong>
+                                <div t-field="doc.user_id"></div>
+                            </div>
+                        </div>
+                        <!-- Is there a discount on at least one line? -->
+                        <t t-set="lines_to_report" t-value="doc._get_order_lines_to_report()" />
+                        <t t-set="display_discount"
+                            t-value="any(l.discount for l in lines_to_report)" />
+                        <div class="oe_structure" />
+                        <table class="o_has_total_table table o_main_table table-borderless">
+                            <!-- In case we want to repeat the header, remove "display:
+                            table-row-group" -->
+                            <thead style="display: table-row-group">
+                                <tr>
+                                    <th name="th_stt" class="text-center">STT</th>
+                                    <th name="th_description" class="text-start">Sản phẩm (Mô tả)</th>
+                                    <th name="th_quantity" class="text-end text-nowrap">Số lượng
+                                        đóng gói</th>
+                                    <th name="th_quantity" class="text-end text-nowrap">Quy cách</th>
+                                    <th name="th_quantity" class="text-end text-nowrap">ĐVT</th>
+                                    <th name="th_quantity" class="text-end text-nowrap">Số lượng</th>
+                                    <th name="th_priceunit" class="text-end text-nowrap">Đơn giá</th>
+                                    <th name="th_subtotal" class="text-end">
+                                        <span>Số tiền</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <t t-set="i_delivery" t-value="0" />
+                            <tbody class="sale_tbody">
+                                <t t-set="current_subtotal" t-value="0" />
+                                <t t-foreach="lines_to_report" t-as="line">
+                                    <t t-set="current_subtotal"
+                                        t-value="current_subtotal + line.price_subtotal" />
+                                    <tr
+                                        t-att-class="'fw-bold o_line_section' if (                                 line.display_type == 'line_section'                                 or line.product_type == 'combo'                             )                             else 'fst-italic o_line_note' if line.display_type == 'line_note'                             else ''">
+                                        <t
+                                            t-if="not line.display_type and line.product_type != 'combo'">
+                                            <td class="text-center">
+                                                <t t-set="i_delivery" t-value="i_delivery+1" />
+                                                <span t-esc="i_delivery" class="text-center" />
+                                            </td>
+                                            <td name="td_name">
+                                                <span t-field="line.name">Bánh burger thịt heo muối</span>
+                                            </td>
+                                            <td name="td_quantity" class="text-end">
+                                                <span t-field="line.product_uom_qty">3</span>
+                                            </td>
+                                            <td name="td_quantity" class="text-end">
+                                                <span t-field="line.consignment_packed_type"></span>
+                                            </td>
+                                            <td name="td_quantity" class="text-end">
+                                                <span t-field="line.unit_of_measure"></span>
+                                            </td>
+
+                                            <td name="td_quantity" class="text-end">
+                                                <span t-field="line.billing_qty">3</span>
+                                            </td>
+                                            <td name="td_priceunit" class="text-end">
+                                                <span t-field="line.price_unit">3</span>
+                                            </td>
+                                            <td t-if="not line.is_downpayment" name="td_subtotal"
+                                                class="text-end o_price_total">
+                                                <span t-field="line.price_subtotal">27.00</span>
+                                            </td>
+                                        </t>
+                                        <t
+                                            t-elif="line.display_type == 'line_section' or line.product_type == 'combo'">
+                                            <td name="td_section_line" colspan="99">
+                                                <span t-field="line.name">Tiêu đề phần</span>
+                                            </td>
+                                            <t t-set="current_section" t-value="line" />
+                                            <t t-set="current_subtotal" t-value="0" />
+                                        </t>
+                                        <t t-elif="line.display_type == 'line_note'">
+                                            <td name="td_note_line" colspan="99">
+                                                <span t-field="line.name">Ghi chú, chứa nội dung
+                                                    thường được áp dụng cho phần hoặc sản phẩm ở
+                                                    trên.</span>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                    <!-- <t
+                                        t-if="current_section and (                                 line_last                                 or lines_to_report[line_index+1].display_type ==
+                                    'line_section'                                 or lines_to_report[line_index+1].product_type ==
+                                    'combo'                                 or (                                     line.combo_item_id                                     and not
+                                    lines_to_report[line_index+1].combo_item_id                                 )                             ) and not
+                                    line.is_downpayment">
+                                        <t t-set="current_section" t-value="None" />
+                                        <tr class="is-subtotal text-end">
+                                            <td name="td_section_subtotal" colspan="99">
+                                                <strong class="mr16">Thành tiền</strong>
+                                                <span t-out="current_subtotal"
+                                                    t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;:
+                                    doc.currency_id}">
+                                                    31.05</span>
+                                            </td>
+                                        </tr>
+                                    </t> -->
+                                </t>
+                                <t t-if="i_delivery &lt; 5">
+                                    <t t-set="i_remaining" t-value="5 - i_delivery" />
+                                    <tr t-foreach="range(i_remaining)" t-as="dummy">
+                                        <td class="text-center">
+                                            <span t-esc="i_delivery + dummy + 1" />
+                                        </td>
+                                        <td name="td_name">
+                                            <br />
+                                        </td>
+                                        <td name="td_quantity">
+                                            <br />
+                                        </td>
+                                        <td name="td_quantity">
+                                            <br />
+                                        </td>
+                                        <td class="text-center"
+                                            name="td_quantity">
+                                            <br />
+                                        </td>
+                                        <td class="text-center"
+                                            name="td_quantity">
+                                            <br />
+                                        </td>
+                                        <td class="text-center"
+                                            name="td_section_line">
+                                            <br />
+                                        </td>
+                                        <td class="text-center"
+                                            name="td_note_line">
+                                            <br />
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <div class="clearfix" name="so_total_summary">
+                            <div id="total" class="row mt-n3" name="total">
+                                <div
+                                    t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
+                                    <table class="o_total_table table table-borderless">
+                                        <!-- Tax totals -->
+                                        <t t-call="consignment.doc_tax">
+                                            <t t-set="tax_totals" t-value="doc.tax_totals" />
+                                            <t t-set="currency" t-value="doc.currency_id" />
+                                        </t>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="oe_structure" />
+                        <div t-if="not doc.signature" class="oe_structure" />
+                        <div t-else="" class="mt-4 ml64 mr4" name="signature">
+                            <div class="offset-8">
+                                <strong>Chữ ký</strong>
+                            </div>
+                            <div class="offset-8">
+                                <img t-att-src="image_data_uri(doc.signature)"
+                                    style="max-height: 4cm; max-width: 8cm;" />
+                            </div>
+                            <div class="offset-8 text-center">
+                                <span t-field="doc.signed_by">Oscar Morgan</span>
+                            </div>
+                        </div>
+                        <div
+                            t-if="not (doc.sale_order_option_ids and doc.state in ['draft', 'sent'])"
+                            class="oe_structure">​</div>
+                        <div t-else="">
+                            <t t-set="has_option_discount"
+                                t-value="any(option.discount != 0.0 for option in doc.sale_order_option_ids)" />
+                            <h4 name="h_optional_products">
+                                <span>Options</span>
+                            </h4>
+                            <table name="table_optional_products" class="table table-sm">
+                                <thead class="fw-bold">
+                                    <tr>
+                                        <td name="th_option_name" class="text-start">Diễn giải</td>
+                                        <td t-if="has_option_discount" name="th_option_discount"
+                                            class="text-start">Disc.%</td>
+                                        <td name="th_option_price_unit" class="text-end">Đơn giá</td>
+                                    </tr>
+                                </thead>
+                                <tbody class="sale_tbody">
+                                    <tr t-foreach="doc.sale_order_option_ids" t-as="option">
+                                        <td name="td_option_name">
+                                            <span t-field="option.name">Extra Chips</span>
+                                        </td>
+                                        <td t-if="has_option_discount" name="td_option_discount">
+                                            <strong t-if="option.discount != 0.0" class="text-info"><t
+                                                    t-out="((option.discount % 1) and '%s' or '%d') % option.discount">
+                                                -</t>% </strong>
+                                        </td>
+                                        <td name="td_option_price_unit">
+                                            <strong class="text-end">
+                                                <div t-field="option.price_unit"
+                                                    t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"
+                                                    t-att-style="option.discount and 'text-decoration: line-through' or None"
+                                                    t-att-class="option.discount and 'text-danger' or None">
+                                                    1.5</div>
+                                                <div t-if="option.discount">
+                                                    <t
+                                                        t-out="((1-option.discount / 100.0) * option.price_unit)"
+                                                        t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"> </t>
+                                                </div>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="oe_structure">​</div>
+                        </div>
+                        <div>
+                            <span t-field="doc.note"
+                                t-attf-style="#{'text-align:justify;text-justify:inter-word;' if doc.company_id.terms_type != 'html' else ''}"
+                                name="order_note" />
+                            <p t-if="not is_html_empty(doc.payment_term_id.note)">
+                                <span t-field="doc.payment_term_id.note">Khoản thanh toán cũng nên
+                                    được chuyển một cách tận tâm</span>
+                            </p>
+                            <div class="oe_structure" />
+                            <p
+                                t-if="doc.fiscal_position_id and not is_html_empty(doc.fiscal_position_id.sudo().note)"
+                                id="fiscal_position_remark">
+                                <strong>Ghi chú vị trí tài chính:</strong>
+                                <span t-field="doc.fiscal_position_id.sudo().note">Không có thêm yêu
+                                    cầu nào cho khoản thanh toán này</span>
+                            </p>
+                        </div>
+                        <div class="oe_structure" />
+                    </div>
+                    <div class="row mt-4 pb-4">
+                        <div class="col">
+                            <strong>Khách hàng</strong>
+                            <div style="font-style: italic; font-weight: 300">(Kí và ghi rõ họ tên)</div>
+                        </div>
+                        <div class="col">
+                            <strong>Nhân viên nhận ký gửi</strong>
+                            <div style="font-style: italic; font-weight: 300">(Kí và ghi rõ họ tên)</div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </field>
+        <field name="key">consignment.report_with_price</field>
+        <field name="name">Biên nhận ký gửi</field>
+        <field name="type">qweb</field>
+    </record>
+    <record id="consignment.document_tax" model="ir.ui.view">
+        <field name="arch" type="xml">
+            <t t-name="consignment.doc_tax">
+                <t t-set="same_tax_base" t-value="tax_totals['same_tax_base']" />
+                <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
+                    <t t-foreach="subtotal['tax_groups']" t-as="tax_group">
+                        <tr class="o_taxes">
+                            <t
+                                t-if="same_tax_base or tax_group['display_base_amount_currency'] is None">
+                                <td>
+                                    <span class="text-nowrap" t-out="tax_group['group_name']">Tax
+                                        15%</span>
+                                </td>
+                                <td class="text-end o_price_total">
+                                    <span class="text-nowrap"
+                                        t-out="tax_group['tax_amount_currency']"
+                                        t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                                        1.05</span>
+                                </td>
+                            </t>
+                            <t t-else="">
+                                <td>
+                                    <span t-out="tax_group['group_name']">Tax 15%</span>
+                                    <span> on </span>
+                                    <span class="text-nowrap"
+                                        t-out="tax_group['display_base_amount_currency']"
+                                        t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                                        27.00</span>
+                                </td>
+                                <td class="text-end o_price_total">
+                                    <span class="text-nowrap"
+                                        t-out="tax_group['tax_amount_currency']"
+                                        t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                                        4.05</span>
+                                </td>
+                            </t>
+                        </tr>
+                    </t>
+                </t>
+                <!-- <tr class="o_subtotal">
+                    <td>
+                        <strong>Thành tiền</strong>
+                    </td>
+                    <td class="text-end">
+                        <span t-out="tax_totals['amount_untaxed']"
+                            t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                        </span>
+                    </td>
+                </tr> -->
+                <tr t-if="'cash_rounding_base_amount_currency' in tax_totals">
+                    <td>Rounding</td>
+                    <td class="text-end">
+                        <span t-out="tax_totals['cash_rounding_base_amount_currency']"
+                            t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                            0</span>
+                    </td>
+                </tr>
+                <tr class="o_total">
+                    <td>
+                        <strong>Total</strong>
+                    </td>
+                    <td class="text-end">
+                        <strong t-out="tax_totals['total_amount_currency']"
+                            t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: currency}">
+                            31.05</strong>
+                    </td>
+                </tr>
+            </t>
+        </field>
+        <field name="key">consignment.doc_tax</field>
+        <field name="name">Biên nhận ký gửi</field>
+        <field name="type">qweb</field>
+    </record>
+</odoo>

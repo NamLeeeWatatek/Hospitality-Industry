@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <record id="purchase_order_form_view" model="ir.ui.view">
+        <field name="arch" type="xml">
+            <data>
+                <xpath
+                    expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='order_line']/list[1]/field[@name='taxes_id']"
+                    position="replace" />
+                <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/label[2]" position="replace" />
+                <xpath
+                    expr="//form[1]/sheet[1]/group[1]/group[2]/div[@name='date_planned_div']/field[@name='date_planned']"
+                    position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+                <xpath expr="//div[@name='reminder']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//form[1]/header[1]/button[@name='action_rfq_send']"
+                    position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//form[1]/header[1]/button[@name='action_rfq_send'][2]"
+                    position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//form[1]/header[1]/button[@name='action_rfq_send'][3]"
+                    position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+                <xpath expr="//form[1]/header[1]/button[@name='print_quotation']"
+                    position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+                <!-- giao hang Dung han -->
+                <!-- <xpath expr="//button[@name='691']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath> -->
+
+                <xpath expr="//field[@name='price_unit']" position="before">
+                    <field name="dvt" />
+                </xpath>
+
+                <xpath expr="//field[@name='partner_ref']" position="replace" />
+
+                <xpath expr="//div[@name='date_planned_div']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//form[1]/header[1]/button[@name='button_confirm'][2]"
+                    position="attributes">
+                    <attribute name="class">bg-primary text-white</attribute>
+                </xpath>
+                <!-- <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="groups">group_permission_lp.group_lp_admin</attribute>
+                </xpath> -->
+                <xpath
+                    expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='order_line']/list[1]/field[@name='price_unit']"
+                    position="attributes">
+                    <attribute name="groups">group_permission_lp.group_lp_admin</attribute>
+                </xpath>
+                <xpath
+                    expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='order_line']/list[1]/field[@name='price_subtotal']"
+                    position="attributes">
+                    <attribute name="groups">group_permission_lp.group_lp_admin</attribute>
+                </xpath>
+                <xpath expr="//field[@name='tax_totals']" position="attributes">
+                    <attribute name="groups">group_permission_lp.group_lp_admin</attribute>
+                </xpath>
+                <xpath expr="//form[1]/header[1]/button[@name='action_create_invoice'][2]"
+                    position="attributes">
+                    <attribute name="groups">sales_team.group_sale_manager</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_view_invoice']" position="attributes">
+                    <attribute name="groups">group_permission_lp.group_lp_admin</attribute>
+                </xpath>
+                <xpath
+                    expr="//form[1]/sheet[1]/div[@name='button_box']/button[@name='action_view_picking']"
+                    position="attributes">
+                    <attribute name="groups">group_permission_lp.group_lp_admin_hcm</attribute>
+                </xpath>
+
+                <xpath
+                    expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='order_line']/list[1]/field[@name='product_uom']"
+                    position="attributes">
+                    <attribute name="string">Quy cách</attribute>
+                </xpath>
+
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='order_line']/list[1]/field[@name='price_unit']" position="attributes">
+                    <attribute name="options">{"digits":[6,3]}</attribute>
+                </xpath>
+
+            </data>
+        </field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="mode">extension</field>
+        <field name="model">purchase.order</field>
+        <field name="name">Purchase order form view custom</field>
+        <field name="priority">1600</field>
+        <field name="type">form</field>
+    </record>
+</odoo>

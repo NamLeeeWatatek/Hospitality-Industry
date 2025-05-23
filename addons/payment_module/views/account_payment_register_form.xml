@@ -1,0 +1,53 @@
+<odoo>
+    <data>
+        <record id="account_payment_register_form_custom" model="ir.ui.view">
+            <field name="name">account.payment.register.form.inherit.custom</field>
+            <field name="model">account.payment.register</field>
+            <field name="inherit_id" ref="account.view_account_payment_register_form" />
+            <field name="arch" type="xml">
+                <!-- Thay đổi nhãn "Phương thức" cho journal_id -->
+                <xpath expr="//form//field[@name='journal_id']" position="attributes">
+                    <attribute name="string">Phương thức</attribute>
+                </xpath>
+
+                <!-- Ẩn payment_method_line_id -->
+                <xpath expr="//form//field[@name='payment_method_line_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <!-- Ẩn payment_type -->
+                <xpath expr="//form//field[@name='payment_type']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <!-- Ẩn partner_bank_id -->
+                <xpath expr="//form//field[@name='partner_bank_id']" position="replace">
+                    <field name="partner_bank_id" invisible="1" />
+                </xpath>
+
+                <!-- Thêm actual_amount_paid và actual_currency_id -->
+                <xpath expr="//field[@name='journal_id']" position="after">
+                    <div class="o_row">
+                        <label for="actual_amount_paid" style="font-weight: bold;"
+                            string="Số tiền thực tế trả" />
+
+                        <field name="actual_amount_paid"
+                            widget="monetary"
+                            options="{'currency_field': 'actual_currency_id'}" />
+                        <field name="actual_currency_id" string="Tiền tệ" can_create="True"
+                            can_write="True" />
+                    </div>
+                </xpath>
+                <xpath expr="//form//group[@name='group2']//field[@name='currency_id']"
+                    position="attributes">
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="can_create">False</attribute>
+                    <attribute name="can_write">False</attribute>
+                </xpath>
+                <!-- Di chuyển toàn bộ khối "Số tiền" xuống dưới "Số tiền thực tế trả" -->
+                <xpath expr="//div[contains(field/@name, 'amount')]" position="after"
+                    after="actual_amount_paid" />
+            </field>
+        </record>
+    </data>
+</odoo>

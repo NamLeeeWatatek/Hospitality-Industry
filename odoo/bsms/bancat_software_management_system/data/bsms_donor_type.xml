@@ -1,0 +1,13 @@
+<odoo>
+    <data noupdate="1">
+        <record id ="donor_type_organization" model="bsms.donor.type">
+            <field name="name">Organization</field>
+        </record>
+        <record id ="donor_type_individual" model="bsms.donor.type">
+            <field name="name">Individual</field>
+        </record>
+        <record id ="donor_type_anonymous" model="bsms.donor.type">
+            <field name="name">Anonymous</field>
+        </record>
+    </data>
+</odoo>

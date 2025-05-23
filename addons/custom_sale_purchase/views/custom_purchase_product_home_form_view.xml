@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="custom_purchase_home_product_form" model="ir.ui.view">
+    <field name="arch" type="xml">
+
+      <!-- filter sẵn các sản phẩm có tracking lot và đơn vị tính là "kg" -->
+      <!-- Thiết lập bộ lọc sẵn cho trường 'product_id' -->
+      <xpath expr="//field[@name='product_id']" position="attributes">
+        <attribute name="domain">["&amp;", "&amp;", ("purchase_ok", "=", True), ("product_type", "=",
+          "home_product"), ("tracking", "=", "lot"), ("uom_id", "in", [12])]</attribute>
+        <attribute name="context">
+          {'search_default_purchase_ok': 1, 'search_default_tracking': 'lot',
+          'search_default_uom_id': 12,
+          'default_purchase_ok': 1,'default_is_storable': True, 'default_tracking': 'lot',
+          'default_uom_id': 12, 'default_product_type': 'home_product'}
+        </attribute>
+      </xpath>
+
+    </field>
+    <!-- Kế thừa từ view gốc 'stock.view_picking_form' -->
+    <field name="inherit_id" ref="purchase.purchase_order_form" />
+    <field name="mode">extension</field>
+    <field name="model">purchase.order</field>
+    <field name="name">custom.purchase.home.product.form</field>
+    <field name="priority">160</field>
+    <field name="type">form</field>
+  </record>
+</odoo>

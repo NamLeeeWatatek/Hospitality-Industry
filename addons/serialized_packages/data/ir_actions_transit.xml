@@ -1,0 +1,11 @@
+<odoo>
+    <record id="action_open_transit_popup" model="ir.actions.act_window">
+        <field name="name">Vận chuyển lên xe</field>
+        <field name="res_model">stock.quant.transit.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="mobile_view_mode">form</field>
+        <field name="view_id" ref="serialized_packages.view_stock_quant_transit_wizard"/>
+        <field name="target">new</field>
+       <field name="context">{'selected_ids': active_ids}</field>
+    </record>
+</odoo>

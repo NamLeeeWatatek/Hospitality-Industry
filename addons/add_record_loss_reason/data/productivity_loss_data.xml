@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="loss_thay_dao" model="mrp.workcenter.productivity.loss">
+            <field name="name">Thay dao</field>
+            <field name="loss_type">performance</field>
+        </record>
+
+        <record id="loss_setting" model="mrp.workcenter.productivity.loss">
+            <field name="name">Setting</field>
+            <field name="loss_type">performance</field>
+        </record>
+
+        <record id="loss_cat_loi" model="mrp.workcenter.productivity.loss">
+            <field name="name">Cắt lõi cuộn</field>
+            <field name="loss_type">performance</field>
+        </record>
+
+        <record id="loss_dieu_chinh_dao" model="mrp.workcenter.productivity.loss">
+            <field name="name">Điều chỉnh dao</field>
+            <field name="loss_type">performance</field>
+        </record>
+
+        <record id="loss_ve_sinh_5s" model="mrp.workcenter.productivity.loss">
+            <field name="name">Vệ sinh 5S</field>
+            <field name="loss_type">performance</field>
+        </record>
+    </data>
+</odoo>

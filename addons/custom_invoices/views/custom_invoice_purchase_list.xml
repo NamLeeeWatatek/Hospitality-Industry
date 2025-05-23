@@ -1,0 +1,18 @@
+<odoo>
+    <record id="custom_invoice_purchase_list" model="ir.ui.view">
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='amount_untaxed_in_currency_signed']"
+                    position="attributes">
+                    <attribute name="column_invisible">True</attribute>
+                </xpath>
+            </data>
+        </field>
+        <field name="inherit_id" ref="account.view_in_invoice_bill_tree" />
+        <field name="mode">extension</field>
+        <field name="model">account.move</field>
+        <field name="name">custom_invoice_purchase_list</field>
+        <field name="priority">99</field>
+        <field name="type">list</field>
+    </record>
+</odoo>

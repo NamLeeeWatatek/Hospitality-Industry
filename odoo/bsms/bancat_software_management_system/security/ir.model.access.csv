@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+bancat_software_management_system.access_bsms_contact,access_bsms_contact,bancat_software_management_system.model_bsms_contact,base.group_user,1,1,1,1
+bancat_software_management_system.access_bsms_donor_type,access_bsms_donor_type,bancat_software_management_system.model_bsms_donor_type,base.group_user,1,1,1,1
+bancat_software_management_system.access_bsms_donor,access_bsms_donor,bancat_software_management_system.model_bsms_donor,base.group_user,1,1,1,1
+bancat_software_management_system.access_bsms_patient,access_bsms_patient,bancat_software_management_system.model_bsms_patient,base.group_user,1,1,1,1

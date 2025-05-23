@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_search_stock_form_inherit" model="ir.ui.view">
+        <field name="name">product.product.search.stock.form.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="stock.product_search_form_view_stock_report"/>
+        <field name="arch" type="xml">
+            <!-- Thêm các trường tìm kiếm vào phần search (nếu cần) -->
+            <xpath expr="//search" position="inside">
+                <field name="is_own_stock" string="Hàng nhà"/>
+                <field name="is_consignment_stock" string="Hàng ký gửi"/>
+            </xpath>
+
+            <!-- Thêm các bộ lọc vào group Filters -->
+            <xpath expr="//group[1]" position="inside">
+                <!-- Bộ lọc Hàng nhà -->
+                <filter string="Hàng nhà" name="own_stock" domain="[('is_own_stock', '=', True)]"/>
+                <!-- Bộ lọc Hàng ký gửi -->
+                <filter string="Hàng ký gửi" name="consignment_stock" domain="[('is_consignment_stock', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,30 @@
+<odoo>
+    <!-- Tạo danh mục module cho Ký gửi -->
+    <record id="module_category_consignment" model="ir.module.category">
+        <field name="name">Ký gửi</field>
+        <field name="description">Nhóm người dùng cho quản lý ký gửi</field>
+        <field name="sequence" type="int">10</field>
+        <field name="exclusive" eval="1"/>
+    </record>
+
+    <!-- Nhóm Nhân viên ký gửi -->
+    <record id="group_consignment_employee" model="res.groups">
+        <field name="name">Nhân viên ký gửi</field>
+        <field name="category_id" ref="module_category_consignment" />
+    </record>
+
+    <!-- Nhóm Quản trị ký gửi -->
+    <record id="group_consignment_admin" model="res.groups">
+        <field name="name">Quản trị ký gửi</field>
+        <field name="category_id" ref="module_category_consignment" />
+        <field name="implied_ids" eval="[(4, ref('consignment.group_consignment_employee'))]"/>
+    </record>
+
+    <!-- Nhóm Sửa đổi nơi thu phí -->
+    <record id="group_change_consignment" model="res.groups">
+        <field name="name">Sửa đổi nơi thu phí</field>
+        <field name="category_id" ref="module_category_consignment" />
+        <field name="implied_ids" eval="[(4, ref('consignment.group_consignment_admin'))]"/>
+    </record>
+    
+</odoo>

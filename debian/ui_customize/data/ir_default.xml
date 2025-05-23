@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="loai_mat_hang_san_ph_bd10658d-73b5-42a5-832e-3b5aae9894a9" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="product_loai_mat_hang"/>
+    <field name="json_value">"Hàng sản xuất"</field>
+  </record>
+</odoo>

@@ -1,0 +1,25 @@
+<odoo>
+    <record id="view_vehicle_transfer_date_filter_wizard_form" model="ir.ui.view">
+        <field name="name">vehicle.transfer.date.filter.wizard.form</field>
+        <field name="model">vehicle.transfer.date.filter.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Chọn ngày để lọc">
+                <group>
+                    <field name="date_filter" widget="date"/>
+                </group>
+                <footer>
+                    <button name="action_apply_filter" string="OK" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_vehicle_transfer_date_filter_wizard" model="ir.actions.act_window">
+        <field name="name">Lọc theo ngày</field>
+        <field name="res_model">vehicle.transfer.date.filter.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_vehicle_transfer_date_filter_wizard_form"/>
+    </record>
+</odoo>

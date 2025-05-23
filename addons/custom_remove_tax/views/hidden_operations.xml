@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hidden_operations" model="ir.ui.view">
+        <field name="name">stock.picking.type.hidden.operations</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.stock_picking_type_kanban"/>
+        <field name="type">kanban</field> <!-- Corrected type -->
+        <field name="arch" type="xml">
+            <xpath expr="//a[@name='get_action_picking_type_ready_moves']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

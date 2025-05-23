@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="custom_sale_order_ui" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//form[1]/header[1]/button[@name='action_quotation_send']" position="attributes">
+          <attribute name="invisible">True</attribute>
+        </xpath>
+        <xpath expr="//field[@name='order_line']" position="attributes">
+          <attribute name="force_save">1</attribute>
+          <attribute name="readonly">state == 'cancel' or locked or team_id not in [1]</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="mode">extension</field>
+    <field name="model">sale.order</field>
+    <field name="name">Odoo Studio: sale.order.form customization</field>
+    <field name="priority">160</field>
+    <field name="type">form</field>
+  </record>
+
+  <record id="custom_purchase_order_ui" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='partner_ref']" position="attributes">
+          <attribute name="string">Mã đơn hàng từ NCC</attribute>
+        </xpath>
+        <xpath expr="//field[@name='partner_ref']" position="after">
+          <field name="x_ma_nhacungcap"/>
+        </xpath>
+        <xpath expr="//form[1]/header[1]/button[@name='action_rfq_send']" position="attributes">
+          <attribute name="invisible">True</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="purchase.purchase_order_form"/>
+    <field name="mode">extension</field>
+    <field name="model">purchase.order</field>
+    <field name="name">Odoo Studio: purchase.order.form customization</field>
+    <field name="priority">160</field>
+    <field name="type">form</field>
+  </record>
+
+  <record id="custom_res_partner_ui" model="ir.ui.view" context="{'studio': True}" forcecreate="1">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//span[@name='address_name']" position="before">
+          <xpath expr="//field[@name='vat']" position="move"/>
+          <field name="x_ma_khachhang"/>
+          <field name="x_studio_ma_nhacungcap"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="mode">extension</field>
+    <field name="model">res.partner</field>
+    <field name="name">Odoo Studio: res.partner.form customization</field>
+    <field name="priority">360</field>
+    <field name="type">form</field>
+  </record>
+
+  <record id="custom_product__ui" model="ir.ui.view" context="{'studio': True}" forcecreate="1">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='active']" position="after">
+          <xpath expr="//field[@name='default_code']" position="move"/>
+          <field name="x_loai_mat_hang" widget="radio" options="{&quot;horizontal&quot;:true}"/>
+        </xpath>
+        <xpath expr="//field[@name='default_code']" position="attributes">
+          <attribute name="string">Mã sản phẩm</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="product.product_template_only_form_view"/>
+    <field name="mode">extension</field>
+    <field name="model">product.template</field>
+    <field name="name">Odoo Studio: product.template.product.form customization</field>
+    <field name="priority">160</field>
+    <field name="type">form</field>
+  </record>
+
+  <record id="lienhe_ma_nhacungcap" model="ir.ui.view" context="{'studio': True}" forcecreate="1">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//search[1]/field[@name='name']" position="before">
+          <field name="x_ma_nhacungcap"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+    <field name="mode">extension</field>
+    <field name="model">purchase.order</field>
+    <field name="name">Odoo Studio: request.quotation.select customization</field>
+    <field name="priority">99</field>
+    <field name="type">search</field>
+  </record>
+
+  <record id="donhang_ma_nhacungcap" model="ir.ui.view" context="{'studio': True}" forcecreate="1">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//list[1]/field[@name='name']" position="after">
+          <field name="x_ma_nhacungcap" optional="show"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+    <field name="mode">extension</field>
+    <field name="model">purchase.order</field>
+    <field name="name">Odoo Studio: purchase.order.inherit.purchase.order.list customization</field>
+    <field name="priority">99</field>
+    <field name="type">list</field>
+  </record>
+  <record id="custom_account" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//list[1]/field[@name='name']" position="after">
+          <field optional="show" name="x_customer_id" string="Customer ID"/>
+        </xpath>
+        <xpath expr="//list[1]/field[@name='invoice_partner_display_name'][2]" position="attributes">
+          <attribute name="column_invisible">True</attribute>
+          <attribute name="invisible">False</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="account.view_out_invoice_tree"/>
+    <field name="mode">extension</field>
+    <field name="model">account.move</field>
+    <field name="name">Odoo Studio: account.out.invoice.list customization</field>
+    <field name="priority">99</field>
+    <field name="type">list</field>
+  </record>
+  <record id="custom_account__filter" model="ir.ui.view" context="{'studio': True}">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//search[1]/field[@name='name']" position="before">
+          <field name="x_customer_id"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+    <field name="mode">extension</field>
+    <field name="model">account.move</field>
+    <field name="name">Odoo Studio: account.invoice.select customization</field>
+    <field name="priority">160</field>
+    <field name="type">search</field>
+  </record>
+</odoo>

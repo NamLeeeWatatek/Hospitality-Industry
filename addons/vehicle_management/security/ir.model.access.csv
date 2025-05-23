@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vehicle_management,access.vehicle.management,vehicle_management.model_vehicle_management,base.group_user,1,1,1,1
+access_vehicle_status_history,access.vehicle.status.history,vehicle_management.model_vehicle_status_history,base.group_user,1,1,1,1
+access_vehicle_status_wizard,access_vehicle_status_wizard,model_vehicle_status_wizard,base.group_user,1,1,1,1

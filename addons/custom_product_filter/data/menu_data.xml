@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Parent Menu -->
+        <menuitem id="menu_product_filter_root" name="Lọc sản phẩm" parent="stock.menu_stock_inventory_control" sequence="10" groups="base.group_user"/>
+
+        <!-- House Product Menu -->
+        <menuitem id="menu_house_product" name="Hàng nhà" parent="menu_product_filter_root" action="action_house_product" sequence="1"/>
+
+        <!-- Consignment Product Menu -->
+        <menuitem id="menu_consignment_product" name="Hàng ký gửi" parent="menu_product_filter_root" action="action_consignment_product" sequence="2"/>
+    </data>
+</odoo>

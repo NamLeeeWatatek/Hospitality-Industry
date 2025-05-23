@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Inherit and customize the mrp.production form view -->
+    <record id="view_mrp_production_form_inherit" model="ir.ui.view" context="{'studio': True}">
+        <field name="name">mrp.production.form.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view" />
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/div[1]" position="after">
+                    <field name="ti_le_ng" widget="percentage" readonly="True"
+                        modifiers="{'invisible': [('ti_le_ng', '=', False)]}" />
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="don_ban_hang" force_save="1" readonly="True" />
+                </xpath>
+                <xpath
+                    expr="//form[1]/sheet[1]/notebook[1]/page[@name='components']/field[@name='move_raw_ids']/list[1]/field[@name='location_id']"
+                    position="after">
+                    <field name="calculated_raw_qty" optional="show" />
+                    <field name="hao_phi" widget="percentage" optional="show" />
+                </xpath>
+                <xpath expr="//button[@name='action_confirm']" position="attributes">
+                    <attribute name="groups">mrp.group_mrp_manager</attribute>
+                </xpath>
+                <xpath expr="//button[@name='button_unbuild']" position="after">
+                    <button string="In phiếu mượn NVL" name="request_materials_button" type="object" />
+                </xpath>
+                <xpath expr="//button[@name='request_materials_button']" position="attributes">
+                    <attribute name="groups">mrp.group_mrp_manager</attribute>
+                </xpath>
+            </data>
+        </field>
+        <field name="mode">extension</field>
+        <field name="priority">640</field>
+        <field name="type">form</field>
+    </record>
+
+    <!-- Inherit and customize the mrp.workorder form view -->
+    <record id="mrp_workorder_form_view_custom" model="ir.ui.view">
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//page[@name='time_tracking']" position="attributes">
+                    <attribute name="groups">mrp.group_mrp_manager,mrp.group_mrp_user</attribute>
+                </xpath>
+                <xpath
+                    expr="//form[1]/sheet[1]/notebook[1]/page[@name='time_tracking']/field[@name='time_ids']/list[1]/field[@name='employee_id']"
+                    position="after">
+                    <field name="raw_material" optional="show" />
+                    <field name="consumption"></field>
+                </xpath>
+
+                <xpath expr="//page[@name='components']/field[@name='move_raw_ids']"
+                    position="replace">
+                    <field name="move_raw_ids">
+                        <list no_open="1" editable="bottom">
+                            <field name="state" column_invisible="True" />
+                            <field name="product_id" readonly="state == 'done'" />
+                            <field name="product_qty" string="Cần dùng" />
+                            <field name="quantity" string="Số lượng" />
+                            <field name="picked" string="Đã dùng" />
+                            <field name="product_qty_available" string="Đang có"
+                                invisible="not is_storable" />
+                            <field name="product_virtual_available" string="Dự báo"
+                                invisible="not is_storable" />
+                        </list>
+                    </field>
+                </xpath>
+            </data>
+
+        </field>
+        <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit" />
+        <field name="mode">extension</field>
+        <field name="model">mrp.workorder</field>
+        <field name="priority">160</field>
+        <field name="name">mrp_workorder_form_view_custom</field>
+        <field name="type">form</field>
+    </record>
+</odoo>

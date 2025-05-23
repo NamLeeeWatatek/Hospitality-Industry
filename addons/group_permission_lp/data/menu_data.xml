@@ -1,0 +1,83 @@
+<odoo>
+    <!-- invoice -->
+    <record model="ir.ui.menu" id="account.menu_action_move_out_refund_type">
+        <field name="action" eval="False" />
+    </record>
+
+    <record model="ir.ui.menu" id="account.menu_action_move_in_refund_type">
+        <field name="action" eval="False" />
+    </record>
+
+    <record model="ir.ui.menu" id="account.menu_finance_reports">
+        <field name="groups_id" eval="[(6, 0, [ref('group_permission_lp.group_lp_admin')])]" />
+    </record>
+
+    <record model="ir.ui.menu" id="account.menu_action_account_payments_payable">
+        <field name="groups_id" eval="[(6, 0, [ref('group_permission_lp.group_lp_admin')])]" />
+    </record>
+
+    <record model="ir.ui.menu" id="account.menu_finance_payables">
+        <field name="groups_id" eval="[(6, 0, [ref('group_permission_lp.group_lp_admin')])]" />
+    </record>
+
+    <!-- inventory -->
+    <record model="ir.ui.menu" id="stock.in_picking">
+        <field name="action" eval="False" />
+    </record>
+
+    <record model="ir.ui.menu" id="stock.out_picking">
+        <field name="action" eval="False" />
+    </record>
+
+    <record model="ir.ui.menu" id="stock.int_picking">
+        <field name="action" eval="False" />
+    </record>
+
+    <record model="ir.ui.menu" id="stock.menu_stock_scrap">
+        <field name="action" eval="False" />
+    </record>
+
+    <record model="ir.ui.menu" id="stock.menu_reordering_rules_replenish">
+        <field name="action" eval="False" />
+    </record>
+
+    <record model="ir.ui.menu" id="stock_account.menu_valuation">
+        <field name="action" eval="False" />
+    </record>
+
+    <record model="ir.ui.menu" id="stock.menu_procurement_compute">
+        <field name="action" eval="False" />
+    </record>
+
+    <record model="ir.ui.menu" id="stock_enterprise.stock_dashboard_menuitem">
+        <field name="action" eval="False" />
+    </record>
+
+    <record model="ir.ui.menu" id="stock.menu_stock_uom_categ_form_action">
+        <field name="parent_id" ref="stock.menu_stock_root" />
+    </record>
+
+    <record model="ir.ui.menu" id="stock.menu_stock_config_settings" >
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]"/>
+    </record>
+
+    <!-- purchase -->
+    <record model="ir.ui.menu" id="purchase.menu_purchase_rfq">
+        <field name="groups_id" eval="[(6, 0, [ref('group_permission_lp.group_lp_admin')])]" />
+    </record>
+
+    <!-- sale -->
+    <record model="ir.ui.menu" id="sale.menu_sale_invoicing">
+        <field name="action" eval="False" />
+    </record>
+
+    <record model="ir.ui.menu" id="sale.menu_sale_config" >
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]"/>
+    </record>
+
+    <!-- consignment -->
+    <record model="ir.ui.menu" id="consignment.bao_cao_nhan_ky_gui">
+        <field name="action" eval="False" />
+    </record>
+
+</odoo>

@@ -1,0 +1,59 @@
+<odoo>
+    <record id="view_sale_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form.custom</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='state']" position="replace">
+                <field name="state" widget="statusbar" statusbar_visible="draft,sale" />
+            </xpath>
+
+            <!-- Ẩn cột "Thuế" trong danh sách sản phẩm -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='tax_id']"
+                position="attributes">
+                <attribute name="column_invisible">True</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/list/field[@name='price_unit']"
+                position="after">
+                <field name="unit_of_measure" string="ĐVT" />
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('user_ids', '=', False), ('id', 'not in', [1, 7, 8])]</attribute>
+            </xpath>
+
+            <!-- Ẩn nút gửi email vào xem trước -->
+            <xpath expr="//button[@name='action_preview_sale_order']" position="replace" />
+            <xpath expr="//form[1]/header[1]/button[@name='action_quotation_send']"
+                position="replace" />
+            <xpath expr="//form[1]/header[1]/button[@name='action_quotation_send'][3]"
+                position="replace" />
+
+            <!-- Ẩn mục Thông tin khác -->
+            <xpath expr="//page[@name='other_information']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <!-- Hiển thị placeholder là Thanh toán ngay -->
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="placeholder">Thanh toán ngay</attribute>
+            </xpath>
+            <!-- Ẩn mục sản phẩm tùy chọn -->
+            <!-- <xpath expr="//page[@name='optional_products']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath> -->
+
+            <xpath expr="//field[@name='product_template_id']" position="attributes">
+                <attribute name="domain">["&amp;", "&amp;", "&amp;", ("sale_ok", "=", True),
+                    ("product_type", "=", "home_product"), ("tracking", "=", "lot"), ("uom_id",
+                    "in", [12])]</attribute>
+            </xpath>
+
+            <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='order_lines']/field[@name='order_line']/list[1]/field[@name='price_unit']" position="attributes">
+                <attribute name="options">{"digits":[6,3]}</attribute>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

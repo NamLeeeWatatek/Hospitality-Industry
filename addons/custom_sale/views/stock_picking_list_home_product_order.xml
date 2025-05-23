@@ -1,0 +1,15 @@
+<odoo>
+    <record id="inherit_stock_picking_list_order" model="ir.ui.view">
+        <field name="name">custom_orderby_stock_picking_list_order</field>
+        <field name="model">stock.picking</field>
+        <field name="priority">99</field>
+        <field name="type">list</field>
+        <field name="inherit_id" ref="stock.vpicktree" />
+        <field name="mode">extension</field>
+        <field name="arch" type="xml">
+            <xpath expr="//list[1]" position="attributes">
+                <attribute name="default_order">name desc</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

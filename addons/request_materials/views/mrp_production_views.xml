@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="mrp_workorder_form_view_custom_request_material" model="ir.ui.view">
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+                    <page string="Lịch sử bổ sung nguyên liệu" name="request_materials_page">
+                        <field name="request_materials">
+                            <list editable="bottom">
+                                <field name="worker_id" />
+                                <field name="raw_material" groups="base.group_user" />
+                                <field name="quantity_by_material" />
+                                <field name="date" />
+                                <field name="text_error" />
+                                <field name="list_error" />
+                                <button type="object" name="approve_request" string="Phê Duyệt" class="btn btn-primary" invisible="status == True" />
+                                <button type="object" name="approve_request" string="Đã Phê Duyệt" class="btn btn-secondary" disabled="1" readonly="1" invisible="status != True"/>                            
+                            </list>
+                        </field>
+                    </page>
+                </xpath>
+                <xpath
+                    expr="//form[1]/sheet[1]/notebook[1]/page[@name='request_materials_page']/field[@name='request_materials']/list[1]"
+                    position="attributes">
+                    <attribute name="create">true</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_mark_as_done']" position="after">
+                    <button string="Gọi IQC" name="call_iqc" type="object" />
+                    <button string="Gọi PQC" name="call_pqc" type="object" />
+                </xpath>
+                <xpath expr="//field[@name='production_id']" position="after">
+                    <field name="so_met_ng" />
+                </xpath>
+            </data>
+        </field>
+        <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit" />
+        <field name="mode">extension</field>
+        <field name="model">mrp.workorder</field>
+        <field name="priority">160</field>
+        <field name="name">mrp_workorder_form_view_custom_request_material</field>
+        <field name="type">form</field>
+    </record>
+</odoo>

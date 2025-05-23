@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+
+  <record id="quan_ly_ky_gui" model="ir.ui.menu">
+    <field name="name">Quản lý ký gửi</field>
+    <field name="web_icon">fa fa-handshake-o,#0079BF,#FFFFFF</field>
+    <field name="groups_id" eval="[(4, ref('consignment.group_consignment_employee'))]"/>
+  </record>
+
+  <record id="quanly_don_ky_gui" model="ir.ui.menu">
+    <field name="name">Đơn hàng</field>
+    <field name="parent_id" ref="quan_ly_ky_gui" />
+  </record>
+
+  <record id="don_ky_gui" model="ir.ui.menu">
+    <field name="name">Đơn ký gửi</field>
+    <field name="parent_id" ref="quanly_don_ky_gui" />
+    <field name="action" ref="action_consignment_orders" />
+  </record>
+
+  <record id="quanly_khach_hang" model="ir.ui.menu">
+    <field name="name">Khách hàng</field>
+    <field name="parent_id" ref="quan_ly_ky_gui" />
+    <field name="action" ref="account.res_partner_action_customer" />
+  </record>
+
+  <record id="san_pham_ky_gui" model="ir.ui.menu">
+    <field name="name">Sản phẩm</field>
+    <field name="parent_id" ref="quan_ly_ky_gui" />
+    <field name="action" ref="sale.product_template_action" />
+  </record>
+
+  <record id="bao_cao_ky_gui" model="ir.ui.menu">
+    <field name="name">Báo cáo</field>
+    <field name="parent_id" ref="quan_ly_ky_gui" />
+    <field name="groups_id" eval="[(4, ref('consignment.group_consignment_admin'))]"/>
+  </record>
+
+  <!-- Ẩn mục Nhận Ký Gửi -->
+  <record id="bao_cao_nhan_ky_gui" model="ir.ui.menu">
+    <field name="name">Nhận ký gửi</field>
+    <field name="parent_id" ref="bao_cao_ky_gui" />
+    <field name="action" ref="custom_sale.sale_order_report_action_custom" />
+    <field name="active">False</field>
+  </record>
+
+  <record id="bao_cao_san_pham" model="ir.ui.menu">
+    <field name="name">Sản phẩm</field>
+    <field name="parent_id" ref="bao_cao_ky_gui" />
+    <field name="action" ref="sale.action_order_report_products" />
+  </record>
+
+  <record id="bao_cao_khach_hang" model="ir.ui.menu">
+    <field name="name">Khách hàng</field>
+    <field name="parent_id" ref="bao_cao_ky_gui" />
+    <field name="action" ref="sale.action_order_report_customers" />
+  </record>
+
+</odoo>

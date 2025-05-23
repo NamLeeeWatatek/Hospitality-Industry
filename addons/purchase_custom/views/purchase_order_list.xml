@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="purchase_order_kpis_tree_custom" model="ir.ui.view">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='activity_ids']" position="replace" />
+        <xpath expr="//field[@name='date_order']" position="replace" />
+        <xpath expr="//list[1]/field[@name='company_id']" position="attributes">
+          <attribute name="string">Kho</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="purchase.purchase_order_kpis_tree" />
+    <field name="mode">extension</field>
+    <field name="model">purchase.order</field>
+    <field name="name">Purchase Quotation Order</field>
+    <field name="priority">99</field>
+    <field name="type">list</field>
+  </record>
+  <record id="purchase_order_view_tree_custom" model="ir.ui.view">
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='date_planned']" position="replace" />
+        <xpath expr="//field[@name='activity_ids']" position="replace" />
+        <xpath expr="//list[1]/field[@name='company_id']" position="attributes">
+          <attribute name="string">Kho</attribute>
+        </xpath>
+        <xpath expr="//field[@name='amount_total']" position="attributes">
+          <attribute name="groups">purchase.group_purchase_manager</attribute>
+        </xpath>
+        <!-- Bật trường 'state' trong danh sách và set màu badge cho từng status -->
+        <xpath expr="//field[@name='state']" position="attributes">
+          <attribute name="column_invisible">False</attribute>
+          <attribute name="invisible">False</attribute>
+          <attribute name="optional">show</attribute>
+          <attribute name="widget">badge</attribute>
+          <attribute name="decoration-success">state == 'purchase' or state == 'done'</attribute>
+          <attribute name="decoration-warning">state == 'to approve'</attribute>
+          <attribute name="decoration-info">state == 'draft' or state == 'sent'</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="inherit_id" ref="purchase.purchase_order_view_tree" />
+    <field name="mode">extension</field>
+    <field name="model">purchase.order</field>
+    <field name="name">Purchase Order custom</field>
+    <field name="priority">160</field>
+    <field name="type">list</field>
+  </record>
+
+  <!-- Kế thừa và tùy chỉnh domain trong purchase_order_form_action -->
+  <record id="purchase.purchase_form_action" model="ir.actions.act_window">
+    <field name="name">Purchase Orders (Custom Domain)</field>
+    <field name="res_model">purchase.order</field>
+    <field name="view_mode">list,kanban,form,pivot,graph,calendar,activity</field>
+    <field name="mobile_view_mode">list,kanban,form</field>
+    <field name="domain">[('state', 'in', ('draft', 'purchase', 'done'))]</field>
+  </record>
+
+</odoo>

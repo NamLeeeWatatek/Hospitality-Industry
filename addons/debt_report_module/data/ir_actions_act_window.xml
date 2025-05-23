@@ -1,0 +1,10 @@
+<odoo>
+    <!-- Action Window: Công nợ -->
+    <record id="action_debt_report" model="ir.actions.act_window">
+        <field name="name">Công nợ</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list</field>
+        <field name="mobile_view_mode">list</field>
+        <field name="context">{'create': False, 'search_default_out_invoice': 1}</field>
+    </record>
+</odoo>

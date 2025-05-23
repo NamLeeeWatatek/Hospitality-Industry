@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="sale_report_search_custom" model="ir.ui.view">
+        <field name="name">sale.report.search.custom</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <!-- Define the custom filter -->
+                <filter name="filter_custom_report" string="Đơn bán hàng"
+                    invisible="1"
+                    domain="[('state', 'not in', ('draft', 'cancel', 'sent'))]"
+                    context="{
+                        'pivot_measures': ['product_uom_qty', 'qty_delivered', 'qty_to_deliver', 'qty_to_invoice', 'qty_invoiced'],
+                        'pivot_column_groupby': [],
+                        'pivot_row_groupby': ['date:year', 'date:month', 'date:day', 'product_tmpl_id']
+                    }"
+                />
+            </xpath>
+
+            <!-- Chỉnh sửa bởi Đông Hải: Chỉnh sửa - ẩn một số Filter trong Nhóm theo -->
+
+            <!-- Ẩn bộ lọc công ty -->
+            <xpath expr="//filter[@name='company']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- Ẩn bộ lọc danh mục -->
+            <xpath expr="//filter[@name='Category']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- Ẩn bộ lọc quốc gia trong nhóm tìm kiếm thứ hai -->
+            <xpath expr="//search[1]/group[2]/filter[@name='country_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- Ẩn bộ lọc kênh bán hàng -->
+            <xpath expr="//filter[@name='sales_channel']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- Ẩn bộ lọc người dùng -->
+            <xpath expr="//filter[@name='User']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

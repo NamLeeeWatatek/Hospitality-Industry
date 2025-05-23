@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+    <t t-name="payment_module.AccountPaymentPopOver"
+        t-inherit="account.AccountPaymentPopOver"
+        t-inherit-mode="extension">
+
+        <xpath expr="//div/table" position="inside">
+            <tr>
+                <td class="fw-bolder">Số tiền trả thực tế:</td>
+                <td class="ps-1">
+                    <t t-out="props.actual_amount_paid"></t>
+                </td>
+            </tr>
+        </xpath>
+
+    </t>
+</templates>

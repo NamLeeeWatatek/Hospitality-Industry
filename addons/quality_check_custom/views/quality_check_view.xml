@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_quality_check_form_inherit_custom" model="ir.ui.view">
+        <field name="name">quality.check.form.inherit.custom</field>
+        <field name="model">quality.check</field>
+        <field name="inherit_id" ref="quality_control.quality_check_view_form" />
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='team_id']" position="after">
+                    <field name="list_loi" />
+                </xpath>
+                <xpath expr="//field[@name='measure_on']" position="after">
+                    <field name="workcenter_id" />
+                </xpath>
+                <xpath expr="//field[@name='operation_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='workorder_id']" position="attributes">
+                    <attribute name="invisible">False</attribute>
+                </xpath>
+            </data>
+        </field>
+    </record>
+</odoo>

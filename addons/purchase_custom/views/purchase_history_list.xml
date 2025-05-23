@@ -1,0 +1,20 @@
+<odoo>
+    <record id="purchase_history_tree" model="ir.ui.view">
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='price_unit']" position="attributes">
+                    <attribute name="groups">group_permission_lp.group_lp_admin</attribute>
+                </xpath>
+                <xpath expr="//field[@name='price_subtotal']" position="attributes">
+                    <attribute name="groups">group_permission_lp.group_lp_admin</attribute>
+                </xpath>
+            </data>
+        </field>
+        <field name="inherit_id" ref="purchase.purchase_history_tree" />
+        <field name="mode">extension</field>
+        <field name="model">purchase.order.line</field>
+        <field name="name">purchase.history.list customization</field>
+        <field name="priority">99</field>
+        <field name="type">list</field>
+    </record>
+</odoo>

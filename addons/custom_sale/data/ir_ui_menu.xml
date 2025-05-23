@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+
+        <!-- Ẩn menu stock.in_picking -->
+        <record id="stock.in_picking" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('base.group_user'))]"/> <!-- Gán quyền chỉ cho nhóm 'user' (hoặc nhóm bạn muốn) -->
+        </record>
+
+    </data>
+</odoo>

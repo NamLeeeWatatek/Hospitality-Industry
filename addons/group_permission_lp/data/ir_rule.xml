@@ -1,0 +1,70 @@
+<odoo>
+    <data>
+
+        <record id="restrict_stock_picking_type_access" model="ir.rule">
+            <field name="name">Restrict Stock Picking Type Access</field>
+            <field name="model_id" ref="stock.model_stock_picking_type"/>
+            <field name="domain_force">[('warehouse_id', '=', 2)]</field>
+            <field name="groups" eval="[(4, ref('group_permission_lp.group_lp_assistant_hcm'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="restrict_stock_picking_access" model="ir.rule">
+            <field name="name">Restrict Stock Picking Access</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="domain_force">[('picking_type_id.warehouse_id', '=', 2)]</field>
+            <field name="groups" eval="[(4, ref('group_permission_lp.group_lp_assistant_hcm'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="restrict_purchase_order_access" model="ir.rule">
+            <field name="name">Restrict Purchase Order Access</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="domain_force">[('picking_type_id.warehouse_id', '=', 2)]</field>
+            <field name="groups" eval="[(4, ref('group_permission_lp.group_lp_assistant_hcm'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        
+        <record id="restrict_tracking_value_access" model="ir.rule">
+            <field name="name">Restrict Tracking Value Access</field>
+            <field name="model_id" ref="mail.model_mail_tracking_value"/>
+            <field name="domain_force">['|', ('field_id', 'not in', (6588, 6586, 11600)), ('mail_message_id.model', 'not in', ('sale.order', 'purchase.order'))]</field>
+            <field name="groups" eval="[(4, ref('consignment.group_consignment_employee')), (4, ref('purchase.group_purchase_user'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <record id="restrict_mail_message_access_both_groups" model="ir.rule">
+            <field name="name">Restrict Mail Message Access for Both Groups</field>
+            <field name="model_id" ref="mail.model_mail_message"/>
+            <field name="domain_force">[('is_hide_price', '!=', True), ('is_hide_price_po', '!=', True)]</field>
+            <field name="groups" eval="[(4, ref('consignment.group_consignment_employee')), (4, ref('purchase.group_purchase_user'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <record id="restrict_mail_message_access_both_groups_admin" model="ir.rule">
+            <field name="name">Restrict Mail Message Access for Both Groups Admin</field>
+            <field name="model_id" ref="mail.model_mail_message"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('purchase.group_purchase_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+    </data>
+</odoo>

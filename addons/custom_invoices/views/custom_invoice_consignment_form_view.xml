@@ -1,0 +1,40 @@
+<odoo>
+    <!-- Định nghĩa một bản ghi (record) tùy chỉnh cho giao diện danh sách hóa đơn -->
+    <record id="custom_invoice_consignment_list" model="ir.ui.view">
+        
+        <!-- Xác định nội dung giao diện XML -->
+        <field name="arch" type="xml">
+            <data>
+                <!-- Chỉnh sửa trường 'invoice_user_id' trong giao diện danh sách hóa đơn -->
+                <xpath expr="//field[@name='invoice_user_id']" position="attributes">
+                    <attribute name="string">Người phụ trách</attribute> 
+                    <!-- Đổi nhãn của trường 'invoice_user_id' thành 'Người phụ trách' -->
+                </xpath>
+                
+                <!-- Chỉnh sửa trường 'company_id' trong giao diện danh sách hóa đơn -->
+                <xpath expr="//list[1]/field[@name='company_id']" position="attributes">
+                    <attribute name="string">Kho</attribute> 
+                    <!-- Đổi nhãn của trường 'company_id' thành 'Kho' -->
+                </xpath>
+            </data>
+        </field>
+        
+        <!-- Kế thừa từ giao diện danh sách hóa đơn gốc -->
+        <field name="inherit_id" ref="account.view_out_invoice_tree" />
+        
+        <!-- Chế độ kế thừa: primary  -->
+        <field name="mode">primary</field>
+        
+        <!-- Chỉ định mô hình dữ liệu áp dụng: account.move (hóa đơn) -->
+        <field name="model">account.move</field>
+        
+        <!-- Định danh duy nhất cho bản ghi này -->
+        <field name="name">custom.invoice.consignment.list</field>
+        
+        <!-- Thiết lập mức độ ưu tiên (số càng lớn, ưu tiên càng cao) -->
+        <field name="priority">99</field>
+        
+        <!-- Xác định loại giao diện: danh sách (list) -->
+        <field name="type">list</field>
+    </record>
+</odoo>

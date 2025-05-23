@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="bsms_action_donor_contacts" model="ir.actions.act_window">
+            <field name="name">Donor</field>
+            <field name="path">donor</field> 
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,list,form,activity</field>
+            <!-- <field name="search_view_id" ref="base.view_res_partner_filter"/> -->
+            <field name="domain">[('is_donor', '=', True)]</field>
+            <field name="context">{'default_is_donor': True, 'default_is_patient': False}</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a Contact in your address book
+              </p><p>
+                Odoo helps you track all activities related to your contacts.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_contacts_view_kanban" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="base.res_partner_kanban_view"/>
+            <field name="act_window_id" ref="bsms_action_donor_contacts"/>
+        </record>
+
+        <record id="action_contacts_view_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">list</field>
+            <field name="view_id" ref="base.view_partner_tree"/>
+            <field name="act_window_id" ref="bsms_action_donor_contacts"/>
+        </record>
+
+        <record id="action_contacts_view_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="base.view_partner_form"/>
+            <field name="act_window_id" ref="bsms_action_donor_contacts"/>
+        </record>
+
+        <record id="view_donor_form" model="ir.ui.view">
+          <field name="name">res.partner.donor.form</field>
+          <field name="model">res.partner</field>
+          <field name="inherit_id" ref="base.view_partner_form"/>
+          <field name="arch" type="xml">
+              <xpath expr="//sheet" position="inside">
+                  <field name="is_donor" invisible="1" readonly="1" />
+                  <field name="is_patient" invisible="1" readonly="1" />
+              </xpath>
+              <xpath expr="//field[@name='company_type']" position="replace">
+                <field name="donor_type_id" widget="radio" options="{'horizontal': true}"/>
+            </xpath>
+
+          </field>
+      </record>
+<!-- 
+      <record id="base.view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            
+        </field>
+    </record> -->
+
+   
+    
+    </data>
+</odoo>

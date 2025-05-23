@@ -1,0 +1,62 @@
+<odoo>
+    <record id="consignment_invoice_form_view" model="ir.ui.view">
+        <field name="arch" type="xml">
+            <data>
+                <!-- Ẩn tab hóa đơn điện tử -->
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[not(@name)][1]" position="replace" />
+
+                <!-- Ẩn thẻ div có class 'currency_conversion_div' -->
+                <xpath expr="//div[contains(@name, 'currency_conversion_div')]"
+                    position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_info']"
+                    position="replace" />
+                <xpath
+                    expr="//form[1]/sheet[1]/notebook[1]/page[@name='invoice_tab']/field[@name='invoice_line_ids']/list[1]/field[@name='tax_ids']"
+                    position="replace" />
+                <xpath
+                    expr="//form[1]/sheet[1]/notebook[1]/page[@name='invoice_tab']/field[@name='invoice_line_ids']/list[1]/field[@name='product_uom_id']"
+                    position="replace" />
+                <xpath
+                    expr="//form[1]/sheet[1]/notebook[1]/page[@name='invoice_tab']/field[@name='invoice_line_ids']/list[1]/field[@name='quantity']"
+                    position="after">
+                    <field name="consignment_packed_type" optional="show" />
+                    <field name="unit_of_measure" optional="show" />
+                </xpath>
+
+                <!-- Sửa lại để hiển thị hóa đơn ký gửi -->
+                <xpath expr="//field[@name='move_type']" position="replace">
+                    <div class="o_form_label" name="display_move_type">
+                        <strong>
+                            <field name="display_move_type" readonly="1"/>
+                        </strong>
+                    </div>
+                </xpath>
+                
+                <xpath expr="//field[@name='move_type']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='action_reverse']" position="replace" />
+                <xpath expr="//button[@name='preview_invoice']" position="replace" />
+
+                <xpath expr="//field[@name='sale_order_count']" position="attributes">
+                    <attribute name="string">Đơn hàng ký gửi</attribute>
+                </xpath>
+
+                <xpath expr="//form[1]/header[1]/button[@name='button_cancel'][2]" position="attributes">
+                    <attribute name="invisible">(not id or state != 'draft' or move_type == 'entry') or True</attribute>
+                </xpath>
+                
+            </data>
+        </field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="mode">primary</field>
+        <field name="model">account.move</field>
+        <field name="name">Consignment Invoice</field>
+        <field name="priority">160</field>
+        <field name="type">form</field>
+    </record>
+</odoo>

@@ -1,0 +1,34 @@
+#. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_rule.py:0
+#: model:ir.model.fields,field_description:stock.field_stock_move_line__picking_location_dest_id
+#: model:ir.model.fields,field_description:stock.field_stock_picking__location_dest_id
+#: model:ir.model.fields,field_description:stock.field_stock_picking_type__default_location_dest_id
+#: model:ir.model.fields,field_description:stock.field_stock_rule__location_dest_id
+#: model_terms:ir.ui.view,arch_db:stock.view_move_search
+#: model_terms:ir.ui.view,arch_db:stock.view_stock_rule_filter
+msgid "Destination Location"
+msgstr "Kho lưu trữ"
+
+#. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.report_picking
+msgid "<strong>Scheduled Date</strong>"
+msgstr "<strong>Ngày nhập kho</strong>"
+
+
+#. module: stock
+#: model:ir.model.fields,field_description:stock.field_product_replenish__date_planned
+#: model:ir.model.fields,field_description:stock.field_stock_move_line__scheduled_date
+#: model:ir.model.fields,field_description:stock.field_stock_picking__scheduled_date
+#: model:ir.model.fields,field_description:stock.field_stock_quant__inventory_date
+#: model_terms:ir.ui.view,arch_db:stock.view_move_search
+#: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
+msgid "Scheduled Date"
+msgstr "Ngày nhập kho"
+
+
+#. module: stock
+#: model:ir.model.fields,field_description:stock.field_stock_move__date
+#: model_terms:ir.ui.view,arch_db:stock.view_move_form
+msgid "Date Scheduled"
+msgstr "Ngày nhập kho"
